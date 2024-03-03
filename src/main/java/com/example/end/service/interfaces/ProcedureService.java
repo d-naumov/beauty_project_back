@@ -8,6 +8,8 @@ public interface ProcedureService {
   Procedure createProcedure(String name, double price);
 
   List<Procedure> getAllProcedures();
-  // Другие методы
+
+    Procedure getProcedureById(Long procedureId);
+    // Другие методы
 }
 
