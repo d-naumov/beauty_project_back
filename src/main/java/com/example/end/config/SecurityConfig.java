@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -14,7 +13,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
@@ -27,21 +25,25 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        x -> x
-                                .requestMatchers(HttpMethod.GET, "/car/all").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/registration/register").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/car/by_id/{id}").hasRole("USER")
-                                .requestMatchers(HttpMethod.POST, "/car/save").hasRole("ADMIN")
-                                .anyRequest().hasRole("ADMIN"))
+                        authorizeRequests ->
+                                authorizeRequests
+                                        .antMatchers(HttpMethod.GET, "/car/all").permitAll()
+                                        .antMatchers(HttpMethod.POST, "/registration/register").permitAll()
+                                        .antMatchers(HttpMethod.GET, "/car/by_id/{id}").hasRole("USER")
+                                        .antMatchers(HttpMethod.POST, "/car/save").hasRole("ADMIN")
+                                        .anyRequest().hasRole("ADMIN")
+                )
                 .httpBasic(Customizer.withDefaults());
+
         return http.build();
     }
-
 }
+
+
 
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.annotation.Bean;
-//import org.springframework.http.HttpMethod;
+//import org.springframework.http.HttpStatus;
 //import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 //import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 //import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -50,18 +52,21 @@ public class SecurityConfig {
 //import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.web.AuthenticationEntryPoint;
 //import org.springframework.security.web.SecurityFilterChain;
+//import org.springframework.security.web.access.AccessDeniedHandler;
+//import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+//import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+//import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+//import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 //import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 //
-//import static org.springframework.security.config.Elements.ACCESS_DENIED_HANDLER;
-
-//import static de.ait.template.security.config.SecurityExceptionHandlers.*;
-
-
 //@EnableWebSecurity
 //@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, proxyTargetClass = true)
 //public class SecurityConfig {
-//
-//
+//    private static final AuthenticationEntryPoint ENTRY_POINT = new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED);
+//    private static final AccessDeniedHandler ACCESS_DENIED_HANDLER = new CustomAccessDeniedHandler();
+//    private static final AuthenticationSuccessHandler LOGIN_SUCCESS_HANDLER = new CustomLoginSuccessHandler();
+//    private static final AuthenticationFailureHandler LOGIN_FAILURE_HANDLER = new CustomLoginFailureHandler();
+//    private static final LogoutSuccessHandler LOGOUT_SUCCESS_HANDLER = new CustomLogoutSuccessHandler();
 //
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -71,7 +76,7 @@ public class SecurityConfig {
 //        httpSecurity
 //                .authorizeRequests()
 //                .antMatchers("/swagger-ui/**").permitAll()
-//                .antMatchers(HttpMethod.POST, "/api/users/register/**").permitAll()
+//                .antMatchers(org.springframework.http.HttpMethod.POST, "/api/users/register/**").permitAll()
 //                .antMatchers("/api/users/confirm/**").permitAll()
 //                .antMatchers("/api/files/**").permitAll()
 //                .antMatchers("/api/**").authenticated();
@@ -103,3 +108,4 @@ public class SecurityConfig {
 //                .passwordEncoder(passwordEncoder);
 //    }
 //}
+

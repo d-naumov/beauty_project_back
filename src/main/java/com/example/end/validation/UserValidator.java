@@ -2,8 +2,10 @@ package com.example.end.validation;
 
 
 import com.example.end.dto.UserDto;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
 
 public class UserValidator implements ConstraintValidator<ValidUser, UserDto> {
 

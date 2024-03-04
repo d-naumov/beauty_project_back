@@ -2,11 +2,13 @@ package com.example.end.validation;
 
 
 import com.example.end.dto.ProcedureWithPriceDto;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
 
 public class ProcedureValidator implements
-    ConstraintValidator<ValidProcedure, ProcedureWithPriceDto> {
+        ConstraintValidator<ValidProcedure, ProcedureWithPriceDto> {
 
   @Override
   public void initialize(ValidProcedure constraintAnnotation) {

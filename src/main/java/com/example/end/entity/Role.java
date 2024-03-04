@@ -1,7 +1,7 @@
 package com.example.end.entity;
 
 
-import jakarta.persistence.*;
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,6 +9,9 @@ import java.util.Set;
 import lombok.Data;
 
 import org.springframework.security.core.GrantedAuthority;
+
+import javax.persistence.*;
+
 @Entity
 @Table(name = "roles")
 @Data
