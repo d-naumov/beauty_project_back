@@ -1,8 +1,10 @@
 package com.example.end.service.interfaces;
 
 import com.example.end.entity.Procedure;
-import java.util.List;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+@Service
 public interface ProcedureService {
 
   Procedure createProcedure(String name, double price);

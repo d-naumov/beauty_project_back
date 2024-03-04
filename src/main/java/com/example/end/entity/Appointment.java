@@ -1,6 +1,5 @@
 package com.example.end.entity;
 
-;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +10,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-
 
 
 @Entity
@@ -30,6 +28,10 @@ public class Appointment {
   @ManyToOne
   @JoinColumn(name = "procedure_id")
   private Procedure procedure;
+
+  @ManyToOne
+  @JoinColumn(name = "master_id")  // Замените "user_id" на "master_id"
+  private Master master;  // Замените "user" на "master"
 
   // Другие поля и методы
 }
