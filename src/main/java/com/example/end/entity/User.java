@@ -1,12 +1,10 @@
 package com.example.end.entity;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
-
 
 @Entity
 @Table(name = "users")
@@ -33,6 +31,7 @@ public class User {
   )
   private Set<Role> roles = new HashSet<>();
 
+  // Другие поля и методы
 
 }
 

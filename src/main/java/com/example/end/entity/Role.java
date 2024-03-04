@@ -1,12 +1,7 @@
 package com.example.end.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,10 +9,9 @@ import java.util.Set;
 import lombok.Data;
 
 import org.springframework.security.core.GrantedAuthority;
-
 @Entity
+@Table(name = "roles")
 @Data
-
 public class Role implements GrantedAuthority {
 
     @Id
@@ -33,11 +27,9 @@ public class Role implements GrantedAuthority {
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
 
-
     @Override
     public String getAuthority() {
         return getName();
     }
-
 
 }
