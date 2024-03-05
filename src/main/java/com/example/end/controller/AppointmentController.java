@@ -31,7 +31,7 @@ public class AppointmentController {
 
   @PostMapping
   public ResponseEntity<Appointment> createAppointment(@RequestParam String username, @RequestParam Long procedureId) {
-    // Предположим, что у вас есть метод в AppointmentService для создания записи
+    // метод в AppointmentService для создания записи
     User user = userService.getUserByUsername(username);
     Procedure procedure = procedureService.getProcedureById(procedureId);
 

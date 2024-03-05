@@ -24,9 +24,12 @@ public class Master {
   private String lastName;
 
   @Column(nullable = false)
-  private String speciality;
+  private String specialization;
 
   @OneToMany(mappedBy = "master")
   private Set<Appointment> appointments = new HashSet<>();
+
+
+
 }
 

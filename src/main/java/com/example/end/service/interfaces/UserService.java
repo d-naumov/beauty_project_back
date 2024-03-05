@@ -10,12 +10,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
   User registerNewUser(UserDto userDto);
+
   Optional<User> findByUsername(String username);
+
   Optional<User> findByEmail(String email);
+
   List<User> getAllUsers();
 
 
-    User getUserByUsername(String username);
+  User getUserByUsername(String username);
+
+  User registerUser(UserDto userDto);
+
+  // void registerUser(UserDto userDto);
+
 }
 
 

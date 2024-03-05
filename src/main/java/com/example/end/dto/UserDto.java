@@ -1,15 +1,15 @@
 package com.example.end.dto;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import com.example.end.validation.ValidUser;
+import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-
-@Getter @Setter
+@ValidUser
+@Data
 public class UserDto {
 
   @NotBlank(message = "Имя пользователя не может быть пустым")

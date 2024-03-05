@@ -19,8 +19,5 @@ public class ServiceCategory {
     private String description;
 
 
-
-
-    // Дополнительные методы и конструкторы
 }
 

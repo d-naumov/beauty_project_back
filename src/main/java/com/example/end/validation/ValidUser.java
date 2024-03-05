@@ -5,12 +5,12 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
-@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {UserValidator.class})
 @Documented
+@Constraint(validatedBy = UserValidator.class)
+@Target({ElementType.TYPE_USE, ElementType.FIELD, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
 public @interface ValidUser {
-  String message() default "Неверные данные пользователя";
+  String message() default "Invalid user";
   Class<?>[] groups() default {};
   Class<? extends Payload>[] payload() default {};
 }

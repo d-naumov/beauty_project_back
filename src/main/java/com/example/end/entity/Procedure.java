@@ -21,6 +21,6 @@ public class Procedure {
 
   private double price;
 
-  // Другие поля и методы
+
 }
 

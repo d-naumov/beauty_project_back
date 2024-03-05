@@ -11,6 +11,7 @@ public interface ProcedureService {
 
   List<Procedure> getAllProcedures();
 
+
     Procedure getProcedureById(Long procedureId);
     // Другие методы
 }
