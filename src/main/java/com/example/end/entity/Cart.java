@@ -1,5 +1,6 @@
 package com.example.end.entity;
 
+
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "id")
     private Long id;
 
@@ -30,4 +32,4 @@ public class Cart {
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
     private Cart cart;
 
-}
+
