@@ -11,7 +11,8 @@ import java.util.List;
 @Service
 public class ProcedureServiceImpl implements ProcedureService {
 
-    private ProcedureRepository procedureRepository; // Предположим, что у вас есть репозиторий для работы с сущностью Procedure
+    private final ProcedureRepository procedureRepository;
+
 
     @Autowired
     public ProcedureServiceImpl(ProcedureRepository procedureRepository) {

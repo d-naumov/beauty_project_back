@@ -1,16 +1,16 @@
 package com.example.end.entity;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+
 
 
 import javax.persistence.*;
 import java.util.Date;
 
+@Data
 @Entity
 @Table(name = "verification_tokens")
-@Getter @Setter
 public class VerificationToken {
 
   @Id
@@ -20,7 +20,7 @@ public class VerificationToken {
   private String token;
 
   @OneToOne
-  @JoinColumn(name = "user_id")
+  @Column(name = "user_id")
   private User user;
 
   private Date expiryDate;

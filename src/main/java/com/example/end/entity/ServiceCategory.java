@@ -16,6 +16,7 @@ public class ServiceCategory {
     private Long id;
 
     private String name;
+
     private String description;
 
 

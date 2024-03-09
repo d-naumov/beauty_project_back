@@ -4,6 +4,7 @@ package com.example.end.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,13 +15,19 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private Long id;
 
-  @Column(unique = true)
+  @Column(name = "username")
+  @Pattern(regexp = "[A-Z][a-z]{3,}")
   private String username;
 
-  @Column(unique = true)
+
+  @Column(name = "email")
+  @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
   private String email;
+  @Column(name = "is_active")
+  private boolean isActive;
 
   private String password;
 
@@ -31,6 +38,8 @@ public class User {
           inverseJoinColumns = @JoinColumn(name = "role_id")
   )
   private Set<Role> roles = new HashSet<>();
+  @OneToOne(mappedBy = "customer")
+  private Cart cart;
 
   // Другие поля и методы
 

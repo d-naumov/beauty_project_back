@@ -9,6 +9,7 @@ public class HomeController {
 
   @GetMapping("/")
   public String home() {
-    return "home"; // Вернуть имя шаблона для домашней страницы (например, "home.html")
+    return "home";
+    // Вернуть имя шаблона для домашней страницы (например, "home.html")
   }
 }

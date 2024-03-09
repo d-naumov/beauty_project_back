@@ -16,15 +16,15 @@ public class Appointment {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "user_id")
+  @Column(name = "user_id")
   private User user;
 
   @ManyToOne
-  @JoinColumn(name = "procedure_id")
+  @Column(name = "procedure_id")
   private Procedure procedure;
 
   @ManyToOne
-  @JoinColumn(name = "master_id")  // Замените "user_id" на "master_id"
+  @Column(name = "master_id")  // Замените "user_id" на "master_id"
   private Master master;  // Замените "user" на "master"
 
   // Другие поля и методы
