@@ -25,6 +25,14 @@ public class VerificationToken {
 
   private Date expiryDate;
 
-  // Другие поля и методы
+  public VerificationToken() {
+  }
+
+  public VerificationToken(Long id, String token, User user, Date expiryDate) {
+    this.id = id;
+    this.token = token;
+    this.user = user;
+    this.expiryDate = expiryDate;
+  }
 }
 

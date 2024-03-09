@@ -28,8 +28,9 @@ public class Cart {
     )
     private List<Procedure> procedures;
 
+
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    @JoinColumn(name = "id", referencedColumnName = "id")
     private Cart cart;
 
-
+}

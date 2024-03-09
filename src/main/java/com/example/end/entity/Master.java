@@ -27,10 +27,22 @@ public class Master {
   @Column(name = "specialization" )
   private String specialization;
 
-  @OneToMany(mappedBy = "master")
+  @Column(name = "is_active")
+  private boolean isActive;
+
+  @OneToMany(mappedBy = "masters")
   private Set<Appointment> appointments = new HashSet<>();
 
+  public Master() {
+  }
 
-
+  public Master(Long id, String firstName, String lastName, String specialization, boolean isActive, Set<Appointment> appointments) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.specialization = specialization;
+    this.isActive = isActive;
+    this.appointments = appointments;
+  }
 }
 

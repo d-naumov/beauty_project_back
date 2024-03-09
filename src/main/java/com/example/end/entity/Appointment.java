@@ -24,8 +24,8 @@ public class Appointment {
   private Procedure procedure;
 
   @ManyToOne
-  @Column(name = "master_id")  // Замените "user_id" на "master_id"
-  private Master master;  // Замените "user" на "master"
+  @Column(name = "master_id")
+  private Master master;
 
   // Другие поля и методы
 }
