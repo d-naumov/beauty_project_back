@@ -15,15 +15,16 @@ public class Master {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private Long id;
 
-  @Column(nullable = false)
+  @Column(name = "firstname")
   private String firstName;
 
-  @Column(nullable = false)
+  @Column(name = "lastname")
   private String lastName;
 
-  @Column(nullable = false)
+  @Column(name = "specialization" )
   private String specialization;
 
   @OneToMany(mappedBy = "master")
