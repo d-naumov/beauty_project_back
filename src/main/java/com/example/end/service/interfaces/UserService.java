@@ -20,7 +20,8 @@ public interface UserService extends UserDetailsService {
 
   User getUserByUsername(String username);
 
-  User registerUser(UserDto userDto);
+  Optional<User> findById(Long id);
+
 
   // void registerUser(UserDto userDto);
 

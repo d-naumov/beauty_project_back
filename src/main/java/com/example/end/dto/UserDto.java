@@ -6,37 +6,36 @@ import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @ValidUser
-@Data
-public class UserDto {
+    @Data
+    public class UserDto {
 
-  @NotBlank(message = "Имя пользователя не может быть пустым")
-  private String username;
+        @Email(message = "Некорректный формат электронной почты")
+        @NotBlank(message = "Email не может быть пустым")
+        private String email;
 
-  @Email(message = "Некорректный формат электронной почты")
-  @NotBlank(message = "Email is required")
-  private String email;
+        @NotBlank(message = "Пароль не может быть пустым")
+        @Size(min = 6, message = "Пароль должен содержать не менее 6 символов")
+        private String password;
 
-  @NotBlank(message = "Пароль не может быть пустым")
-  @Size(min = 6, message = "Пароль должен содержать не менее 6 символов")
-  private String password;
-  private String firstName;
+        @NotBlank(message = "Имя не может быть пустым")
+        @Pattern(regexp = "[A-Z][a-z]{3,}", message = "Имя должно начинаться с большой буквы и содержать не менее 3 символов")
+        private String firstName;
 
-  private String lastName;
+        @NotBlank(message = "Фамилия не может быть пустой")
+        @Pattern(regexp = "[A-Z][a-z]{3,}", message = "Фамилия должна начинаться с большой буквы и содержать не менее 3 символов")
+        private String lastName;
 
+        public UserDto() {
+        }
 
-  public UserDto() {
-  }
-
-  public UserDto(String username, String email, String password, String firstName, String lastName) {
-    this.username = username;
-    this.email = email;
-    this.password = password;
-    this.firstName = firstName;
-    this.lastName = lastName;
-  }
-
-}
-
+        public UserDto(String firstName, String lastName,String email, String password ) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+            this.password = password;
+        }
+    }

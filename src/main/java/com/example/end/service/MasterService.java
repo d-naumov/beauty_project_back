@@ -48,7 +48,7 @@ public class MasterService {
     masterDto.setId(master.getId());
     masterDto.setFirstName(master.getFirstName());
     masterDto.setLastName(master.getLastName());
-    masterDto.setSpecialization(master.getSpecialization());
+    masterDto.setSpecialization(master.getCategory());
     //  другие поля, которые нужно перенести
 
     return masterDto;
