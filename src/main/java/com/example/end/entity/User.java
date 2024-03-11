@@ -19,10 +19,14 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username")
-    @Pattern(regexp = "[A-Z][a-z]{3,}")
-    private String username;
 
+    @Column(name = "firstname")
+    @Pattern(regexp = "[A-Z][a-z]{3,}")
+    private String firstName;
+
+    @Column(name = "lastname")
+    @Pattern(regexp = "[A-Z][a-z]{3,}")
+    private String lastName;
 
     @Column(name = "email")
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
@@ -41,38 +45,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
-    @OneToOne(mappedBy = "customer")
+    @OneToOne(mappedBy = "user")
     private Cart cart;
 
-    // Другие поля и методы
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return isActive == user.isActive &&
-                Objects.equals(id, user.id) && Objects.equals(username, user.username)
-                && Objects.equals(email, user.email) && Objects.equals(hashPassword, user.hashPassword)
-                && Objects.equals(roles, user.roles) && Objects.equals(cart, user.cart);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username, email, isActive, hashPassword, roles, cart);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", isActive=" + isActive +
-                ", password='" + hashPassword + '\'' +
-                ", roles=" + roles +
-                ", cart=" + cart +
-                '}';
+    public User() {
     }
 }
 

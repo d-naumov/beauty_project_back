@@ -1,9 +1,13 @@
 package com.example.end.entity;
 
 
+import com.example.end.model.AppointmentStatus;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -16,17 +20,23 @@ public class Appointment {
   private Long id;
 
   @ManyToOne
-  @Column(name = "user_id")
+  @JoinColumn(name = "user_id")
   private User user;
 
   @ManyToOne
-  @Column(name = "procedure_id")
+  @JoinColumn(name = "procedure_id")
   private Procedure procedure;
 
   @ManyToOne
-  @Column(name = "master_id")
+  @JoinColumn(name = "master_id")
   private Master master;
 
-  // Другие поля и методы
+  @Column(name = "appointment_time")
+  private LocalDateTime appointmentTime;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "status")
+  private AppointmentStatus status;
+
 }
 

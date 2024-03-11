@@ -20,9 +20,11 @@ public class VerificationToken {
   private String token;
 
   @OneToOne
-  @Column(name = "user_id")
+  @JoinColumn(name = "user_id")
   private User user;
 
+  @Column(name = "expiry_date")
+  @Temporal(TemporalType.TIMESTAMP) // Используйте TemporalType.TIMESTAMP для хранения даты и времени
   private Date expiryDate;
 
   public VerificationToken() {

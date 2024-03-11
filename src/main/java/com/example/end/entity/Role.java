@@ -25,8 +25,8 @@ public class Role implements GrantedAuthority {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "descriptions")
-    private String description;
+//    @Column(name = "descriptions")
+//    private String description;
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
