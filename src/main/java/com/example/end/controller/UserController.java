@@ -2,7 +2,7 @@ package com.example.end.controller;
 
 
 import com.example.end.dto.UserDto;
-import com.example.end.entity.User;
+import com.example.end.models.User;
 import com.example.end.service.interfaces.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -1,7 +1,7 @@
 package com.example.end.service.interfaces;
 
 
-import com.example.end.entity.Role;
+import com.example.end.models.Role;
 
 public interface RoleService {
 

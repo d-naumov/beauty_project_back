@@ -1,18 +1,17 @@
 package com.example.end.service;
 
 
-
-import com.example.end.entity.Category;
-import com.example.end.repository.interfaces.CategoryRepository;
-import com.example.end.service.interfaces.CategoryService;
+import com.example.end.models.Category;
+import com.example.end.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
+
 @Service
-public class CategoryServiceImpl implements CategoryService {
-    private final CategoryRepository categoryRepository;
+public class CategoryServiceImpl {
+
+    private CategoryRepository categoryRepository;
 
     @Autowired
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
@@ -37,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
             Category category = existingCategory.get();
             // Обновление атрибутов категории
             category.setName(updatedCategory.getName());
-            category.setServices(updatedCategory.getServices());
+            category.setDescription(updatedCategory.getDescription());
             return categoryRepository.save(category);
         } else {
             return null; // Или бросить исключение, в зависимости от логики приложения
@@ -48,11 +47,5 @@ public class CategoryServiceImpl implements CategoryService {
         // Реализация удаления категории услуг
         categoryRepository.deleteById(categoryId);
     }
-
-
-
-    @Override
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
-    }
 }
+

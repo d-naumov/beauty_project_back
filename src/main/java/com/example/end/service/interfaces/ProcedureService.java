@@ -1,6 +1,6 @@
 package com.example.end.service.interfaces;
 
-import com.example.end.entity.Procedure;
+import com.example.end.models.Procedure;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

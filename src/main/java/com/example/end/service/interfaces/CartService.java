@@ -1,4 +1,4 @@
 package com.example.end.service.interfaces;
 
-public interface CategoryService {
+public interface CartService {
 }
