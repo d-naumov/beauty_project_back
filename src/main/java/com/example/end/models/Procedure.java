@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -28,6 +30,13 @@ public class Procedure {
 
     @Column(name = "is_active")
     private boolean isActive;
+    @ManyToMany(mappedBy = "procedures")
+    private Set<Category> categories = new HashSet<>();
+
+
+    @ManyToMany(mappedBy = "procedures")
+    private Set<Master> masters = new HashSet<>();
+
 
     public Procedure(Long id, String name, double price, boolean isActive) {
         this.id = id;

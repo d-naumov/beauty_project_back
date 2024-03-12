@@ -14,6 +14,6 @@ public class CartServiceImpl {
         this.cartRepository = cartRepository;
     }
 
-    // Методы для управления корзиной
+
 
 }

@@ -8,10 +8,10 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-  User findByUsername(String username);
+  User findByFirstName(String firstname);
   List<User> findByRoles_Name(String roleName);
   Optional<User> findByEmail(String email);
-  boolean existsByUsername(String username);
+  boolean existsByFirstName(String firstname);
   boolean existsByEmail(String email);
 }
 
