@@ -17,7 +17,6 @@ import java.util.Set;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "users")
 public class User {
@@ -40,8 +39,8 @@ public class User {
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
     private String email;
 
-    @Column(name = "is_active")
-    private boolean isActive;
+    @Column(name = "active")
+    private boolean active;
 
     @Column(name = "hash_password")
     private String hashPassword;
@@ -54,6 +53,7 @@ public class User {
     )
     @ToString.Exclude
     private Set<Role> roles = new HashSet<>();
+
     @OneToOne(mappedBy = "user")
     private Cart cart;
 
@@ -73,5 +73,6 @@ public class User {
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
+
 }
 

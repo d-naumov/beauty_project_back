@@ -1,14 +1,21 @@
-package com.example.end.dto;
+package com.example.end.models.dto;
 
 
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDto {
+
+  private Long id;
 
   @NotBlank(message = "Имя пользователя не может быть пустым")
   private String username;
@@ -20,21 +27,12 @@ public class UserDto {
   @NotBlank(message = "Пароль не может быть пустым")
   @Size(min = 6, message = "Пароль должен содержать не менее 6 символов")
   private String password;
+
   private String firstName;
 
   private String lastName;
 
 
-  public UserDto() {
-  }
-
-  public UserDto(String username, String email, String password, String firstName, String lastName) {
-    this.username = username;
-    this.email = email;
-    this.password = password;
-    this.firstName = firstName;
-    this.lastName = lastName;
-  }
 
 }
 
