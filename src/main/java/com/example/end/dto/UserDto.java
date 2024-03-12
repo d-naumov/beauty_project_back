@@ -1,14 +1,12 @@
 package com.example.end.dto;
 
 
-import com.example.end.validation.ValidUser;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@ValidUser
 @Data
 public class UserDto {
 

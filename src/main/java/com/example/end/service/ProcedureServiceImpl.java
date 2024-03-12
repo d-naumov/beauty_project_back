@@ -1,7 +1,7 @@
 package com.example.end.service;
 
-import com.example.end.entity.Procedure;
-import com.example.end.repository.interfaces.ProcedureRepository;
+import com.example.end.models.Procedure;
+import com.example.end.repository.ProcedureRepository;
 import com.example.end.service.interfaces.ProcedureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

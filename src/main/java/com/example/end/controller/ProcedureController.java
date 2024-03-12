@@ -1,6 +1,6 @@
 package com.example.end.controller;
 
-import com.example.end.entity.Procedure;
+import com.example.end.models.Procedure;
 import com.example.end.service.interfaces.ProcedureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,9 +1,8 @@
 package com.example.end.service.interfaces;
 
 
-import com.example.end.dto.AdminDto;
 import com.example.end.dto.UserDto;
-import com.example.end.entity.User;
+import com.example.end.models.User;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +19,8 @@ public interface UserService extends UserDetailsService {
 
   User getUserByUsername(String username);
 
-  User registerUser(UserDto userDto);
+  Optional<User> findById(Long id);
+
 
   // void registerUser(UserDto userDto);
 
