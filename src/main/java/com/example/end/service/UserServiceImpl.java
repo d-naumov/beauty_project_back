@@ -99,20 +99,20 @@ public class UserServiceImpl implements UserService {
 
         return 0;
     }
-//        User user = repository.findById(userId)
-//                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + userId));
-//        Cart cart = user.getCart();
-//
-//        if (cart == null || cart.getBooking().isEmpty()) {
-//            return 0.0;
-//        }
-//
-//        double totalCartPrice = cart.getBooking().stream()
-//                .mapToDouble(CartBooking::getPrice)
-//                .sum();
-//
-//        return totalCartPrice;
-//    }
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + userId));
+        Cart cart = user.getCart();
+
+        if (cart == null || cart.getBooking().isEmpty()) {
+            return 0.0;
+        }
+
+        double totalCartPrice = cart.getBooking().stream()
+                .mapToDouble(CartBooking::getPrice)
+                .sum();
+
+        return totalCartPrice;
+    }
 
 
     @Override
