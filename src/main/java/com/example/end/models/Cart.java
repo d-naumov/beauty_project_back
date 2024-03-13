@@ -4,6 +4,8 @@ package com.example.end.models;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import com.example.end.models.Procedure;
+
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,7 +18,7 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -41,3 +43,4 @@ public class Cart {
     }
 
 }
+

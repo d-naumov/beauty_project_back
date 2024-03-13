@@ -1,4 +1,56 @@
-//package com.example.end.security.config;
+package com.example.end.security.config;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+    @Bean
+    public BCryptPasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
+    }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeRequests(authorizeRequests ->
+                        authorizeRequests
+                                .antMatchers("/**").permitAll() // Разрешить все запросы
+                );
+    }
+    //    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(
+//                        authorizeRequests ->
+//                                authorizeRequests
+//                                        .antMatchers(HttpMethod.GET, "/*+").permitAll()
+//                                        .antMatchers(HttpMethod.GET, "/api/users/").permitAll()
+//                                        .antMatchers(HttpMethod.GET, "/api/users").permitAll()
+//                                        .antMatchers(HttpMethod.POST, "/registration/register").permitAll()
+//                                        .antMatchers(HttpMethod.GET, "/master/by_id/{id}").hasRole("MASTER")
+//                                        .antMatchers(HttpMethod.POST, "/master/save").hasRole("ADMIN")
+//                                        .anyRequest().hasRole("ADMIN")
+//                )
+//                .httpBasic(Customizer.withDefaults());
+//
+//        return http.build();
+//    }
+
+}
 //
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.annotation.Bean;

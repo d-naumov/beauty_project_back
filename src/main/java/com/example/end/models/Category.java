@@ -1,24 +1,38 @@
 package com.example.end.models;
 
+import lombok.*;
 
-import lombok.Data;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
-@Entity
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Data
+@Entity
+@Table(name = "categories")
 public class Category {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
+    @Column(name = "name")
     private String name;
 
-    private String description;
+    @ManyToMany
+    @JoinTable(
+            name = "category_procedures",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "procedure_id")
+    )
+    private Set<Procedure> procedures = new HashSet<>();
 
+    @ManyToMany(mappedBy = "categories")
+    private Set<User> users = new HashSet<>();
 
 }
 

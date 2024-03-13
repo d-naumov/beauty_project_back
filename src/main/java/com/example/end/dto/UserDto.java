@@ -6,34 +6,32 @@ import lombok.Data;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
 @Data
 public class UserDto {
 
-  @NotBlank(message = "Имя пользователя не может быть пустым")
+  private int id;
+
+  //private String roleName;
+
+  @NotBlank(message = "Name is required")
   private String username;
 
-  @Email(message = "Некорректный формат электронной почты")
-  @NotBlank(message = "Email is required")
-  private String email;
-
-  @NotBlank(message = "Пароль не может быть пустым")
-  @Size(min = 6, message = "Пароль должен содержать не менее 6 символов")
-  private String password;
+  @NotBlank(message = "First name is required")
   private String firstName;
 
+  @NotBlank(message = "Last name is required")
   private String lastName;
+
+  @NotBlank(message = "Email is required")
+  @Email(message = "Invalid email format")
+  private String email;
+
+  @NotBlank(message = "Password is required")
+  @Size(min = 6, message = "Password must be at least 6 characters")
+  private String password;
 
 
   public UserDto() {
-  }
-
-  public UserDto(String username, String email, String password, String firstName, String lastName) {
-    this.username = username;
-    this.email = email;
-    this.password = password;
-    this.firstName = firstName;
-    this.lastName = lastName;
   }
 
 }

@@ -3,49 +3,69 @@ package com.example.end.service;
 
 import com.example.end.models.Category;
 import com.example.end.repository.CategoryRepository;
+import com.example.end.service.interfaces.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
-public class CategoryServiceImpl {
+public class CategoryServiceImpl implements CategoryService {
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
 
-    public Category addServiceCategory(Category category) {
-        // Реализация добавления категории услуг
+    @Override
+    public List<Category> getAllCategories() {
+        // Реализация получения всех категорий
+        return categoryRepository.findAll();
+    }
+
+    @Override
+    public Optional<Category> getCategoryById(int id) {
+        // Реализация получения категории по идентификатору
+        return categoryRepository.findById(id);
+    }
+
+    @Override
+    public Category createCategory(Category category) {
+        // Реализация создания категории
         return categoryRepository.save(category);
     }
 
-    public Category getServiceCategoryById(Long categoryId) {
-        // Реализация получения категории услуг по идентификатору
-        return categoryRepository.findById(categoryId).orElse(null);
-    }
-
-    public Category updateServiceCategory(Long categoryId, Category updatedCategory) {
-        // Реализация обновления информации о категории услуг
-        Optional<Category> existingCategory = categoryRepository.findById(categoryId);
+    @Override
+    public Category updateCategory(int id, Category updatedCategory) {
+        // Реализация обновления категории
+        Optional<Category> existingCategory = categoryRepository.findById(id);
 
         if (existingCategory.isPresent()) {
             Category category = existingCategory.get();
             // Обновление атрибутов категории
             category.setName(updatedCategory.getName());
-            category.setDescription(updatedCategory.getDescription());
             return categoryRepository.save(category);
         } else {
             return null; // Или бросить исключение, в зависимости от логики приложения
         }
     }
 
-    public void deleteServiceCategory(Long categoryId) {
-        // Реализация удаления категории услуг
-        categoryRepository.deleteById(categoryId);
+    @Override
+    public void deleteCategory(int id) {
+        // Реализация удаления категории
+        categoryRepository.deleteById(id);
+    }
+
+    @Override
+    public Set<Category> getCategoriesByIds(Set<Integer> categoryIds) {
+        // Реализация получения категорий по списку идентификаторов
+        return new HashSet<>(categoryRepository.findAllById(categoryIds));
     }
 }
+
 
