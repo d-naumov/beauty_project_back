@@ -1,5 +1,6 @@
 package com.example.end.controller;
 
+
 import com.example.end.dto.UserDto;
 import com.example.end.models.User;
 import com.example.end.service.interfaces.UserService;
@@ -27,10 +28,9 @@ public class UserController {
     this.userService = userService;
   }
 
-
-  @GetMapping("/id/{id}")
+  @GetMapping("/{id}")
   @ApiOperation(value = "Get user by ID", response = User.class)
-  public ResponseEntity<User> getUserById(@PathVariable int id) {
+  public ResponseEntity<User> getUserById(@PathVariable Long id) {
     Optional<User> userOptional = userService.findById(id);
     return userOptional.map(user -> ResponseEntity.ok().body(user))
             .orElseGet(() -> ResponseEntity.notFound().build());
@@ -60,7 +60,7 @@ public class UserController {
     }
   }
 
-  @GetMapping("/username/{username}")
+  @GetMapping("/{username}")
   public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
     Optional<User> userOptional = userService.findByUsername(username);
     return userOptional.map(user -> ResponseEntity.ok().body(user))

@@ -1,4 +1,4 @@
-package com.example.end.dto;
+package com.example.end.models.dto;
 
 
 import javax.validation.constraints.Email;
