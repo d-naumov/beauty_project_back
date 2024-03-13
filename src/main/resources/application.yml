@@ -1,9 +1,14 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-  flyway:
-    baseline-on-migrate: true
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

@@ -1,141 +1,92 @@
-package com.example.end.service;
-
-
-import com.example.end.models.Cart;
-import com.example.end.models.dto.UserDto;
-import com.example.end.mapping.UserMappingService;
-import com.example.end.models.User;
-import com.example.end.repository.UserRepository;
-import com.example.end.service.interfaces.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.List;
-import java.util.NoSuchElementException;
-
-@RequiredArgsConstructor
-@Service
-public class UserServiceImpl implements UserService {
-
-    private final UserRepository repository;
-    private UserMappingService mappingService;
-
-
-    @Override
-    public UserDto save(UserDto dto) {
-        User entity = mappingService.mapDtoToEntity(dto);
-        entity = repository.save(entity);
-        return mappingService.mapEntityToDto(entity);
-    }
-
-    @Override
-    public List<UserDto> getAllActiveUser() {
-        return repository.findAll()
-                .stream()
-                .map(u -> mappingService.mapEntityToDto(u))
-                .toList();
-    }
-
-    public UserDto getActiveUserById(Long id) {
-        User user = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
-        return mappingService.mapEntityToDto(user);
-    }
-
-
-
-    public UserDto getAllUserById(Long id) {
-        User entity = repository.findById(id).orElse(null);
-        return entity == null ? null : mappingService.mapEntityToDto(entity);
-    }
-
-    @Override
-    public void update(UserDto dto) {
-        User user = repository.findById(dto.getId())
-                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + dto.getId()));
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
-        user.setEmail(dto.getEmail());
-
-        repository.save(user);
-    }
-    @Override
-    public void deleteById(Long id) {
-        repository.deleteById(id);
-    }
-
-    @Override
-    public void deleteByName(String name) {
-        User user = repository.findByFirstName(name);
-        if (user != null) {
-            repository.delete(user);
-        } else {
-            throw new NoSuchElementException("User not found with name: " + name);
-        }
-    }
-
-    @Override
-    @Transactional
-    public void restoreById(Long id) {
-        User user = repository.findById(id).orElse(null);
-
-        if (user != null) {
-            user.setActive(true);
-            repository.save(user);
-        }
-    }
-
-
-    @Override
-    public int getActiveUserCount() {
-        return repository.countByActiveTrue();
-    }
-
-    @Override
-    public double getTotalCartPriceById(Long userId) {
-
-        return 0;
-    }
-//        User user = repository.findById(userId)
-//                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + userId));
-//        Cart cart = user.getCart();
+//package com.example.end.service;
 //
-//        if (cart == null || cart.getBooking().isEmpty()) {
-//            return 0.0;
+//
+//import com.example.end.dto.UserDto;
+//import com.example.end.models.User;
+//import com.example.end.repository.UserRepository;
+//import com.example.end.service.interfaces.UserService;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.springframework.stereotype.Service;
+//
+//import java.util.List;
+//import java.util.Optional;
+//
+//@Service
+//public class UserServiceImpl implements UserService {
+//
+//    private final UserRepository userRepository;
+//    private final CartServiceImpl cartService;
+//
+//    @Autowired
+//    public UserServiceImpl(UserRepository userRepository, CartServiceImpl cartService) {
+//        this.userRepository = userRepository;
+//        this.cartService = cartService;
+//    }
+//
+//
+//
+//    @Override
+//    public User registerNewUser(UserDto userDto) {
+//        User newUser = new User();
+//        newUser.setUsername(userDto.getUsername());
+//        newUser.setEmail(userDto.getEmail());
+//        // Добавьте логику для установки пароля, ролей и других полей
+//
+//        // Сохранение нового пользователя в репозитории
+//        return userRepository.save(newUser);
+//    }
+//    @Override
+//    public Optional<User> findByUsername(String username) {
+//        return Optional.ofNullable(userRepository.findByUsername(username));
+//    }
+//
+//    @Override
+//    public Optional<User> findByEmail(String email) {
+//        return userRepository.findByEmail(email);
+//    }
+//
+//    @Override
+//    public List<User> getAllUsers() {
+//        return userRepository.findAll();
+//    }
+//
+//    @Override
+//    public User getUserByUsername(String username) {
+//        return userRepository.findByUsername(username);
+//
+//    }
+//    @Override
+//    public User registerUser(UserDto userDto) {
+//        // Проверка, существует ли пользователь с таким именем пользователя
+//        if (userRepository.existsByUsername(userDto.getUsername())) {
+//            throw new RuntimeException("Username is already taken");
 //        }
 //
-//        double totalCartPrice = cart.getBooking().stream()
-//                .mapToDouble(CartBooking::getPrice)
-//                .sum();
+//        // Проверка, существует ли пользователь с таким адресом электронной почты
+//        if (userRepository.existsByEmail(userDto.getEmail())) {
+//            throw new RuntimeException("Email is already taken");
+//        }
 //
-//        return totalCartPrice;
+//        // Создание и сохранение нового пользователя
+//        User newUser = new User();
+//        newUser.setUsername(userDto.getUsername());
+//        newUser.setEmail(userDto.getEmail());
+//        // Добавьте логику для установки пароля, ролей и других полей
+//        return userRepository.save(newUser);
 //    }
+//
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        User user = userRepository.findByUsername(username);
+//
+//        return null;
 
 
-    @Override
-    public void addBookingToCart(Long userId, Long bookingId) {
-
-    }
-
-    @Override
-    public void deleteBookingFromCart(Long userId, Long bookingId) {
-
-    }
-
-    @Override
-    public void clearCartById(Long userId) {
-
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
-    }
-}
-
-
-
+//        return new org.springframework.security.core.userdetails.User(
+////                user.getUsername(), user.getPassword(), new ArrayList<>());
+//    }
+//
+//}
 

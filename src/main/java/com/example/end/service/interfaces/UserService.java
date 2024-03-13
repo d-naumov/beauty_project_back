@@ -1,37 +1,29 @@
 package com.example.end.service.interfaces;
 
 
-import com.example.end.models.dto.UserDto;
-
+import com.example.end.dto.UserDto;
+import com.example.end.models.User;
 import java.util.List;
-
+import java.util.Optional;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
-  UserDto save(UserDto dto);
+  User registerNewUser(UserDto userDto);
 
-  List<UserDto> getAllActiveUser();
+  Optional<User> findByUsername(String username);
 
-  UserDto getActiveUserById(Long id);
+  Optional<User> findByEmail(String email);
 
-  void update(UserDto dto);
+  List<User> getAllUsers();
 
-  void deleteById(Long id);
 
-  void deleteByName(String name);
+  User getUserByUsername(String username);
 
-  void restoreById(Long id);
+  Optional<User> findById(Long id);
 
-  int getActiveUserCount();
 
-  double getTotalCartPriceById(Long userId);
+  // void registerUser(UserDto userDto);
 
-  void addBookingToCart(Long userId, Long bookingId);
-
-  void deleteBookingFromCart(Long userId, Long bookingId);
-
-  void clearCartById(Long userId);
 }
-
 
 
