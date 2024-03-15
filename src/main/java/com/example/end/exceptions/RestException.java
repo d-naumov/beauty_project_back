@@ -2,12 +2,7 @@ package com.example.end.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-/**
- * 9/25/2023
- * education-center
- *
- * @author Marsel Sidikov (AIT TR)
- */
+
 public class RestException extends RuntimeException {
     private final HttpStatus status;
 

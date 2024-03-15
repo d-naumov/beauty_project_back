@@ -1,28 +1,25 @@
 //package com.example.end.config;
 //
-//import de.ait.template.documentation.OpenApiDocumentation;
-//import de.ait.template.dto.StandardResponseDto;
+//import com.example.end.documentation.OpenApiDocumentation;
+//import freemarker.cache.ClassTemplateLoader;
 //import io.swagger.v3.core.converter.AnnotatedType;
 //import io.swagger.v3.core.converter.ModelConverters;
 //import io.swagger.v3.core.converter.ResolvedSchema;
 //import io.swagger.v3.oas.models.Components;
 //import io.swagger.v3.oas.models.OpenAPI;
 //import io.swagger.v3.oas.models.info.Info;
+//import io.swagger.v3.oas.models.servers.Server;
+//import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.web.servlet.config.annotation.CorsRegistry;
 //import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //
+//import javax.security.auth.login.Configuration;
+//import java.util.Arrays;
 //
-///**
-// * 10/17/2023
-// * education-center
-// *
-// * @author Marsel Sidikov (AIT TR)
-// */
-//@Configuration
+//@org.springframework.context.annotation.Configuration
 //public class AppConfig {
 //
 //    @Bean
@@ -31,12 +28,16 @@
 //    }
 //
 //    @Bean
-//    public OpenAPI openAPI() {
+//    public OpenAPI openAPI(@Value("${base.url}") String baseUrl) {
 //        ResolvedSchema resolvedSchema = ModelConverters.getInstance()
 //                .resolveAsResolvedSchema(
 //                        new AnnotatedType(StandardResponseDto.class).resolveAsRef(false));
 //
 //        return new OpenAPI()
+//                .servers(Arrays.asList(
+//                        new Server().url("http://localhost:8080"),
+//                        new Server().url(baseUrl)
+//                ))
 //                .components(new Components()
 //                        .addSchemas("EmailAndPassword", OpenApiDocumentation.emailAndPassword())
 //                        .addSecuritySchemes("cookieAuth", OpenApiDocumentation.securityScheme())
@@ -55,4 +56,14 @@
 //            }
 //        };
 //    }
+//
+//    @Bean
+//    public Configuration freemarkerConfiguration() {
+//        Configuration configuration = new Configuration(Configuration.VERSION_2_3_21);
+//        configuration.setDefaultEncoding("UTF-8");
+//        configuration.setTemplateLoader(new ClassTemplateLoader(AppConfig.class, "/mails/"));
+//
+//        return configuration;
+//    }
 //}
+

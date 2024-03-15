@@ -1,6 +1,5 @@
 package com.example.end.service;
 
-
 import com.example.end.dto.ReviewDto;
 import com.example.end.models.Review;
 import com.example.end.service.interfaces.ReviewService;
@@ -22,18 +21,17 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Optional<Review> getReviewById(int id) {
+    public Optional<Review> getReviewById(Long id) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<Review> updateReview(int id, ReviewDto reviewDto) {
+    public Optional<Review> updateReview(Long id, ReviewDto reviewDto) {
         return Optional.empty();
     }
 
     @Override
-    public boolean deleteReview(int id) {
+    public boolean deleteReview(Long id) {
         return false;
     }
 }
-

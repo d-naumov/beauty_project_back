@@ -1,23 +1,20 @@
 package com.example.end.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
-
+import java.util.*;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "users")
 public class User {
@@ -27,6 +24,8 @@ public class User {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "firstname")
     @Pattern(regexp = "[A-Z][a-z]{3,}")
@@ -46,6 +45,9 @@ public class User {
     @Column(name = "hash_password")
     private String hashPassword;
 
+    @Column(name = "description")
+    private String description;
+
     @ManyToMany
     @JoinTable(
             name = "user_roles",
@@ -54,6 +56,36 @@ public class User {
     )
     @ToString.Exclude
     private Set<Role> roles = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_categories",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    @JsonIgnore
+    @ToString.Exclude
+    private Set<Category> categories = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_procedures",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "procedure_id")
+    )
+    @JsonIgnore
+    @ToString.Exclude
+    private Set<Procedure> procedures = new HashSet<>();
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<Review> reviews = new ArrayList<>();
+//
+//
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<Booking> bookings = new ArrayList<>();
+
+
+    @JsonBackReference
     @OneToOne(mappedBy = "user")
     private Cart cart;
 

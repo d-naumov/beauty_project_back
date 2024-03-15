@@ -1,13 +1,26 @@
-package com.example.end.models.dto;
+package com.example.end.dto;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
-public class MasterRegistrationDto {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserDto {
+
+    private Long id;
+
+    private String roleName;
+
+    @NotBlank(message = "Name is required")
+    private String username;
 
     @NotBlank(message = "First name is required")
     private String firstName;
@@ -23,12 +36,8 @@ public class MasterRegistrationDto {
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
-    @NotNull(message = "Categories are required")
-    private Set<Integer> categoryIds;
 
-    @NotNull(message = "Procedures are required")
-    private Set<Integer> procedureIds;
 
-    public MasterRegistrationDto() {
-    }
+
 }
+

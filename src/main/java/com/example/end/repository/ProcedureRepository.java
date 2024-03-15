@@ -4,6 +4,8 @@ package com.example.end.repository;
 import com.example.end.models.Procedure;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProcedureRepository extends JpaRepository<Procedure, Long> {
+import java.util.Optional;
 
+public interface ProcedureRepository extends JpaRepository<Procedure, Long> {
+    Optional<Procedure> findByName(String name);
 }

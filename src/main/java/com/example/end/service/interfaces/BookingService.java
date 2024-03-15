@@ -5,13 +5,14 @@ import com.example.end.models.Booking;
 import com.example.end.models.BookingStatus;
 import com.example.end.models.Procedure;
 import com.example.end.models.User;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public interface BookingService {
-    Booking createBooking(BookingDto bookingDto, int userId, int procedureId);
+    Booking createBooking(BookingDto bookingDto, Long userId, Long procedureId);
 
-    void updateBookingStatus(int bookingId, BookingStatus status);
+    void updateBookingStatus(Long bookingId, BookingStatus status);
 
     List<Booking> getBookingForUser(User user);
 
@@ -19,3 +20,4 @@ public interface BookingService {
 
     // Методы для управления бронированиями
 }
+
