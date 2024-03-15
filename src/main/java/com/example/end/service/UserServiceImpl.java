@@ -1,143 +1,141 @@
 package com.example.end.service;
 
-import com.example.end.dto.UserDto;
-import com.example.end.models.Category;
-import com.example.end.models.Procedure;
-import com.example.end.models.Role;
+
+import com.example.end.models.Cart;
+import com.example.end.models.dto.UserDto;
+import com.example.end.mapping.UserMappingService;
 import com.example.end.models.User;
-import com.example.end.repository.RoleRepository;
 import com.example.end.repository.UserRepository;
 import com.example.end.service.interfaces.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.NoSuchElementException;
 
+@RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserRepository repository;
+    private UserMappingService mappingService;
 
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
+
+    @Override
+    public UserDto save(UserDto dto) {
+        User entity = mappingService.mapDtoToEntity(dto);
+        entity = repository.save(entity);
+        return mappingService.mapEntityToDto(entity);
     }
 
-    @Transactional
-    public User registerNewUser(UserDto userRegistration) {
-        User existingUser = userRepository.findByUsername(userRegistration.getUsername());
-        if (existingUser != null) {
-            throw new RuntimeException(
-                    "User with username " + userRegistration.getUsername() + " already exists!");
+    @Override
+    public List<UserDto> getAllActiveUser() {
+        return repository.findAll()
+                .stream()
+                .map(u -> mappingService.mapEntityToDto(u))
+                .toList();
+    }
+
+    public UserDto getActiveUserById(Long id) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
+        return mappingService.mapEntityToDto(user);
+    }
+
+
+
+    public UserDto getAllUserById(Long id) {
+        User entity = repository.findById(id).orElse(null);
+        return entity == null ? null : mappingService.mapEntityToDto(entity);
+    }
+
+    @Override
+    public void update(UserDto dto) {
+        User user = repository.findById(dto.getId())
+                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + dto.getId()));
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setEmail(dto.getEmail());
+
+        repository.save(user);
+    }
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public void deleteByName(String name) {
+        User user = repository.findByFirstName(name);
+        if (user != null) {
+            repository.delete(user);
+        } else {
+            throw new NoSuchElementException("User not found with name: " + name);
         }
-        User newUser = new User();
-        newUser.setUsername(userRegistration.getUsername());
-        newUser.setFirstName(userRegistration.getFirstName());
-        newUser.setLastName(userRegistration.getLastName());
-        newUser.setEmail(userRegistration.getEmail());
-        newUser.setHashPassword(passwordEncoder.encode(userRegistration.getPassword()));
-        newUser.setActive(true);
-
-        Role userRole = roleRepository.findByName("ROLE_USER");
-        newUser.setRoles(Collections.singleton(userRole));
-
-
-        return userRepository.save(newUser);
     }
-//    @Transactional
-//    public User registerNewUser(UserDto userRegistration) {
-//        User existingUser = userRepository.findByUsername(userRegistration.getUsername());
-//        if (existingUser != null) {
-//            throw new RuntimeException(
-//                    "User with username " + userRegistration.getUsername() + " already exists!");
-//        }
-//
-//        User newUser = new User();
-//        newUser.setUsername(userRegistration.getUsername());
-//        newUser.setFirstName(userRegistration.getFirstName());
-//        newUser.setLastName(userRegistration.getLastName());
-//        newUser.setEmail(userRegistration.getEmail());
-//        newUser.setHashPassword(passwordEncoder.encode(userRegistration.getPassword()));
-//        newUser.setActive(true);
-//
-//        // Назначаем роль пользователю
-//        Role userRole = roleRepository.findByName(userRegistration.getRoleName());
-//        if (userRole == null) {
-//            throw new RuntimeException("Role not found: " + userRegistration.getRoleName());
-//        }
-//        newUser.setRoles(Collections.singleton(userRole));
-//
-//        return userRepository.save(newUser);
-//    }
 
-
+    @Override
     @Transactional
-    public Set<User> registerNewUserWithRoles(UserDto userDto, Set<Role> roles) {
-        User user = registerNewUser(userDto);
-        user.setRoles(roles);
-        userRepository.save(user);
-        return Set.of(user);
+    public void restoreById(Long id) {
+        User user = repository.findById(id).orElse(null);
+
+        if (user != null) {
+            user.setActive(true);
+            repository.save(user);
+        }
     }
 
 
-    @Transactional
-    public void updateMasterData(User master, Set<Category> categories, Set<Procedure> procedures) {
-        master.setCategories(categories);
-        master.setProcedures(procedures);
-        userRepository.save(master);
-    }
-
-    @Transactional(readOnly = true)
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByEmail(username);
+    @Override
+    public int getActiveUserCount() {
+        return repository.countByActiveTrue();
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
-        return Optional.empty();
+    public double getTotalCartPriceById(Long userId) {
+
+        return 0;
+    }
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + userId));
+        Cart cart = user.getCart();
+
+        if (cart == null || cart.getBooking().isEmpty()) {
+            return 0.0;
+        }
+
+        double totalCartPrice = cart.getBooking().stream()
+                .mapToDouble(CartBooking::getPrice)
+                .sum();
+
+        return totalCartPrice;
+    }
+
+
+    @Override
+    public void addBookingToCart(Long userId, Long bookingId) {
+
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return null;
+    public void deleteBookingFromCart(Long userId, Long bookingId) {
+
     }
 
     @Override
-    public Optional<User> findById(Integer id) {
-        return Optional.empty();
+    public void clearCartById(Long userId) {
+
     }
-
-    @Override
-    public Optional<User> findById(int id) {
-        return userRepository.findById(id);
-    }
-
-
-    @Transactional
-    public void saveUser(User user) {
-        userRepository.save(user);
-    }
-
-    public User getUserByUsername(String username) {
-        return null;
-    }
-
-
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
     }
 }
+
+
+
+
