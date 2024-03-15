@@ -24,7 +24,7 @@ public interface ProcedureService {
 
   Procedure createProcedure(Procedure procedure);
 
-  Set<Procedure> getProceduresById(Set<Long> procedureIds);
+  Set<Procedure> getAllProceduresById(Set<Long> procedureIds);
 
 }
 
