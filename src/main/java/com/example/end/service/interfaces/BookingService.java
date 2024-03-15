@@ -14,7 +14,7 @@ public interface BookingService {
 
     void updateBookingStatus(Long bookingId, BookingStatus status);
 
-    List<Booking> getBookingForUser(User user);
+    List<Booking> getUserBooking(User user);
 
     Booking createBooking(User user, Procedure procedure);
 
