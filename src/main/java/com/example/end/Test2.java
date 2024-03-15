@@ -1,2 +1,4 @@
-package com.example.end;public class Test2 {
+package com.example.end;
+
+public class Test2 {
 }
