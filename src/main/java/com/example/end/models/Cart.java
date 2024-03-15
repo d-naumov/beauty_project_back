@@ -1,14 +1,18 @@
 package com.example.end.models;
 
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.proxy.HibernateProxy;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "cart")
 public class Cart {
@@ -22,22 +26,36 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Setter
-    @Getter
     @ManyToMany
     @JoinTable(
-            name = "card_procedure",
+            name = "cart_procedure",
             joinColumns = @JoinColumn(name = "cart_id"),
             inverseJoinColumns = @JoinColumn(name = "procedure_id")
     )
+    @ToString.Exclude
     private List<Procedure> procedures;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", referencedColumnName = "id")
-    private Cart cart;
-
-    public Cart() {
+    public Cart(User user) {
+        this.user = user;
     }
+
+        @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass) return false;
+        Cart cart = (Cart) o;
+        return getId() != null && Objects.equals(getId(), cart.getId());
+    }
+
+    @Override
+    public final int hashCode() {
+        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
+
+
 
 }

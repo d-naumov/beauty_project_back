@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ProcedureServiceImpl implements ProcedureService {
@@ -33,10 +34,35 @@ public class ProcedureServiceImpl implements ProcedureService {
     }
 
     @Override
+    public boolean deleteProcedure(Long id) {
+        return false;
+    }
+
+    @Override
+    public Procedure updateProcedure(Long id, Procedure updatedProcedure) {
+        return null;
+    }
+
+    @Override
+    public Procedure findById(Long procedureId) {
+        return null;
+    }
+
+    @Override
     public Procedure getProcedureById(Long procedureId) {
         return procedureRepository.findById(procedureId).orElse(null);
     }
 
-    // Другие методы, если необходимо
+    @Override
+    public Procedure createProcedure(Procedure procedure) {
+        return null;
+    }
+    
+    @Override
+    public Set<Procedure> getProceduresById(Set<Long> procedureIds) {
+        return null;
+    }
+
+
 }
 

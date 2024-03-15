@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<Category> getCategoryById(int id) {
+    public Optional<Category> getCategoryById(Long id) {
         // Реализация получения категории по идентификатору
         return categoryRepository.findById(id);
     }
@@ -41,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category updateCategory(int id, Category updatedCategory) {
+    public Category updateCategory(Long id, Category updatedCategory) {
         // Реализация обновления категории
         Optional<Category> existingCategory = categoryRepository.findById(id);
 
@@ -56,15 +56,15 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(int id) {
+    public void deleteCategory(Long id) {
         // Реализация удаления категории
         categoryRepository.deleteById(id);
     }
 
     @Override
-    public Set<Category> getCategoriesByIds(Set<Integer> categoryIds) {
+    public Set<Category> getCategoriesById(Set<Long> categoryId) {
         // Реализация получения категорий по списку идентификаторов
-        return new HashSet<>(categoryRepository.findAllById(categoryIds));
+        return new HashSet<>(categoryRepository.findAllById(categoryId));
     }
 }
 

@@ -6,18 +6,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
 @Service
 public interface CategoryService {
     List<Category> getAllCategories();
 
-    Optional<Category> getCategoryById(int id);
+    Optional<Category> getCategoryById(Long id);
 
     Category createCategory(Category category);
 
-    Category updateCategory(int id, Category updatedCategory);
+    Category updateCategory(Long id, Category updatedCategory);
 
-    void deleteCategory(int id);
+    void deleteCategory(Long id);
 
-    Set<Category> getCategoriesByIds(Set<Integer> categoryIds);
+    Set<Category> getCategoriesById(Set<Long> categoryId);
 }

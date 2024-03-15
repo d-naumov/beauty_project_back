@@ -6,7 +6,9 @@ import com.example.end.models.User;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface UserService extends UserDetailsService {
   User registerNewUser(UserDto userDto);
 
@@ -16,10 +18,10 @@ public interface UserService extends UserDetailsService {
 
   List<User> getAllUsers();
 
+    Optional<User> findById(Long id);
 
-  User getUserByUsername(String username);
+    User getUserByUsername(String username);
 
-  Optional<User> findById(Long id);
 
 
   // void registerUser(UserDto userDto);
