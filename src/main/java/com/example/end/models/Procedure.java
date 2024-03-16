@@ -1,7 +1,6 @@
 package com.example.end.models;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
@@ -37,21 +36,16 @@ public class Procedure {
     @Column(name = "is_active")
     private boolean isActive;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category categories;
 
-//    @ManyToMany(mappedBy = "procedures")
-//    @JsonIgnore
-//    private Set<Category> categories = new HashSet<>();
-
-//    @ManyToMany(mappedBy = "procedures")
-//    @JsonIgnore
-//    private Set<User> userMaster = new HashSet<>();
-    @ManyToMany(mappedBy = "procedures")
-    @JsonIgnore
     @ToString.Exclude
-    private Set<User> userMaster ;
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(mappedBy = "procedures")
+    private Set<User> userMaster;
 
 
     @Override

@@ -1,12 +1,10 @@
 package com.example.end.models;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -27,24 +25,14 @@ public class Category {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "categories" ,cascade = CascadeType.ALL)
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "categories" ,cascade = CascadeType.ALL)
     private Set<Procedure> procedures ;
 
-
-//    @ManyToMany
-//    @JoinTable(
-//            name = "category_procedures",
-//            joinColumns = @JoinColumn(name = "category_id"),
-//            inverseJoinColumns = @JoinColumn(name = "procedure_id")
-//    )
-//    @JsonIgnore
-//    @ToString.Exclude
-//    private Set<Procedure> procedures = new HashSet<>();
-
-    @ManyToMany(mappedBy = "categories")
-    @JsonIgnore
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(mappedBy = "categories")
     private Set<User> userMaster ;
 
     @Override

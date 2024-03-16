@@ -54,10 +54,10 @@ public class BookingController {
 
 
     @GetMapping("/user/{username}")
-    public ResponseEntity<List<Booking>> getAppointmentsForUser(@PathVariable String username) {
+    public ResponseEntity<List<Booking>> getUserBooking(@PathVariable String username) {
         User user = userService.getUserByUsername(username);
         if (user != null) {
-            List<Booking> bookings = bookingService.getBookingForUser(user);
+            List<Booking> bookings = bookingService.getUserBooking(user);
             return ResponseEntity.ok(bookings);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

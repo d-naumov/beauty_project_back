@@ -17,9 +17,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
-//    public static final Role CLIENT = new Role("ROLE_CLIENT");
-//    public static final Role MASTER = new Role("ROLE_MASTER");
-//    public static final Role ADMIN = new Role("ROLE_ADMIN");
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +25,6 @@ public class Role implements GrantedAuthority {
 
     @Column(name = "name")
     private String name;
-
-//    public Role(String name) {
-//        this.name = name;
-//    }
-
 
     @Override
     public String getAuthority() {

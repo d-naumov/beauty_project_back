@@ -59,7 +59,7 @@ public class ProcedureServiceImpl implements ProcedureService {
     }
     
     @Override
-    public Set<Procedure> getProceduresById(Set<Long> procedureIds) {
+    public Set<Procedure> getAllProceduresById(Set<Long> procedureIds) {
         return null;
     }
 

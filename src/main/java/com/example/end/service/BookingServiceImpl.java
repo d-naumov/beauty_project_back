@@ -64,7 +64,7 @@ public class BookingServiceImpl implements BookingService {
 
 
     @Override
-    public List<Booking> getBookingForUser(User user) {
+    public List<Booking> getUserBooking(User user) {
         //  получения всех бронирований для конкретного пользователя
         // используя repository или сервис для работы с бронированиями
         return bookingRepository.findByUser(user);
