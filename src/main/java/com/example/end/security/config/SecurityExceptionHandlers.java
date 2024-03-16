@@ -14,12 +14,7 @@
 //
 //import javax.servlet.http.HttpServletResponse;
 //
-///**
-// * 10/17/2023
-// * education-center
-// *
-// * @author Marsel Sidikov (AIT TR)
-// */
+
 //public class SecurityExceptionHandlers {
 //
 //    private static final ObjectMapper objectMapper = new ObjectMapper();

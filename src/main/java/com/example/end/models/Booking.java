@@ -3,8 +3,7 @@ package com.example.end.models;
 
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
-
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 

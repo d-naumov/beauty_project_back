@@ -1,18 +1,19 @@
 package com.example.end.dto;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.util.Set;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(name = "UserDto", description = "Данные для регистрации")
 public class UserDto {
 
     private Long id;
@@ -30,13 +31,12 @@ public class UserDto {
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
+    @Schema(description = "Email пользователя", example = "user@mail.com")
     private String email;
 
     @NotBlank(message = "Password is required")
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
-
-
 
 
 }

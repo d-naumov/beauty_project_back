@@ -3,8 +3,8 @@ package com.example.end.models;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
-import javax.persistence.*;
-import javax.validation.constraints.Pattern;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
