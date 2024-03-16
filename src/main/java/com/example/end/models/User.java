@@ -1,14 +1,13 @@
 package com.example.end.models;
 
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -48,44 +47,43 @@ public class User {
     @Column(name = "description")
     private String description;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    @ToString.Exclude
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany
     @JoinTable(
             name = "user_categories",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    @JsonIgnore
-    @ToString.Exclude
-    private Set<Category> categories = new HashSet<>();
+    private Set<Category> categories;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany
     @JoinTable(
             name = "user_procedures",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "procedure_id")
     )
-    @JsonIgnore
+    private Set<Procedure> procedures;
+
     @ToString.Exclude
-    private Set<Procedure> procedures = new HashSet<>();
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Review> reviews = new ArrayList<>();
-//
-//
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Booking> bookings = new ArrayList<>();
-
-
-    @JsonBackReference
+    @EqualsAndHashCode.Exclude
     @OneToOne(mappedBy = "user")
     private Cart cart;
 

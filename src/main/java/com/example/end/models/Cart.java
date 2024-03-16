@@ -22,25 +22,27 @@ public class Cart {
     @Column(name = "id")
     private Long id;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany
     @JoinTable(
             name = "cart_procedure",
             joinColumns = @JoinColumn(name = "cart_id"),
             inverseJoinColumns = @JoinColumn(name = "procedure_id")
     )
-    @ToString.Exclude
     private List<Procedure> procedures;
-
 
     public Cart(User user) {
         this.user = user;
     }
 
-        @Override
+    @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
         if (o == null) return false;
@@ -55,7 +57,4 @@ public class Cart {
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
-
-
-
 }
