@@ -37,45 +37,44 @@ public class UserServiceImpl implements UserService {
     }
     @Transactional
     public User registerNewUser(UserDto userDto) {
-        User newUser = new User();
-        newUser.setUsername(userDto.getUsername());
-        newUser.setFirstName(userDto.getFirstName());
-        newUser.setLastName(userDto.getLastName());
-        newUser.setEmail(userDto.getEmail());
-        newUser.setHashPassword(passwordEncoder.encode(userDto.getPassword()));
+//        User newUser = new User();
+//        newUser.setFirstName(userDto.getFirstName());
+//        newUser.setLastName(userDto.getLastName());
+//        newUser.setEmail(userDto.getEmail());
+//        newUser.setHashPassword(passwordEncoder.encode(userDto.getPassword()));
+//
+//        // Проверяем выбранную роль
+//        String roleName = userDto.getRoleName();
+//        if (roleName != null && roleName.equals("MASTER")) {
+//            // Регистрируем мастера
+//            Role masterRole = roleRepository.findByName("MASTER");
+//            if (masterRole == null) {
+//                throw new RuntimeException("Master role not found!");
+//            }
+//            newUser.setRoles(Collections.singleton(masterRole));
+//            newUser.setActive(false); // Помечаем мастера как неактивного
+//
+//            // Отправляем уведомление администратору о новом мастере
+//            String adminEmail = "admin@example.com"; // Замените на реальный адрес администратора
+//            String subject = "Новый мастер ожидает подтверждения";
+//            String message = "Пользователь " + newUser.getLastName() + " ожидает подтверждения вашим администратором.";
+//            mailSender.sendEmail(adminEmail, subject, message);
+//        } else {
+//            // Регистрируем пользователя с ролью ROLE_USER
+//            Role userRole = roleRepository.findByName("CLIENT");
+//            if (userRole == null) {
+//                throw new RuntimeException("User role not found!");
+//            }
+//            newUser.setRoles(Collections.singleton(userRole));
+//            newUser.setActive(true); // Пользователь по умолчанию активен
+//
+//            // Отправляем письмо пользователю о подтверждении регистрации
+//            String subject = "Регистрация на сайте";
+//            String message = "Поздравляем с успешной регистрацией на нашем сайте!";
+//            mailSender.sendEmail(newUser.getEmail(), subject, message);
+//        }
 
-        // Проверяем выбранную роль
-        String roleName = userDto.getRoleName();
-        if (roleName != null && roleName.equals("MASTER")) {
-            // Регистрируем мастера
-            Role masterRole = roleRepository.findByName("MASTER");
-            if (masterRole == null) {
-                throw new RuntimeException("Master role not found!");
-            }
-            newUser.setRoles(Collections.singleton(masterRole));
-            newUser.setActive(false); // Помечаем мастера как неактивного
-
-            // Отправляем уведомление администратору о новом мастере
-            String adminEmail = "admin@example.com"; // Замените на реальный адрес администратора
-            String subject = "Новый мастер ожидает подтверждения";
-            String message = "Пользователь " + newUser.getLastName() + " ожидает подтверждения вашим администратором.";
-            mailSender.sendEmail(adminEmail, subject, message);
-        } else {
-            // Регистрируем пользователя с ролью ROLE_USER
-            Role userRole = roleRepository.findByName("CLIENT");
-            if (userRole == null) {
-                throw new RuntimeException("User role not found!");
-            }
-            newUser.setRoles(Collections.singleton(userRole));
-            newUser.setActive(true); // Пользователь по умолчанию активен
-
-            // Отправляем письмо пользователю о подтверждении регистрации
-            String subject = "Регистрация на сайте";
-            String message = "Поздравляем с успешной регистрацией на нашем сайте!";
-            mailSender.sendEmail(newUser.getEmail(), subject, message);
-        }
-
-        return userRepository.save(newUser);
+        return null;
     }
 
     // Метод для подтверждения нового мастера администратором

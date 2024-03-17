@@ -2,6 +2,7 @@ package com.example.end.service.interfaces;
 
 import com.example.end.dto.ReviewDto;
 import com.example.end.models.Review;
+import com.example.end.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,5 +18,7 @@ public interface ReviewService {
     Optional<Review> updateReview(Long id, ReviewDto reviewDto);
 
     boolean deleteReview(Long id);
-    // Методы для управления отзывами
+
+    List<ReviewDto> getReviewsForMaster(User master);
+
 }
