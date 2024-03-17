@@ -18,11 +18,6 @@ public class UserDto {
 
     private Long id;
 
-    private String roleName;
-
-    @NotBlank(message = "Name is required")
-    private String username;
-
     @NotBlank(message = "First name is required")
     private String firstName;
 
@@ -36,7 +31,7 @@ public class UserDto {
 
     @NotBlank(message = "Password is required")
     @Size(min = 6, message = "Password must be at least 6 characters")
-    private String password;
+    private String hashPassword;
 
 
 }
