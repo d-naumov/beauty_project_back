@@ -38,7 +38,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User registerNewUser(UserDto userDto) {
         User newUser = new User();
-        newUser.setUsername(userDto.getUsername());
         newUser.setFirstName(userDto.getFirstName());
         newUser.setLastName(userDto.getLastName());
         newUser.setEmail(userDto.getEmail());
