@@ -4,8 +4,8 @@ package com.example.end.controller;
 import com.example.end.dto.UserDto;
 import com.example.end.models.User;
 import com.example.end.service.interfaces.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+
+import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +14,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
+
 import java.util.Optional;
 
 //  контроллер с Swagger-аннотациями
 @RestController
 @RequestMapping("/api/users")
-@Api(tags = "Users", description = "Operations related to users")
+
 public class UserController {
 
     private final UserService userService;
@@ -33,12 +34,13 @@ public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("/id/{id}")
-    @ApiOperation(value = "Get user by ID", response = User.class)
+
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> userOptional = userService.findById(id);
         return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "registration", description = "blabla")
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto userDto,
                                                BindingResult bindingResult) {
@@ -63,7 +65,6 @@ public class UserController {
     }
 
     @GetMapping("/username/{username}")
-    @ApiOperation(value = "Get user by username", response = User.class)
     public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
         Optional<User> userOptional = userService.findByUsername(username);
         return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
