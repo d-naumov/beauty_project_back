@@ -1,9 +1,7 @@
 package com.example.end.service;
 
-import com.example.end.dto.BookingDto;
 import com.example.end.dto.ReviewDto;
 import com.example.end.mapping.ReviewMapper;
-import com.example.end.models.Booking;
 import com.example.end.models.Review;
 import com.example.end.models.User;
 import com.example.end.repository.ReviewRepository;
@@ -49,7 +47,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<ReviewDto> getReviewsForMaster(User master) {
-        List<Review> reviews = reviewRepository.findByMaster(master);
+        List<Review> reviews = reviewRepository.findByUser(master);
         return reviews.stream()
                 .map(reviewMapper::toDto)
                 .toList();

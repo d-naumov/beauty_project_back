@@ -4,7 +4,7 @@ import com.example.end.dto.UserDto;
 import com.example.end.mail.ProjectMailSender;
 import com.example.end.models.Category;
 import com.example.end.models.Procedure;
-import com.example.end.models.Role;
+
 import com.example.end.models.User;
 import com.example.end.repository.RoleRepository;
 import com.example.end.repository.UserRepository;
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void confirmMaster(String masterUsername) {
         // Помечаем пользователя с указанным именем как активного мастера
-        User masterUser = userRepository.findByUsername(masterUsername);
+        User masterUser = userRepository.findByFirstName(masterUsername);
         if (masterUser != null) {
             masterUser.setActive(true);
             userRepository.save(masterUser);
@@ -108,7 +108,6 @@ public class UserServiceImpl implements UserService {
 //    @Transactional
 //    public User registerNewUser(UserDto userDto) {
 //        User newUser = new User();
-//        newUser.setUsername(userDto.getUsername());
 //        newUser.setFirstName(userDto.getFirstName());
 //        newUser.setLastName(userDto.getLastName());
 //        newUser.setEmail(userDto.getEmail());

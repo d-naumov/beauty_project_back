@@ -1,13 +1,14 @@
 package com.example.end.mapping;
 
+import com.example.end.dto.RoleDto;
 import com.example.end.dto.UserDto;
+import com.example.end.models.Role;
 import com.example.end.models.User;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface UserMapper {
+public interface RoleMapper {
 
-    UserDto toDto(User user);
-
-    User toEntity(UserDto userDto);
+    RoleDto toDto(Role role);
+    Role toEntity(RoleDto roleDto);
 }
