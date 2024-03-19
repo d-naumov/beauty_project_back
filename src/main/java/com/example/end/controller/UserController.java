@@ -40,29 +40,29 @@ public class UserController {
         return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "registration", description = "blabla")
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto userDto,
-                                               BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body("Ошибка валидации");
-        }
-
-        try {
-            // Определяем роль пользователя
-            String role = userDto.getRoleName();
-            if (role == null || role.isEmpty()) {
-                userDto.setRoleName("CLIENT"); // Если роль не указана, считаем, что это пользователь
-            }
-
-            userService.registerNewUser(userDto);
-            return ResponseEntity.ok("Пользователь успешно зарегистрирован");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Ошибка регистрации пользователя");
-        }
-    }
+//    @Operation(summary = "registration", description = "blabla")
+//    @PostMapping("/register")
+//    public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto userDto,
+//                                               BindingResult bindingResult) {
+//        if (bindingResult.hasErrors()) {
+//            return ResponseEntity.badRequest().body("Ошибка валидации");
+//        }
+//
+//        try {
+//            // Определяем роль пользователя
+//            String role = userDto.getRoleName();
+//            if (role == null || role.isEmpty()) {
+//                userDto.setRoleName("CLIENT"); // Если роль не указана, считаем, что это пользователь
+//            }
+//
+//            userService.registerNewUser(userDto);
+//            return ResponseEntity.ok("Пользователь успешно зарегистрирован");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Ошибка регистрации пользователя");
+//        }
+//    }
 
     @GetMapping("/username/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username) {

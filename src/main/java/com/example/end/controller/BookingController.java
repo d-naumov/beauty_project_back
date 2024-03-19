@@ -4,6 +4,7 @@ import com.example.end.dto.BookingDto;
 import com.example.end.models.BookingStatus;
 import com.example.end.models.User;
 import com.example.end.service.interfaces.BookingService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ public class BookingController {
     }
 
     @PostMapping
+
     public ResponseEntity<BookingDto> createBooking(@RequestBody BookingDto bookingDto, @RequestParam Long userId, @RequestParam Long procedureId) {
         BookingDto newBooking = bookingService.createBooking(bookingDto, userId, procedureId);
         if (newBooking == null) {
@@ -33,6 +35,7 @@ public class BookingController {
     }
 
     @PutMapping("/{bookingId}")
+    @Operation(summary = "bookingId", description = "blabla")
     public ResponseEntity<Void> updateBookingStatus(@PathVariable Long bookingId, @RequestParam BookingStatus status) {
         bookingService.updateBookingStatus(bookingId, status);
         return ResponseEntity.ok().build();

@@ -30,8 +30,6 @@ public class BookingServiceImpl implements BookingService {
         this.bookingMapper = bookingMapper;
         this.procedureService = procedureService;
     }
-
-
     @Override
     public BookingDto createBooking(BookingDto bookingDto, Long userId, Long procedureId) {
         Optional<User> userOptional = userService.findById(userId);
@@ -40,17 +38,43 @@ public class BookingServiceImpl implements BookingService {
         if (userOptional.isPresent() && procedureOptional.isPresent()) {
             User user = userOptional.get();
             Procedure procedure = procedureOptional.get();
-            Booking booking = new Booking();
+
+            // Преобразование BookingDto в Booking с помощью маппера
+            Booking booking = bookingMapper.toEntity(bookingDto);
+
+            // Установка пользователя и процедуры для бронирования
             booking.setUser(user);
             booking.setProcedure(procedure);
-            booking.setDateTime(bookingDto.getDateTime());
-            booking.setStatus(BookingStatus.PENDING);
+
+            // Сохранение бронирования в базе данных
             booking = bookingRepository.save(booking);
+
+            // Преобразование сохраненного бронирования обратно в BookingDto
             return bookingMapper.toDto(booking);
         } else {
-            return null;
+            throw new RuntimeException("User or Procedure not found");
         }
     }
+
+//    @Override
+//    public BookingDto createBooking(BookingDto bookingDto, Long userId, Long procedureId) {
+//        Optional<User> userOptional = userService.findById(userId);
+//        Optional<Procedure> procedureOptional = Optional.ofNullable(procedureService.findById(procedureId));
+//
+//        if (userOptional.isPresent() && procedureOptional.isPresent()) {
+//            User user = userOptional.get();
+//            Procedure procedure = procedureOptional.get();
+//            Booking booking = new Booking();
+//            booking.setUser(user);
+//            booking.setProcedure(procedure);
+//            booking.setDateTime(bookingDto.getDateTime());
+//            booking.setStatus(BookingStatus.PENDING);
+//            booking = bookingRepository.save(booking);
+//            return bookingMapper.toDto(booking);
+//        } else {
+//            return null;
+//        }
+//    }
 
     @Override
     public void updateBookingStatus(Long bookingId, BookingStatus status) {
