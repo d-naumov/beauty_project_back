@@ -13,8 +13,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface BookingMapper {
 
-
-
     BookingDto toDto(Booking booking);
 
     Booking toEntity(BookingDto bookingDTO);

@@ -1,85 +1,88 @@
 package com.example.end.controller;
 
+
+import com.example.end.dto.ProcedureDto;
+import com.example.end.mapping.ProcedureMapper;
 import com.example.end.models.Procedure;
 import com.example.end.service.interfaces.ProcedureService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/procedures")
 public class ProcedureController {
 
   private final ProcedureService procedureService;
-
+  private final ProcedureMapper procedureMapper;
 
   @Autowired
-  public ProcedureController(ProcedureService procedureService) {
+  public ProcedureController(ProcedureService procedureService, ProcedureMapper procedureMapper) {
     this.procedureService = procedureService;
+    this.procedureMapper = procedureMapper;
   }
 
+  // Создание новой процедуры
   @PostMapping
-  public ResponseEntity<Procedure> createProcedure(@RequestParam String name, @RequestParam double price) {
-    // Создание новой процедуры
-    Procedure newProcedure = procedureService.createProcedure(name, price);
-
-    // Возвращение ответа с созданной процедурой
-    return ResponseEntity.ok(newProcedure);
+  public ResponseEntity<ProcedureDto> createProcedure(@RequestBody ProcedureDto procedureDto) {
+    ProcedureDto createdProcedureDto = procedureService.createProcedure(procedureDto);
+    return ResponseEntity.ok(createdProcedureDto);
   }
 
+  // Получение списка всех процедур
   @GetMapping
-  public ResponseEntity<List<Procedure>> getAllProcedures() {
-    // Логика для получения списка всех процедур
+  public ResponseEntity<List<ProcedureDto>> getAllProcedures() {
+    // Получение списка всех процедур из сервиса
     List<Procedure> procedures = procedureService.getAllProcedures();
-
-    // Возвращение ответа со списком процедур
-    return ResponseEntity.ok(procedures);
+    // Преобразование списка процедур в список DTO
+    List<ProcedureDto> procedureDtos = procedures.stream()
+            .map(procedureMapper::toDto) // Преобразование Procedure в ProcedureDto
+            .collect(Collectors.toList());
+    // Возвращение списка DTO процедур
+    return ResponseEntity.ok(procedureDtos);
   }
 
-@GetMapping("/{id}")
-public ResponseEntity<?> getProcedureById(@PathVariable Long id) {
-  // Логика для получения процедуры по идентификатору
-  Optional<Procedure> procedure = Optional.ofNullable(procedureService.getProcedureById(id));
 
-  // Проверка, была ли найдена процедура
-  if (procedure.isPresent()) {
-    // Возвращение ответа с найденной процедурой
-    return ResponseEntity.ok(procedure);
-  } else {
-    // Возвращение ответа с кодом 404 (Not Found) и пользовательским сообщением
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Процедура с id " + id + " не найдена");
-  }
-}
+  // Обновление процедуры по идентификатору
   @PutMapping("/{id}")
-  public ResponseEntity<Procedure> updateProcedure(@PathVariable Long id, @RequestBody Procedure updatedProcedure) {
-    // Логика для обновления процедуры по идентификатору
-    Procedure updated = procedureService.updateProcedure (id, updatedProcedure);
-
-    // Проверка, была ли найдена и обновлена процедура
-    if (updated != null) {
-      // Возвращение ответа с обновленной процедурой
-      return ResponseEntity.ok(updated);
+  public ResponseEntity<ProcedureDto> updateProcedure(@PathVariable Long id, @RequestBody ProcedureDto updatedProcedureDto) {
+    // Преобразование DTO в сущность Procedure
+    Procedure updatedProcedureEntity = procedureMapper.toEntity(updatedProcedureDto);
+    // Вызов метода updateProcedure вашего сервиса с сущностью Procedure
+    ProcedureDto updatedProcedure = procedureService.updateProcedure(id, updatedProcedureEntity);
+    if (updatedProcedure != null) {
+      return ResponseEntity.ok(updatedProcedure);
     } else {
-      // Возвращение ответа с кодом 404 (Not Found), если процедура не найдена
       return ResponseEntity.notFound().build();
     }
   }
 
+  // Обновление процедуры по идентификатору
+  @PutMapping("/update/{id}")
+  public ResponseEntity<ProcedureDto> updateProcedureById(@PathVariable Long id, @RequestBody ProcedureDto updatedProcedureDto) {
+    // Преобразование DTO в сущность Procedure
+    Procedure updatedProcedureEntity = procedureMapper.toEntity(updatedProcedureDto);
+    // Вызов метода updateProcedure вашего сервиса с сущностью Procedure
+    ProcedureDto updatedProcedureDtoResult = procedureService.updateProcedure(id, updatedProcedureEntity);
+    if (updatedProcedureDtoResult != null) {
+      return ResponseEntity.ok(updatedProcedureDtoResult);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
+  // Удаление процедуры по идентификатору
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteProcedure(@PathVariable Long id) {
-    // Логика для удаления процедуры по идентификатору
     boolean deleted = procedureService.deleteProcedure(id);
-
-    // Проверка, была ли найдена и удалена процедура
     if (deleted) {
-      // Возвращение ответа с кодом 204 (No Content) в случае успешного удаления
       return ResponseEntity.noContent().build();
     } else {
-      // Возвращение ответа с кодом 404 (Not Found), если процедура не найдена
       return ResponseEntity.notFound().build();
     }
   }

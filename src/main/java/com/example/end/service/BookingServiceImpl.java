@@ -1,7 +1,10 @@
 package com.example.end.service;
 
+
 import com.example.end.dto.BookingDto;
+import com.example.end.dto.UserDto;
 import com.example.end.mapping.BookingMapper;
+import com.example.end.mapping.UserMapper;
 import com.example.end.models.Booking;
 import com.example.end.models.BookingStatus;
 import com.example.end.models.Procedure;
@@ -9,27 +12,33 @@ import com.example.end.models.User;
 import com.example.end.repository.BookingRepository;
 import com.example.end.service.interfaces.BookingService;
 import com.example.end.service.interfaces.ProcedureService;
+
 import org.springframework.stereotype.Service;
 
-
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingServiceImpl implements BookingService {
 
-    private  BookingRepository bookingRepository;
-    private  UserServiceImpl userService;
-    private  BookingMapper bookingMapper;
-    private  ProcedureService procedureService;
+    private final BookingRepository bookingRepository;
+    private final UserServiceImpl userService;
+    private final ProcedureService procedureService;
+    private final BookingMapper bookingMapper;
+    private final UserMapper userMapper;
 
-    public BookingServiceImpl(BookingRepository bookingRepository, UserServiceImpl userService, BookingMapper bookingMapper,
-                              ProcedureService procedureService) {
+
+    public BookingServiceImpl(BookingRepository bookingRepository, UserServiceImpl userService,
+                              ProcedureService procedureService, BookingMapper bookingMapper, UserMapper userMapper) {
         this.bookingRepository = bookingRepository;
         this.userService = userService;
-        this.bookingMapper = bookingMapper;
         this.procedureService = procedureService;
+        this.bookingMapper = bookingMapper;
+        this.userMapper = userMapper;
     }
+
     @Override
     public BookingDto createBooking(BookingDto bookingDto, Long userId, Long procedureId) {
         Optional<User> userOptional = userService.findById(userId);
@@ -56,60 +65,79 @@ public class BookingServiceImpl implements BookingService {
         }
     }
 
-//    @Override
-//    public BookingDto createBooking(BookingDto bookingDto, Long userId, Long procedureId) {
-//        Optional<User> userOptional = userService.findById(userId);
-//        Optional<Procedure> procedureOptional = Optional.ofNullable(procedureService.findById(procedureId));
-//
-//        if (userOptional.isPresent() && procedureOptional.isPresent()) {
-//            User user = userOptional.get();
-//            Procedure procedure = procedureOptional.get();
-//            Booking booking = new Booking();
-//            booking.setUser(user);
-//            booking.setProcedure(procedure);
-//            booking.setDateTime(bookingDto.getDateTime());
-//            booking.setStatus(BookingStatus.PENDING);
-//            booking = bookingRepository.save(booking);
-//            return bookingMapper.toDto(booking);
-//        } else {
-//            return null;
-//        }
-//    }
 
     @Override
-    public void updateBookingStatus(Long bookingId, BookingStatus status) {
-        Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new RuntimeException("Booking with id " + bookingId + " not found"));
-        if (status != null) {
-            booking.setStatus(status);
+    public void updateBookingStatus(BookingDto bookingDto) {
+        // Преобразуйте BookingDto в объект Booking
+        Booking booking = bookingMapper.toEntity(bookingDto);
+
+        // Проверьте существование бронирования по его идентификатору
+        Optional<Booking> existingBookingOptional = bookingRepository.findById(booking.getId());
+        if (existingBookingOptional.isPresent()) {
+            // Обновите статус бронирования
+            Booking existingBooking = existingBookingOptional.get();
+            existingBooking.setStatus(booking.getStatus());
+            bookingRepository.save(existingBooking);
+        } else {
+            throw new IllegalArgumentException("Booking with ID " + booking.getId() + " not found");
         }
-
-        bookingRepository.save(booking);
     }
+    @Override
+    public void cancelBooking(Long bookingId) {
+        // Создаем объект BookingDto для передачи идентификатора бронирования и статуса
+        BookingDto bookingDto = new BookingDto();
+        bookingDto.setId(bookingId); // Устанавливаем идентификатор бронирования
+        bookingDto.setStatus(BookingStatus.CANCELED); // Устанавливаем статус "CANCELED"
+
+        // Вызываем метод updateBookingStatus с объектом BookingDto
+        updateBookingStatus(bookingDto);
+    }
+
 
     @Override
-    public List<BookingDto> getUserBooking(User user) {
-        List<Booking> bookings = bookingRepository.findByUser(user);
-        return bookings.stream()
-                .map(bookingMapper::toDto)
-                .toList();
+    public List<BookingDto> getUserBookings(Long userId) {
+        Optional<User> userOptional = userService.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            UserDto userDto = userMapper.toDto(user);
+            List<Booking> bookings = bookingRepository.findByUser(userDto);
+            return bookings.stream()
+                    .map(bookingMapper::toDto)
+                    .collect(Collectors.toList());
+        } else {
+            return Collections.emptyList();
+        }
+    }
+    @Override
+    public List<BookingDto> getMasterBookings(UserDto masterDto) {
+        // Проверяем, является ли переданный пользователь мастером
+        if (isMaster(masterDto)) {
+            // Получаем список бронирований для данного мастера
+            List<Booking> bookings = bookingRepository.findByUser(masterDto);
+
+            // Преобразуем список бронирований в список BookingDto
+            return bookings.stream()
+                    .map(booking -> new BookingDto(
+                            booking.getId(),
+                            booking.getUser().getId(), // ID пользователя
+                            booking.getProcedure().getId(), // ID процедуры
+                            booking.getDateTime(), // Дата и время бронирования
+                            booking.getStatus())) // Статус бронирования
+                    .collect(Collectors.toList());
+        } else {
+            throw new IllegalArgumentException("User is not a master");
+        }
     }
 
 
 
-//    @Override
-//    public BookingDto createBooking(User user, Procedure procedure) {
-//        //  создания нового бронирования для пользователя и процедуры
-//        // Например, создайте новый объект Booking, установите необходимые значения и сохраните его
-//        BookingDto booking = new BookingDto();
-//        booking.setUser(user);
-//        booking.setProcedure(procedure);
-//        // Установите другие свойства бронирования, такие как дата и статус
-//        booking.setDateTime(LocalDateTime.now());
-//        booking.setStatus(BookingStatus.PENDING);
-//
-//        // Сохраните новое бронирование
-//        return bookingRepository.save(booking);
-//    }
+    // Метод для проверки, является ли пользователь мастером
+    private boolean isMaster(UserDto userDto) {
+        // Преобразуем объект UserDto в объект User
+        User user = userMapper.toEntity(userDto);
 
+        // Проверяем роль пользователя
+        return user.getRoles().stream()
+                .anyMatch(role -> role.getName().equals("MASTER"));
+    }
 }
