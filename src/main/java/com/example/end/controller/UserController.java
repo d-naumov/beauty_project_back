@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -28,10 +29,20 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto>register(@RequestBody NewUserDto newUserDto) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(userService.register(newUserDto));
+    public ResponseEntity<UserDto> registerUser(@RequestBody NewUserDto newUserDto) {
+        UserDto userDto = userService.register(newUserDto);
+        return ResponseEntity.ok(userDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<UserDto> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        userService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

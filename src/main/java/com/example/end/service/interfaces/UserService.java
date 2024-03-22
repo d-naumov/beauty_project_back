@@ -18,13 +18,15 @@ public interface UserService  {
       @Transactional
       UserDto register(NewUserDto newUserDto);
 
-
     UserDto getById(Long id);
 
-
-
-    @Transactional
     void confirmMaster(String masterUsername);
+
+    List<UserDto> getAllUsers();
+
+    void deleteById(Long id);
+
+
 }
 
 

@@ -13,7 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -40,36 +42,30 @@ public class UserServiceImpl implements UserService {
                 .firstName(newUserDto.getFirstName())
                 .lastName(newUserDto.getLastName())
                 .email(newUserDto.getEmail())
-                .role(User.Role.CLIENT)
+                .role(newUserDto.getRole() != null ? newUserDto.getRole() : User.Role.CLIENT)
                 .hashPassword(passwordEncoder.encode(newUserDto.getHashPassword()))
-                .isActive(true)
+                .isActive(newUserDto.getRole() != User.Role.MASTER)
                 .build();
 
         userRepository.save(user);
 
-
+        if (newUserDto.getRole() != null && newUserDto.getRole().equals(User.Role.MASTER)) {
+            String adminEmail = "admin@example.com";
+            String subject = "Новый мастер ожидает подтверждения";
+            String message = "Пользователь " + user.getLastName() + " ожидает подтверждения вашим администратором.";
+            mailSender.sendEmail(adminEmail, subject, message);
+        } else {
+            String subject = "Регистрация на сайте";
+            String message = "Поздравляем с успешной регистрацией на нашем сайте!";
+            mailSender.sendEmail(user.getEmail(), subject, message);
+        }
         return UserDto.from(user);
     }
 
-
-//    if (newUserDto.getRole() != null) {
-//        if (newUserDto.getRole().equals(User.Role.MASTER)) {
-//            String adminEmail = "admin@example.com";
-//            String subject = "Новый мастер ожидает подтверждения";
-//            String message = "Пользователь " + user.getLastName() + " ожидает подтверждения вашим администратором.";
-//            mailSender.sendEmail(adminEmail, subject, message);
-//        } else {
-//            String subject = "Регистрация на сайте";
-//            String message = "Поздравляем с успешной регистрацией на нашем сайте!";
-//            mailSender.sendEmail(user.getEmail(), subject, message);
-//        }
-//    }
-
-
     @Override
     public UserDto getById(Long id) {
-       return UserDto.from(userRepository.findById(id)
-               .orElseThrow(() -> new NoSuchElementException("User not found for id: " + id)));
+        return UserDto.from(userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User not found for id: " + id)));
     }
 
 
@@ -95,7 +91,20 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public List<UserDto> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(UserDto::from)
+                .collect(Collectors.toList());
+    }
 
+    @Override
+    public void deleteById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User not found for id: " + id));
+
+        userRepository.delete(user);
+    }
 }
 
 //    @Override
