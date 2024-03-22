@@ -1,5 +1,6 @@
 package com.example.end.service.interfaces;
 
+import com.example.end.dto.ProcedureDto;
 import com.example.end.models.Procedure;
 import org.springframework.stereotype.Service;
 
@@ -8,23 +9,16 @@ import java.util.Set;
 
 @Service
 public interface ProcedureService {
-  Procedure createProcedure(String name, double price);
-
-  List<Procedure> getAllProcedures();
-
+  ProcedureDto createProcedure(ProcedureDto procedureDto);
   boolean deleteProcedure(Long id);
+  List<Procedure> getAllProcedures();
+  ProcedureDto updateProcedure(Long id, Procedure updatedProcedure);
 
+  ProcedureDto getProcedureById(Long id);
 
-  Procedure updateProcedure(Long id, Procedure updatedProcedure);
+  Set<ProcedureDto> getProceduresById(Set<Long> procedureIds);
 
   Procedure findById(Long procedureId);
-
-
-  Procedure getProcedureById(Long id);
-
-  Procedure createProcedure(Procedure procedure);
-
-  Set<Procedure> getAllProceduresById(Set<Long> procedureIds);
 
 }
 
