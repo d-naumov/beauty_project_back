@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+
+import java.util.NoSuchElementException;
 
 
 @Service
@@ -29,7 +31,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public UserDto register(NewUserDto newUserDto) {
         if (userRepository.existsByEmail(newUserDto.getEmail())) {
             throw new RestException(HttpStatus.CONFLICT,
@@ -67,12 +68,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getById(Long id) {
-       return UserDto.from(userRepository.findById(id).orElseThrow());
+       return UserDto.from(userRepository.findById(id)
+               .orElseThrow(() -> new NoSuchElementException("User not found for id: " + id)));
     }
 
 
     @Override
-    @Transactional
     public void confirmMaster(String masterUsername) {
         User masterUser = userRepository.findByFirstName(masterUsername);
         if (masterUser != null && masterUser.getRole() == User.Role.MASTER && !masterUser.isActive()) {
