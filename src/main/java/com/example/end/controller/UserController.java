@@ -1,24 +1,19 @@
 package com.example.end.controller;
 
-
+import com.example.end.dto.NewUserDto;
 import com.example.end.dto.UserDto;
-import com.example.end.models.User;
 import com.example.end.service.interfaces.UserService;
-
-import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
-
+import java.util.List;
 import java.util.Optional;
 
-//  контроллер с Swagger-аннотациями
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/users")
 
@@ -26,19 +21,30 @@ public class UserController {
 
     private final UserService userService;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    @GetMapping("/id/{id}")
-
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> userOptional = userService.findById(id);
-        return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("/{id}")
+    public UserDto getById(@PathVariable Long id) {
+        return userService.getById(id);
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<UserDto> registerUser(@RequestBody NewUserDto newUserDto) {
+        UserDto userDto = userService.register(newUserDto);
+        return ResponseEntity.ok(userDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<UserDto> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        userService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 
 //    @Operation(summary = "registration", description = "blabla")
 //    @PostMapping("/register")
@@ -64,10 +70,10 @@ public class UserController {
 //        }
 //    }
 
-    @GetMapping("/username/{username}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
-        Optional<User> userOptional = userService.findByUsername(username);
-        return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
+//    @GetMapping("/username/{username}")
+//    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+//        Optional<User> userOptional = userService.findByUsername(username);
+//        return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+//    }
 }
 

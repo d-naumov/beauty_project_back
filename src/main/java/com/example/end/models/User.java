@@ -1,10 +1,11 @@
 package com.example.end.models;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -12,48 +13,54 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
 
+
+
+    public enum Role {
+        ADMIN, CLIENT, MASTER
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-
-    @Column(name = "firstname")
     @Pattern(regexp = "[A-Z][a-z]{3,}")
     private String firstName;
 
-    @Column(name = "lastname")
     @Pattern(regexp = "[A-Z][a-z]{3,}")
     private String lastName;
 
-    @Column(name = "email")
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
+    @Column(unique = true)
     private String email;
 
-    @Column(name = "is_active")
-    private boolean isActive;
+    private boolean isActive = true;
 
-    @Column(name = "hash_password")
+    @Column(nullable = false)
     private String hashPassword;
 
-    @Column(name = "description")
+    @Size(max = 500)
     private String description;
+//
+//    @ToString.Exclude
+//    @EqualsAndHashCode.Exclude
+//    @ManyToMany
+//    @JoinTable(
+//            name = "user_roles",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id")
+//    )
+//    private Set<Role> roles;
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @ManyToMany
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles;
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
