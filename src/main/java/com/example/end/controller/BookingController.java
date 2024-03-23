@@ -32,10 +32,10 @@ public class BookingController {
     }
 
 
-    @PostMapping("/create-booking")
+    @PostMapping("/create_booking")
     public ResponseEntity<BookingDto> createBooking(@RequestBody UserDto userDto, @RequestParam Long procedureId) {
         // Получение объекта Optional<User> по его идентификатору
-        Optional<User> userOptional = userService.findById(userDto.getId());
+        UserDto userOptional = userService.getById(userDto.getId());
 
         // Проверка, найден ли пользователь
         if (userOptional.isPresent()) {
@@ -65,7 +65,7 @@ public class BookingController {
     @GetMapping("/master/{masterId}")
     public ResponseEntity<List<BookingDto>> getMasterBookings(@PathVariable Long masterId) {
         // Преобразуем идентификатор мастера в объект User
-        User master = userService.findById(masterId)
+        User master = userService.getById(masterId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         // Преобразуем объект User в объект UserDto
