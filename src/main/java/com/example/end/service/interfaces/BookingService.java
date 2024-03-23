@@ -1,16 +1,12 @@
 package com.example.end.service.interfaces;
 
 import com.example.end.dto.BookingDto;
-import com.example.end.dto.UserDto;
-import com.example.end.models.BookingStatus;
-import com.example.end.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public interface BookingService {
-
 
     BookingDto createBooking(Long userId, Long procedureId);
 
@@ -20,8 +16,6 @@ public interface BookingService {
 
     List<BookingDto> getUserBookings(Long userId);
 
-
-    List<BookingDto> getMasterBookings(Long masterId);
-}
+    List<BookingDto> getMasterBookings(Long masterDto);
 
 
