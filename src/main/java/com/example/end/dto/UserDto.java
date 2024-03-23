@@ -51,20 +51,6 @@ public class UserDto {
 //
 //    @Schema(description = "Cart associated with the user")
 //    private CartDto cart;
-public static UserDto from(User user) {
-    return UserDto.builder()
-            .id(user.getId())
-            .firstName(user.getFirstName())
-            .lastName(user.getLastName())
-            .email(user.getEmail())
-            .role(User.Role.valueOf(user.getRole().toString()))
-            .build();
-}
 
-    public static List<UserDto> from(Collection<User> users) {
-        return users.stream()
-                .map(UserDto::from)
-                .collect(Collectors.toList());
-    }
 }
 

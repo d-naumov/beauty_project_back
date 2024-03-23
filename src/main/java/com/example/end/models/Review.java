@@ -1,14 +1,15 @@
 package com.example.end.models;
 
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
-import jakarta.persistence.*;
 import java.util.Objects;
 
 @Setter
 @Getter
 @ToString
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
