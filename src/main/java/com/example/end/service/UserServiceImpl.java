@@ -4,6 +4,7 @@ import com.example.end.dto.NewUserDto;
 import com.example.end.dto.UserDto;
 import com.example.end.exceptions.RestException;
 import com.example.end.mail.ProjectMailSender;
+import com.example.end.mapping.UserMapper;
 import com.example.end.models.User;
 import com.example.end.repository.UserRepository;
 import com.example.end.service.interfaces.UserService;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private UserMapper userMapper;
     private PasswordEncoder passwordEncoder;
     private final ProjectMailSender mailSender;
 
@@ -59,12 +61,12 @@ public class UserServiceImpl implements UserService {
             String message = "Поздравляем с успешной регистрацией на нашем сайте!";
             mailSender.sendEmail(user.getEmail(), subject, message);
         }
-        return UserDto.from(user);
+        return userMapper.toDto(user);
     }
 
     @Override
     public UserDto getById(Long id) {
-        return UserDto.from(userRepository.findById(id)
+        return UserMapper.toDto(userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found for id: " + id)));
     }
 
@@ -94,7 +96,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(UserDto::from)
+                .map(UserMapper::toDto)
                 .collect(Collectors.toList());
     }
 
