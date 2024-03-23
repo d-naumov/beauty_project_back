@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -19,8 +20,6 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User {
-
-
 
     public enum Role {
         ADMIN, CLIENT, MASTER
@@ -91,6 +90,7 @@ public class User {
     @EqualsAndHashCode.Exclude
     @OneToOne(mappedBy = "user")
     private Cart cart;
+
 
 
     @Override

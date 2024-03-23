@@ -18,18 +18,19 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-
+//change
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
     private PasswordEncoder passwordEncoder;
     private final ProjectMailSender mailSender;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, ProjectMailSender mailSender) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, ProjectMailSender mailSender) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
         this.mailSender = mailSender;
     }
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getById(Long id) {
-        return UserMapper.toDto(userRepository.findById(id)
+        return userMapper.toDto(userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found for id: " + id)));
     }
 
@@ -92,11 +93,11 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Master user not found or already confirmed: " + masterUsername);
         }
     }
-
     @Override
     public List<UserDto> getAllUsers() {
-        return userRepository.findAll().stream()
-                .map(UserMapper::toDto)
+        return userRepository.findAll()
+                .stream()
+                .map(x -> userMapper.toDto(x))
                 .collect(Collectors.toList());
     }
 

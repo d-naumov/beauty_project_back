@@ -12,10 +12,12 @@ import com.example.end.repository.BookingRepository;
 import com.example.end.service.interfaces.BookingService;
 import com.example.end.service.interfaces.ProcedureService;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
+//change
 @Service
 public class BookingServiceImpl implements BookingService {
 
@@ -36,13 +38,14 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingDto createBooking(BookingDto bookingDto, Long userId, Long procedureId) {
+    public BookingDto createBooking(Long userId, Long procedureId) {
         UserDto userDto = userService.getById(userId);
         Procedure procedure = procedureService.findById(procedureId);
 
         if (userDto != null && procedure != null) {
             User entity = userMapper.toEntity(userDto);
-            Booking booking = bookingMapper.toEntity(bookingDto);
+            Booking booking = new Booking();
+            booking.setDateTime(LocalDateTime.now());
             booking.setUser(entity);
             booking.setProcedure(procedure);
             booking = bookingRepository.save(booking);
@@ -51,6 +54,7 @@ public class BookingServiceImpl implements BookingService {
             throw new RuntimeException("User or Procedure not found");
         }
     }
+
 
 
 
@@ -86,8 +90,9 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getMasterBookings(UserDto masterDto) {
-        if (isMaster(masterDto)) {
+    public List<BookingDto> getMasterBookings(Long masterId) {
+        UserDto masterDto = userService.getById(masterId);
+        if (masterDto != null && isMaster(masterDto)) {
             User entity = userMapper.toEntity(masterDto);
             List<Booking> bookings = bookingRepository.findByUser(entity);
             return bookings.stream()
