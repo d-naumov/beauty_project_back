@@ -57,6 +57,7 @@ public class BookingServiceImpl implements BookingService {
 
 
 
+
     @Override
     public void updateBookingStatus(BookingDto bookingDto) {
         Booking booking = bookingMapper.toEntity(bookingDto);

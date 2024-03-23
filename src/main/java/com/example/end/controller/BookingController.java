@@ -3,19 +3,19 @@ package com.example.end.controller;
 
 import com.example.end.dto.BookingDto;
 import com.example.end.dto.UserDto;
-import com.example.end.mapping.UserMapper;
-import com.example.end.models.User;
+
 import com.example.end.service.interfaces.BookingService;
-import com.example.end.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
 
 //change
 @RestController
@@ -23,18 +23,13 @@ import java.util.Optional;
 public class BookingController {
 
     private final BookingService bookingService;
-    private final UserServiceImpl userService;
-    private final UserMapper userMapper;
 
     @Autowired
-    public BookingController(BookingService bookingService, UserServiceImpl userService, UserMapper userMapper) {
+    public BookingController(BookingService bookingService) {
         this.bookingService = bookingService;
-        this.userService = userService;
-        this.userMapper = userMapper;
     }
 
-
-
+  
     @PostMapping("/create_booking")
     public ResponseEntity<BookingDto> createBooking(@RequestBody UserDto userDto, @RequestParam Long procedureId) {
         try {
