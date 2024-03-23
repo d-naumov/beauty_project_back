@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getById(Long id) {
-        return UserMapper.toDto(userRepository.findById(id)
+        return userMapper.toDto(userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found for id: " + id)));
     }
 
@@ -95,8 +95,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAllUsers() {
-        return userRepository.findAll().stream()
-                .map(UserMapper::toDto)
+        return userRepository.findAll()
+                .stream()
+                .map(x -> userMapper.toDto(x))
                 .collect(Collectors.toList());
     }
 
