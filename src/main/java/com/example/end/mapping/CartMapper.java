@@ -9,6 +9,6 @@ import org.mapstruct.Mapper;
 public interface CartMapper {
 
     CartDto toDto(Cart cart);
-    Cart toEntity(CartDto bookingDTO);
+    Cart toEntity(CartDto cartDto);
 }
 

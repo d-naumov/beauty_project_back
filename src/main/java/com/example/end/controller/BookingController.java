@@ -65,5 +65,16 @@ public class BookingController {
         bookingService.cancelBooking(bookingId);
         return ResponseEntity.ok("Booking canceled successfully");
     }
+    @GetMapping("/active/{userId}")
+    public ResponseEntity<List<BookingDto>> getActiveBookingsByUserId(@PathVariable Long userId) {
+        List<BookingDto> activeBookings = bookingService.findActiveBookingsByUserId(userId);
+        return ResponseEntity.ok(activeBookings);
+    }
+
+    @GetMapping("/completed/{userId}")
+    public ResponseEntity<List<BookingDto>> getCompletedBookingsByUserId(@PathVariable Long userId) {
+        List<BookingDto> completedBookings = bookingService.findCompletedBookingsByUserId(userId);
+        return ResponseEntity.ok(completedBookings);
+    }
 
 }

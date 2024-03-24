@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final ProjectMailSender mailSender;
 
     @Autowired
@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getAllUsers() {
         return userRepository.findAll()
                 .stream()
-                .map(x -> userMapper.toDto(x))
+                .map(userMapper::toDto)
                 .collect(Collectors.toList());
     }
 
