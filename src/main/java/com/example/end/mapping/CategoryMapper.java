@@ -2,14 +2,24 @@ package com.example.end.mapping;
 
 import com.example.end.dto.CategoryDto;
 import com.example.end.models.Category;
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
+import org.springframework.stereotype.Service;
 
-@Mapper(componentModel = "spring")
-public interface CategoryMapper {
+@Service
+public class CategoryMapper {
 
-    CategoryDto toDto(Category category);
+    public CategoryDto toDto(Category category) {
+        return CategoryDto.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .build();
+    }
 
-    @InheritInverseConfiguration
-    Category toEntity(CategoryDto categoryDto);
+    public Category toEntity(CategoryDto categoryDto){
+        return Category.builder()
+                .id(categoryDto.getId())
+                .name(categoryDto.getName())
+                .build();
+    }
 }
+
+

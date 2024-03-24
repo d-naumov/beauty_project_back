@@ -17,6 +17,7 @@ public interface BookingService {
     List<BookingDto> getUserBookings(Long userId);
 
     List<BookingDto> getMasterBookings(Long masterDto);
+}
 
     List<BookingDto> findActiveBookingsByUserId(Long userId);
 

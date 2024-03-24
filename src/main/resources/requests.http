@@ -13,4 +13,4 @@ Content-Type: application/json
 
 ### Получение пользователя по ID
 
-GET localhost:8080/api/users/2
+GET localhost:8080/categories

@@ -6,6 +6,7 @@ import com.example.end.mapping.ProcedureMapper;
 import com.example.end.models.Procedure;
 import com.example.end.repository.ProcedureRepository;
 import com.example.end.service.interfaces.ProcedureService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,18 +14,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+@RequiredArgsConstructor
 @Service
 public class ProcedureServiceImpl implements ProcedureService {
 
     private final ProcedureRepository procedureRepository;
     private final ProcedureMapper procedureMapper;
 
-    @Autowired
-    public ProcedureServiceImpl(ProcedureRepository procedureRepository, ProcedureMapper procedureMapper) {
-        this.procedureRepository = procedureRepository;
-        this.procedureMapper = procedureMapper;
-    }
 
     // Метод для создания новой процедуры на основе DTO
     @Override

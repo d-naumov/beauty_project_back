@@ -13,6 +13,7 @@ import com.example.end.models.User;
 import com.example.end.models.BookingStatus;
 import com.example.end.repository.*;
 import com.example.end.service.interfaces.CartService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class CartServiceImpl implements CartService {
 
@@ -32,6 +34,10 @@ public class CartServiceImpl implements CartService {
     private final ProcedureRepository procedureRepository;
     private final CartMapper cartMapper;
     private final BookingRepository bookingRepository;
+
+
+    public Optional<Cart> findByUserId(Long userId) {
+        return cartRepository.findByUserId(userId);
 
     @Autowired
     public CartServiceImpl(CartRepository cartRepository, UserRepository userRepository,
@@ -46,6 +52,7 @@ public class CartServiceImpl implements CartService {
     public Optional<CartDto> findCartDtoByUserId(Long userId) {
         Optional<Cart> cartOptional = cartRepository.findByUserId(userId);
         return cartOptional.map(cartMapper::toDto);
+
     }
 
     public CartDto addProcedureToCart(Long userId, Long procedureId) throws ProcedureNotFoundException {
