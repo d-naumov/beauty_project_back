@@ -11,13 +11,14 @@ import com.example.end.models.User;
 import com.example.end.repository.BookingRepository;
 import com.example.end.service.interfaces.BookingService;
 import com.example.end.service.interfaces.ProcedureService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-//change
+@RequiredArgsConstructor
 @Service
 public class BookingServiceImpl implements BookingService {
 
@@ -26,16 +27,6 @@ public class BookingServiceImpl implements BookingService {
     private final ProcedureService procedureService;
     private final BookingMapper bookingMapper;
     private final UserMapper userMapper;
-
-
-    public BookingServiceImpl(BookingRepository bookingRepository, UserServiceImpl userService,
-                              ProcedureService procedureService, BookingMapper bookingMapper, UserMapper userMapper) {
-        this.bookingRepository = bookingRepository;
-        this.userService = userService;
-        this.procedureService = procedureService;
-        this.bookingMapper = bookingMapper;
-        this.userMapper = userMapper;
-    }
 
     @Override
     public BookingDto createBooking(Long userId, Long procedureId) {
@@ -54,9 +45,6 @@ public class BookingServiceImpl implements BookingService {
             throw new RuntimeException("User or Procedure not found");
         }
     }
-
-
-
 
     @Override
     public void updateBookingStatus(BookingDto bookingDto) {
@@ -98,8 +86,8 @@ public class BookingServiceImpl implements BookingService {
             return bookings.stream()
                     .map(booking -> new BookingDto(
                             booking.getId(),
-                            booking.getUser().getId(),
-                            booking.getProcedure().getId(),
+                            booking.getUser(),
+                            booking.getProcedure(),
                             booking.getDateTime(),
                             booking.getStatus()))
                     .collect(Collectors.toList());

@@ -12,11 +12,13 @@ import com.example.end.repository.CategoryRepository;
 import com.example.end.repository.ProcedureRepository;
 import com.example.end.repository.UserRepository;
 import com.example.end.service.interfaces.CartService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
@@ -24,14 +26,6 @@ public class CartServiceImpl implements CartService {
    private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
 
-    @Autowired
-    public CartServiceImpl(CartRepository cartRepository, ProcedureRepository procedureRepository,
-                           CategoryRepository categoryRepository, UserRepository userRepository) {
-        this.cartRepository = cartRepository;
-        this.procedureRepository = procedureRepository;
-        this.categoryRepository = categoryRepository;
-        this.userRepository = userRepository;
-    }
     public Optional<Cart> findByUserId(Long userId) {
         return cartRepository.findByUserId(userId);
     }

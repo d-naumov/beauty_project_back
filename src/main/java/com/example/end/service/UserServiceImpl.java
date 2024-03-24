@@ -8,6 +8,7 @@ import com.example.end.mapping.UserMapper;
 import com.example.end.models.User;
 import com.example.end.repository.UserRepository;
 import com.example.end.service.interfaces.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-//change
+@RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -27,13 +28,6 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     private final ProjectMailSender mailSender;
 
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, ProjectMailSender mailSender) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-        this.passwordEncoder = passwordEncoder;
-        this.mailSender = mailSender;
-    }
 
     @Override
     public UserDto register(NewUserDto newUserDto) {
