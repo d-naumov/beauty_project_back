@@ -6,14 +6,10 @@ import com.example.end.mapping.CategoryMapper;
 import com.example.end.models.Category;
 import com.example.end.repository.CategoryRepository;
 import com.example.end.service.interfaces.CategoryService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
