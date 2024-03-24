@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -98,5 +99,17 @@ public class BookingServiceImpl implements BookingService {
     private boolean isMaster(UserDto userDto) {
         User entity = userMapper.toEntity(userDto);
         return entity.getRole() == User.Role.MASTER;
+    }
+
+@Override
+    public List<BookingDto> findActiveBookingsByUserId(Long userId) {
+    List<Booking> activeBookings = bookingRepository.findActiveBookingsByUserId(userId);
+        return activeBookings.stream().map(bookingMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BookingDto> findCompletedBookingsByUserId(Long userId) {
+        List<Booking> completedBookings = bookingRepository.findCompletedBookingsByUserId(userId);
+        return completedBookings.stream().map(bookingMapper::toDto).collect(Collectors.toList());
     }
 }

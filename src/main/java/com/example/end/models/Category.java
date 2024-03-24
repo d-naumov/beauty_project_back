@@ -1,6 +1,7 @@
 package com.example.end.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
@@ -29,11 +30,13 @@ public class Category {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "categories" ,cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Procedure> procedures ;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "categories")
+    @JsonIgnore
     private Set<User> userMaster ;
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.end.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
@@ -27,6 +28,7 @@ public class Cart {
     @EqualsAndHashCode.Exclude
     @OneToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @ToString.Exclude
@@ -37,6 +39,7 @@ public class Cart {
             joinColumns = @JoinColumn(name = "cart_id"),
             inverseJoinColumns = @JoinColumn(name = "procedure_id")
     )
+    @JsonIgnore
     private List<Procedure> procedures;
 
     public Cart(User user) {
