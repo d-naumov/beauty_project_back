@@ -14,16 +14,9 @@ import com.example.end.models.BookingStatus;
 import com.example.end.repository.*;
 import com.example.end.service.interfaces.CartService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -35,55 +28,46 @@ public class CartServiceImpl implements CartService {
     private final CartMapper cartMapper;
     private final BookingRepository bookingRepository;
 
-
-    public Optional<Cart> findByUserId(Long userId) {
-        return cartRepository.findByUserId(userId);
-
-    @Autowired
-    public CartServiceImpl(CartRepository cartRepository, UserRepository userRepository,
-                           ProcedureRepository procedureRepository, CartMapper cartMapper, BookingRepository bookingRepository) {
-        this.cartRepository = cartRepository;
-        this.userRepository = userRepository;
-        this.procedureRepository = procedureRepository;
-        this.cartMapper = cartMapper;
-        this.bookingRepository = bookingRepository;
-    }
-
-    public Optional<CartDto> findCartDtoByUserId(Long userId) {
-        Optional<Cart> cartOptional = cartRepository.findByUserId(userId);
-        return cartOptional.map(cartMapper::toDto);
-
-    }
-
-    public CartDto addProcedureToCart(Long userId, Long procedureId) throws ProcedureNotFoundException {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
-        Procedure procedure = procedureRepository.findById(procedureId)
-                .orElseThrow(() -> new ProcedureNotFoundException("Procedure not found with id: " + procedureId));
-
-        Cart cart = cartRepository.findByUserId(userId).orElse(new Cart(user));
-        if (!cart.getProcedures().contains(procedure)) {
-            cart.getProcedures().add(procedure);
-        }
-
-        Cart savedCart = cartRepository.save(cart);
-        return cartMapper.toDto(savedCart);
-    }
-
-    public CartDto removeProcedureFromCart(Long userId, Long procedureId) throws ProcedureNotFoundException {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
-        Procedure procedure = procedureRepository.findById(procedureId)
-                .orElseThrow(() -> new ProcedureNotFoundException("Procedure not found with id: " + procedureId));
-
-        Cart cart = cartRepository.findByUserId(userId)
+    public Cart findByUserId(Long userId) {
+        return cartRepository.findByUserId(userId)
                 .orElseThrow(() -> new CartNotFoundException("Cart not found for user with id: " + userId));
-
-        cart.getProcedures().remove(procedure);
-
-        Cart savedCart = cartRepository.save(cart);
-        return cartMapper.toDto(savedCart);
     }
+
+//    public CartDto findCartDtoByUserId(Long userId) {
+//        Cart cart = cartRepository.findByUserId(userId)
+//                .orElseThrow(() -> new CartNotFoundException("Cart not found for user with id: " + userId));
+//        return cartMapper.toDto(cart);
+//    }
+//
+//    public CartDto addProcedureToCart(Long userId, Long procedureId) throws ProcedureNotFoundException {
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
+//        Procedure procedure = procedureRepository.findById(procedureId)
+//                .orElseThrow(() -> new ProcedureNotFoundException("Procedure not found with id: " + procedureId));
+//
+//        Cart cart = cartRepository.findByUserId(userId).orElse(new Cart(user));
+//        if (!cart.getProcedures().contains(procedure)) {
+//            cart.getProcedures().add(procedure);
+//        }
+//
+//        Cart savedCart = cartRepository.save(cart);
+//        return cartMapper.toDto(savedCart);
+//    }
+//
+//    public CartDto removeProcedureFromCart(Long userId, Long procedureId) throws ProcedureNotFoundException {
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
+//        Procedure procedure = procedureRepository.findById(procedureId)
+//                .orElseThrow(() -> new ProcedureNotFoundException("Procedure not found with id: " + procedureId));
+//
+//        Cart cart = cartRepository.findByUserId(userId)
+//                .orElseThrow(() -> new CartNotFoundException("Cart not found for user with id: " + userId));
+//
+//        cart.getProcedures().remove(procedure);
+//
+//        Cart savedCart = cartRepository.save(cart);
+//        return cartMapper.toDto(savedCart);
+//    }
 
     public void checkoutCart(Long userId) throws EmptyCartException {
         Cart cart = cartRepository.findByUserId(userId)
@@ -108,4 +92,3 @@ public class CartServiceImpl implements CartService {
         cartRepository.save(cart);
     }
 }
-
