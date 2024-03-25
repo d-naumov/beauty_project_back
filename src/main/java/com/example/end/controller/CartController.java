@@ -24,31 +24,31 @@ public class CartController {
 
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<CartDto> getCartByUserId(@PathVariable Long userId) {
-        Optional<CartDto> cartDto = cartService.findCartDtoByUserId(userId);
-        return ResponseEntity.of(cartDto);
-    }
+//    @GetMapping("/{userId}")
+//    public ResponseEntity<CartDto> getCartByUserId(@PathVariable Long userId) {
+//        Optional<CartDto> cartDto = cartService.findCartDtoByUserId(userId);
+//        return ResponseEntity.of(cartDto);
+//    }
 
-    @PostMapping("/{userId}/addProcedure/{procedureId}")
-    public ResponseEntity<CartDto> addProcedureToCart(@PathVariable Long userId, @PathVariable Long procedureId) {
-        try {
-            CartDto updatedCartDto = cartService.addProcedureToCart(userId, procedureId);
-            return ResponseEntity.ok(updatedCartDto);
-        } catch (ProcedureNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @PostMapping("/{userId}/addProcedure/{procedureId}")
+//    public ResponseEntity<CartDto> addProcedureToCart(@PathVariable Long userId, @PathVariable Long procedureId) {
+//        try {
+//            CartDto updatedCartDto = cartService.addProcedureToCart(userId, procedureId);
+//            return ResponseEntity.ok(updatedCartDto);
+//        } catch (ProcedureNotFoundException e) {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
-    @DeleteMapping("/{userId}/removeProcedure/{procedureId}")
-    public ResponseEntity<CartDto> removeProcedureFromCart(@PathVariable Long userId, @PathVariable Long procedureId) {
-        try {
-            CartDto updatedCartDto = cartService.removeProcedureFromCart(userId, procedureId);
-            return ResponseEntity.ok(updatedCartDto);
-        } catch (ProcedureNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @DeleteMapping("/{userId}/removeProcedure/{procedureId}")
+//    public ResponseEntity<CartDto> removeProcedureFromCart(@PathVariable Long userId, @PathVariable Long procedureId) {
+//        try {
+//            CartDto updatedCartDto = cartService.removeProcedureFromCart(userId, procedureId);
+//            return ResponseEntity.ok(updatedCartDto);
+//        } catch (ProcedureNotFoundException e) {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
     @PostMapping("/{userId}/checkout")
     public ResponseEntity<String> checkoutCart(@PathVariable Long userId) {

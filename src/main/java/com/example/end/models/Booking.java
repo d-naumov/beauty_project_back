@@ -43,7 +43,7 @@ public class Booking {
             joinColumns = @JoinColumn(name = "booking_id"),
             inverseJoinColumns = @JoinColumn(name = "procedure_id")
     )
-    @JsonIgnore
+
     @ToString.Exclude
     private List<Procedure> procedures;
 

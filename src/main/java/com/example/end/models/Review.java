@@ -5,10 +5,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Setter
 @Getter
+@Setter
 @ToString
 @Builder
 @AllArgsConstructor
@@ -34,6 +35,9 @@ public class Review {
     @Column(name = "rating")
     @JsonIgnore
     private int rating;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     @Override
     public final boolean equals(Object o) {

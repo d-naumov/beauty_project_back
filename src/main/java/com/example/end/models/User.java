@@ -75,7 +75,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    @JsonIgnore
+
     private Set<Category> categories;
 
     @ToString.Exclude
@@ -86,13 +86,12 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "procedure_id")
     )
-    @JsonIgnore
+
     private Set<Procedure> procedures;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToOne(mappedBy = "user")
-    @JsonIgnore
     private Cart cart;
 
 

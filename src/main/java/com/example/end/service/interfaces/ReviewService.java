@@ -11,7 +11,13 @@ import java.util.Optional;
 public interface ReviewService {
 
 
+    ReviewDto addReview(Long userId, ReviewDto reviewDto);
 
-    boolean deleteReview(Long id);
+    double getMasterRating(Long masterId);
 
+    void deleteReview(Long reviewId);
+
+    List<ReviewDto> getAllReviews();
+
+    List<ReviewDto> getReviewsByMaster(Long masterId);
 }
