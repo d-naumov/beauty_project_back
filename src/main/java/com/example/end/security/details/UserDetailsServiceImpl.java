@@ -1,24 +1,20 @@
 //package com.example.end.security.details;
 //
-//import de.ait.template.models.User;
-//import de.ait.template.repositories.UsersRepository;
+//import com.example.end.models.User;
+//import com.example.end.repository.UserRepository;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.security.core.userdetails.UserDetailsService;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
 //import org.springframework.stereotype.Service;
+//import com.example.end.security.details.AuthenticatedUser;
 //
-///**
-// * 10/13/2023
-// * education-center
-// *
-// * @author Marsel Sidikov (AIT TR)
-// */
+//
 //@Service
 //@RequiredArgsConstructor
 //public class UserDetailsServiceImpl implements UserDetailsService {
 //
-//    private final UsersRepository usersRepository;
+//    private final UserRepository usersRepository;
 //    @Override
 //    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 //

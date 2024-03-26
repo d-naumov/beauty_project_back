@@ -1,16 +1,19 @@
 package com.example.end.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 
 @Getter
 @Setter
 @ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -31,7 +34,19 @@ public class Booking {
     @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "procedure_id")
+    @JsonIgnore
     private Procedure procedure;
+
+    @ManyToMany
+    @JoinTable(
+            name = "booking_procedure",
+            joinColumns = @JoinColumn(name = "booking_id"),
+            inverseJoinColumns = @JoinColumn(name = "procedure_id")
+    )
+
+    @ToString.Exclude
+    private List<Procedure> procedures;
+
 
     private LocalDateTime dateTime;
 
@@ -53,4 +68,5 @@ public class Booking {
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
+
 }

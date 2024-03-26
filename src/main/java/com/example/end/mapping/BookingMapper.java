@@ -2,20 +2,32 @@ package com.example.end.mapping;
 
 import com.example.end.dto.BookingDto;
 import com.example.end.models.Booking;
-import org.mapstruct.Mapper;
+import org.springframework.stereotype.Service;
 
 
-import org.mapstruct.factory.Mappers;
-import org.springframework.stereotype.Component;
+@Service
+public class BookingMapper {
 
+   public BookingDto toDto(Booking booking) {
+       return BookingDto.builder()
+               .id(booking.getId())
+               .user(booking.getUser())
+               .procedure(booking.getProcedure())
+               .dateTime(booking.getDateTime())
+               .status(booking.getStatus())
+               .build();
 
-@Mapper(componentModel = "spring")
-@Component
-public interface BookingMapper {
+   }
 
-    BookingDto toDto(Booking booking);
-
-    Booking toEntity(BookingDto bookingDTO);
+    public Booking toEntity(BookingDto bookingDTO) {
+       return Booking.builder()
+               .id(bookingDTO.getId())
+                .user(bookingDTO.getUser())
+                .procedure(bookingDTO.getProcedure())
+                .dateTime(bookingDTO.getDateTime())
+                .status(bookingDTO.getStatus())
+                .build();
+    }
 }
 
 

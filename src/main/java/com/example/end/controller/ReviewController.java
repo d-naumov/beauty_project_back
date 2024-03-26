@@ -1,80 +1,53 @@
 package com.example.end.controller;
 
+import com.example.end.dto.ReviewDto;
 import com.example.end.models.Review;
 import com.example.end.service.interfaces.ReviewService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.example.end.dto.ReviewDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/reviews")
-
 public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @Autowired
-    public ReviewController(ReviewService reviewService) {
-        this.reviewService = reviewService;
-    }
-
-    @GetMapping("/{id}")
-
-    public ResponseEntity<Review> getReviewById(@PathVariable Long id) {
-        Optional<Review> reviewOptional = reviewService.getReviewById(id);
-        return reviewOptional.map(review -> ResponseEntity.ok().body(review))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     @GetMapping
-
-    public ResponseEntity<List<Review>> getAllReviews() {
-        List<Review> reviews = reviewService.getAllReviews();
-        return ResponseEntity.ok(reviews);
+    @Operation(summary = "Get all reviews")
+    public ResponseEntity<List<ReviewDto>> getAllReviews() {
+        return new ResponseEntity<>(reviewService.getAllReviews(), HttpStatus.OK);
     }
 
-    @PostMapping
-
-    public ResponseEntity<Review> createReview(@Valid @RequestBody ReviewDto reviewDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Review createdReview = reviewService.createReview(reviewDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdReview);
+    @GetMapping("/master/{masterId}")
+    @Operation(summary = "Get reviews by master")
+    public ResponseEntity<List<ReviewDto>> getReviewsByMaster(@PathVariable Long masterId) {
+        return new ResponseEntity<>(reviewService.getReviewsByMaster(masterId), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-
-    public ResponseEntity<Review> updateReview(@PathVariable Long id, @Valid @RequestBody ReviewDto reviewDto,
-                                               BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Optional<Review> updatedReview = reviewService.updateReview(id, reviewDto);
-        return updatedReview.map(review -> ResponseEntity.ok().body(review))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    @PostMapping("/{userId}")
+    @Operation(summary = "Add a review for a master")
+    public ResponseEntity<ReviewDto> addReview(@PathVariable Long userId, @RequestBody ReviewDto reviewDto) {
+        ReviewDto savedReviewDto = reviewService.addReview(userId, reviewDto);
+        return new ResponseEntity<>(savedReviewDto, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{reviewId}")
+    @Operation(summary = "Delete a review")
+    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
+        reviewService.deleteReview(reviewId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
-    public ResponseEntity<HttpStatus> deleteReview(@PathVariable Long id) {
-        if (reviewService.deleteReview(id)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/rating/{masterId}")
+    @Operation(summary = "Get rating of a master")
+    public ResponseEntity<Double> getMasterRating(@PathVariable Long masterId) {
+        double rating = reviewService.getMasterRating(masterId);
+        return new ResponseEntity<>(rating, HttpStatus.OK);
     }
 }
-

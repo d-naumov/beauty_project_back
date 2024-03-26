@@ -1,14 +1,17 @@
 package com.example.end.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Setter
 @Getter
+@Setter
 @ToString
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -23,13 +26,18 @@ public class Review {
     @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "rating")
+    @JsonIgnore
     private int rating;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     @Override
     public final boolean equals(Object o) {

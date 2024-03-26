@@ -1,6 +1,6 @@
 package com.example.end.service.interfaces;
 
-import com.example.end.models.Category;
+import com.example.end.dto.CategoryDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,15 +8,13 @@ import java.util.Optional;
 import java.util.Set;
 @Service
 public interface CategoryService {
-    List<Category> getAllCategories();
+    List<CategoryDto> getAllCategories();
 
-    Optional<Category> getCategoryById(Long id);
+    Optional<CategoryDto> getCategoryById(Long id);
 
-    Category createCategory(Category category);
+    CategoryDto createCategory(CategoryDto categoryDto);
 
-    Category updateCategory(Long id, Category updatedCategory);
+    CategoryDto updateCategory(Long id, CategoryDto updatedCategory);
 
     void deleteCategory(Long id);
-
-    Set<Category> getCategoriesById(Set<Long> categoryId);
 }

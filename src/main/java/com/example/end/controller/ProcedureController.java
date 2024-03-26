@@ -27,7 +27,6 @@ public class ProcedureController {
     this.procedureMapper = procedureMapper;
   }
 
-  // Создание новой процедуры
   @PostMapping
   public ResponseEntity<ProcedureDto> createProcedure(@RequestBody ProcedureDto procedureDto) {
     ProcedureDto createdProcedureDto = procedureService.createProcedure(procedureDto);

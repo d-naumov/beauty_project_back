@@ -1,30 +1,31 @@
 package com.example.end.service.interfaces;
 
 
+
+
+import com.example.end.dto.NewUserDto;
 import com.example.end.dto.UserDto;
 import com.example.end.models.User;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public interface UserService extends UserDetailsService {
-  User registerNewUser(UserDto userDto);
+public interface UserService  {
 
-  Optional<User> findByUsername(String username);
+      @Transactional
+      UserDto register(NewUserDto newUserDto);
 
-  Optional<User> findByEmail(String email);
+    UserDto getById(Long id);
 
-  List<User> getAllUsers();
+    void confirmMaster(String masterUsername);
 
-    Optional<User> findById(Long id);
+    List<UserDto> getAllUsers();
 
-    User getUserByUsername(String username);
+    void deleteById(Long id);
 
-
-
-  // void registerUser(UserDto userDto);
 
 }
 
