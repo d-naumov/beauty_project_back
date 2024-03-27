@@ -9,63 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 
-//@RestController
-//@RequestMapping("/categories")
-//public class CategoryController {
-//
-//    private final CategoryService categoryService;
-//    private final CategoryMapper categoryMapper;
-//
-//    public CategoryController(CategoryService categoryService, CategoryMapper categoryMapper) {
-//        this.categoryService = categoryService;
-//        this.categoryMapper = categoryMapper;
-//    }
-//
-//    @GetMapping
-//    public ResponseEntity<List<CategoryDto>> getAllCategories() {
-//        List<CategoryDto> categories = categoryService.getAllCategories().stream()
-//                .map(categoryMapper::toDto)
-//                .collect(Collectors.toList());
-//        return ResponseEntity.ok(categories);
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<CategoryDto> getCategoryById(@PathVariable Long id) {
-//        Optional<CategoryDto> category = categoryService.getCategoryById(id)
-//                .map(categoryMapper::toDto);
-//        return category.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-//    }
-//
-//    @PostMapping
-//    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto) {
-//        CategoryDto createdCategory = categoryService.createCategory(categoryDto);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long id, @RequestBody CategoryDto categoryDto) {
-//        CategoryDto updatedCategory = categoryService.updateCategory(id, categoryDto);
-//        return ResponseEntity.ok(updatedCategory);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
-//        categoryService.deleteCategory(id);
-//        return ResponseEntity.noContent().build();
-//    }
-//
-//    @GetMapping("/byIds")
-//    public ResponseEntity<Set<CategoryDto>> getCategoriesById(@RequestParam Set<Long> categoryIds) {
-//        Set<CategoryDto> categories = categoryService.getCategoriesById(categoryIds).stream()
-//                .map(categoryMapper::toDto)
-//                .collect(Collectors.toSet());
-//        return ResponseEntity.ok(categories);
-//    }
-//}
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("api/categories")
 public class CategoryController {
 
     private final CategoryService categoryService;
