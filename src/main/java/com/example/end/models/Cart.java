@@ -38,7 +38,7 @@ public class Cart {
             joinColumns = @JoinColumn(name = "cart_id"),
             inverseJoinColumns = @JoinColumn(name = "procedure_id")
     )
-   // private List<Procedure> procedures;
+    private List<Procedure> procedures;
 
     public Cart(User user) {
         this.user = user;
