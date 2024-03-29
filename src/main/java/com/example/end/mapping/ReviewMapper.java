@@ -19,7 +19,7 @@ public class ReviewMapper {
     public ReviewDto toDto(Review review) {
         return ReviewDto.builder()
                 .id(review.getId())
-                .user(userMapper.toDto(review.getUser()))  // Map User to UserDto
+                .user(userMapper.toDto(review.getUser()))
                 .content(review.getContent())
                 .rating(review.getRating())
                 .createdAt(review.getCreatedAt())

@@ -9,7 +9,6 @@ import com.example.end.models.User;
 import com.example.end.repository.UserRepository;
 import com.example.end.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -56,6 +55,17 @@ public class UserServiceImpl implements UserService {
             String message = "Поздравляем с успешной регистрацией на нашем сайте!";
             mailSender.sendEmail(user.getEmail(), subject, message);
         }
+        return userMapper.toDto(user);
+    }
+    @Override
+    public UserDto authenticate(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RestException(HttpStatus.UNAUTHORIZED, "Неверный email или пароль"));
+
+        if (!passwordEncoder.matches(password, user.getHashPassword())) {
+            throw new RestException(HttpStatus.UNAUTHORIZED, "Неверный email или пароль");
+        }
+
         return userMapper.toDto(user);
     }
 

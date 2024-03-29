@@ -18,6 +18,8 @@ public interface UserService  {
       @Transactional
       UserDto register(NewUserDto newUserDto);
 
+    UserDto authenticate(String email, String password);
+
     UserDto getById(Long id);
 
     void confirmMaster(String masterUsername);
