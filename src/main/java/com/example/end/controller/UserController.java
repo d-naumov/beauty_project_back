@@ -36,6 +36,14 @@ public class UserController {
         UserDto userDto = userService.register(newUserDto);
         return ResponseEntity.ok(userDto);
     }
+    @Operation(summary = "Authenticate user", description = "Authenticate a user with the provided email and password.")
+    @PostMapping("/login")
+    public ResponseEntity<UserDto> loginUser(@Parameter(description = "User email and password for authentication.")
+                                             @RequestParam String email,
+                                             @RequestParam String password) {
+        UserDto userDto = userService.authenticate(email, password);
+        return ResponseEntity.ok(userDto);
+    }
 
     @Operation(summary = "Get all users", description = "Retrieve a list of all registered users.")
     @GetMapping
