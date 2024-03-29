@@ -1,8 +1,10 @@
 package com.example.end.exceptions;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 
+@Getter
 public class RestException extends RuntimeException {
     private final HttpStatus status;
 
@@ -11,7 +13,4 @@ public class RestException extends RuntimeException {
         this.status = status;
     }
 
-    public HttpStatus getStatus() {
-        return status;
-    }
 }

@@ -1,6 +1,7 @@
 package com.example.end.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "cart")
 public class Cart {

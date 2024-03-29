@@ -1,73 +1,72 @@
 package com.example.end.controller;
 
-
+import com.example.end.dto.NewUserDto;
 import com.example.end.dto.UserDto;
-import com.example.end.models.User;
 import com.example.end.service.interfaces.UserService;
-
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
+import java.util.List;
 
-import java.util.Optional;
-
-//  контроллер с Swagger-аннотациями
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/users")
-
 public class UserController {
 
     private final UserService userService;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    @Operation(summary = "Get user by ID", description = "Retrieve a user by their ID.")
+    @GetMapping("/{id}")
+    public UserDto getById(@Parameter(description = "ID of the user to be obtained. Cannot be empty.", required = true)
+                           @PathVariable Long id) {
+        return userService.getById(id);
     }
 
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
-
-    @GetMapping("/id/{id}")
-
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> userOptional = userService.findById(id);
-        return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @Operation(summary = "Register a new user", description = "Register a new user with the provided details.")
+    @PostMapping("/register")
+    public ResponseEntity<UserDto> registerUser(@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User details for registration.")
+                                                @RequestBody NewUserDto newUserDto) {
+        UserDto userDto = userService.register(newUserDto);
+        return ResponseEntity.ok(userDto);
+    }
+    @PostMapping("/confirm")
+    public ResponseEntity<String> confirmMasterByEmail(@RequestBody EmailRequest emailRequest) {
+        String email = emailRequest.getEmail();
+        try {
+            userService.confirmMasterByEmail(email);
+            return ResponseEntity.ok("Master confirmed successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @Operation(summary = "Authenticate user", description = "Authenticate a user with the provided email and password.")
+    @PostMapping("/login")
+    public ResponseEntity<UserDto> loginUser(@Parameter(description = "User email and password for authentication.")
+                                             @RequestParam String email,
+                                             @RequestParam String password) {
+        UserDto userDto = userService.authenticate(email, password);
+        return ResponseEntity.ok(userDto);
     }
 
-//    @Operation(summary = "registration", description = "blabla")
-//    @PostMapping("/register")
-//    public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto userDto,
-//                                               BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            return ResponseEntity.badRequest().body("Ошибка валидации");
-//        }
-//
-//        try {
-//            // Определяем роль пользователя
-//            String role = userDto.getRoleName();
-//            if (role == null || role.isEmpty()) {
-//                userDto.setRoleName("CLIENT"); // Если роль не указана, считаем, что это пользователь
-//            }
-//
-//            userService.registerNewUser(userDto);
-//            return ResponseEntity.ok("Пользователь успешно зарегистрирован");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("Ошибка регистрации пользователя");
-//        }
-//    }
+    @Operation(summary = "Get all users", description = "Retrieve a list of all registered users.")
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<UserDto> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 
-    @GetMapping("/username/{username}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
-        Optional<User> userOptional = userService.findByUsername(username);
-        return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @Operation(summary = "Delete user by ID", description = "Delete a user by their ID.")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@Parameter(description = "ID of the user to be deleted. Cannot be empty.", required = true)
+                                           @PathVariable Long id) {
+        userService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
-

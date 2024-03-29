@@ -9,16 +9,15 @@ import java.util.List;
 import java.util.Optional;
 @Service
 public interface ReviewService {
-    Review createReview(ReviewDto reviewDto);
 
-    List<Review> getAllReviews();
 
-    Optional<Review> getReviewById(Long id);
+    ReviewDto addReview(Long userId, ReviewDto reviewDto);
 
-    Optional<Review> updateReview(Long id, ReviewDto reviewDto);
+    double getMasterRating(Long masterId);
 
-    boolean deleteReview(Long id);
+    void deleteReview(Long reviewId);
 
-    List<ReviewDto> getReviewsForMaster(User master);
+    List<ReviewDto> getAllReviews();
 
+    List<ReviewDto> getReviewsByMaster(Long masterId);
 }
