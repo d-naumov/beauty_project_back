@@ -36,6 +36,16 @@ public class UserController {
         UserDto userDto = userService.register(newUserDto);
         return ResponseEntity.ok(userDto);
     }
+    @PostMapping("/confirm")
+    public ResponseEntity<String> confirmMasterByEmail(@RequestBody EmailRequest emailRequest) {
+        String email = emailRequest.getEmail();
+        try {
+            userService.confirmMasterByEmail(email);
+            return ResponseEntity.ok("Master confirmed successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
     @Operation(summary = "Authenticate user", description = "Authenticate a user with the provided email and password.")
     @PostMapping("/login")
     public ResponseEntity<UserDto> loginUser(@Parameter(description = "User email and password for authentication.")

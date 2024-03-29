@@ -22,10 +22,9 @@ public interface UserService  {
 
     UserDto getById(Long id);
 
-    void confirmMaster(String masterUsername);
-
+    @jakarta.transaction.Transactional
+    void confirmMasterByEmail(String email);
     List<UserDto> getAllUsers();
-
     void deleteById(Long id);
 
 

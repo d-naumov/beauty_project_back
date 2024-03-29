@@ -2,12 +2,11 @@ package com.example.end.mail;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.MailException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
@@ -18,6 +17,8 @@ import jakarta.mail.internet.MimeMessage;
 public class ProjectMailSender {
 
     private final JavaMailSender javaMailSender;
+    @Value("${spring.mail.username}") // Внедряем имя пользователя (адрес эл. почты) из application.yml
+    private String senderEmail;
     @Async
     public void sendEmail(String email, String subject, String text) {
 
@@ -26,6 +27,7 @@ public class ProjectMailSender {
 
         try {
             // задаем данные для письма
+            helper.setFrom(senderEmail); // Устанавливаем отправителя
             helper.setTo(email);
             helper.setSubject(subject);
             helper.setText(text, true);
