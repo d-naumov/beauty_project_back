@@ -32,4 +32,7 @@ public class BookingDto {
     @Schema(description = "Status of the booking")
     private BookingStatus status;
 
+    @Schema(description = "Total price of the booking")
+    private double totalPrice;
+
 }

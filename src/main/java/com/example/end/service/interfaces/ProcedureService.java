@@ -21,4 +21,3 @@ public interface ProcedureService {
   Procedure findById(Long procedureId);
 
 }
-

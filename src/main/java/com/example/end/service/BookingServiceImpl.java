@@ -86,12 +86,16 @@ public class BookingServiceImpl implements BookingService {
             User entity = userMapper.toEntity(masterDto);
             List<Booking> bookings = bookingRepository.findByUser(entity);
             return bookings.stream()
-                    .map(booking -> new BookingDto(
-                            booking.getId(),
-                            booking.getUser(),
-                            booking.getProcedure(),
-                            booking.getDateTime(),
-                            booking.getStatus()))
+                    .map(booking -> {
+                        double totalProcedurePrice = booking.getProcedures().stream()
+                                .filter(procedure -> procedure.getUserMaster().contains(entity))
+                                .mapToDouble(Procedure::getPrice)
+                                .sum();
+
+                        BookingDto bookingDto = bookingMapper.toDto(booking);
+                        bookingDto.setTotalPrice(totalProcedurePrice);
+                        return bookingDto;
+                    })
                     .collect(Collectors.toList());
         } else {
             throw new IllegalArgumentException("User is not a master");
@@ -102,9 +106,9 @@ public class BookingServiceImpl implements BookingService {
         return entity.getRole() == User.Role.MASTER;
     }
 
-@Override
+    @Override
     public List<BookingDto> findActiveBookingsByUserId(Long userId) {
-    List<Booking> activeBookings = bookingRepository.findActiveBookingsByUserId(userId);
+        List<Booking> activeBookings = bookingRepository.findActiveBookingsByUserId(userId);
         return activeBookings.stream().map(bookingMapper::toDto).collect(Collectors.toList());
     }
 

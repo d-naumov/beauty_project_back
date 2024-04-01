@@ -25,16 +25,13 @@ public class Procedure {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
     @Pattern(regexp = "[A-Z][a-z]{3,}")
     private String name;
 
-    @Column(name = "price")
     @Max(90000)
     @Min(10)
     private double price;
 
-    @Column(name = "is_active")
     private boolean isActive;
 
     @ToString.Exclude
