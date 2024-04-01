@@ -8,27 +8,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookingMapper {
 
-   public BookingDto toDto(Booking booking) {
-       return BookingDto.builder()
-               .id(booking.getId())
-               .user(booking.getUser())
-               .procedure(booking.getProcedure())
-               .dateTime(booking.getDateTime())
-               .status(booking.getStatus())
-               .build();
+    public BookingDto toDto(Booking booking) {
+        return BookingDto.builder()
+                .id(booking.getId())
+                .user(booking.getUser())
+                .procedure(booking.getProcedure())
+                .dateTime(booking.getDateTime())
+                .status(booking.getStatus())
+                .totalPrice(booking.getTotalPrice())
+                .build();
 
-   }
+    }
 
     public Booking toEntity(BookingDto bookingDTO) {
-       return Booking.builder()
-               .id(bookingDTO.getId())
+        return Booking.builder()
+                .id(bookingDTO.getId())
                 .user(bookingDTO.getUser())
                 .procedure(bookingDTO.getProcedure())
                 .dateTime(bookingDTO.getDateTime())
                 .status(bookingDTO.getStatus())
+                .totalPrice(bookingDTO.getTotalPrice())
                 .build();
     }
 }
-
-
-

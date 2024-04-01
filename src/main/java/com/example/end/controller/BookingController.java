@@ -29,7 +29,7 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
-  
+
     @PostMapping("/create_booking")
     public ResponseEntity<BookingDto> createBooking(@RequestBody UserDto userDto, @RequestParam Long procedureId) {
         try {

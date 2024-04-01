@@ -8,8 +8,8 @@ spring:
         format_sql: true
 
   mail:
-    username: manageritdrive@gmail.com
-    password: oxfyosjjchbcawem
+    username: a.cxeidze@gmail.com
+    password: Iplari22!
     host: smtp.gmail.com
     port: 587
     properties:
