@@ -50,7 +50,6 @@ public class Booking {
 
     private double totalPrice;
 
-
     private LocalDateTime dateTime;
 
     @Enumerated(EnumType.STRING)

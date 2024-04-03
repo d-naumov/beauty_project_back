@@ -30,13 +30,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Pattern(regexp = "[A-Z][a-z]{3,}")
     private String firstName;
 
-    @Pattern(regexp = "[A-Z][a-z]{3,}")
     private String lastName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
     @Column(unique = true)
     private String email;
 
@@ -45,18 +42,7 @@ public class User {
     @Column(nullable = false)
     private String hashPassword;
 
-    @Size(max = 500)
     private String description;
-//
-//    @ToString.Exclude
-//    @EqualsAndHashCode.Exclude
-//    @ManyToMany
-//    @JoinTable(
-//            name = "user_roles",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id")
-//    )
-//    private Set<Role> roles;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
@@ -88,13 +74,6 @@ public class User {
     )
 
     private Set<Procedure> procedures;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToOne(mappedBy = "user")
-    private Cart cart;
-
-
 
     @Override
     public final boolean equals(Object o) {

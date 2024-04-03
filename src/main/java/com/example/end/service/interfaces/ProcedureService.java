@@ -9,15 +9,19 @@ import java.util.Set;
 
 @Service
 public interface ProcedureService {
+
+
   ProcedureDto createProcedure(ProcedureDto procedureDto);
-  boolean deleteProcedure(Long id);
-  List<Procedure> getAllProcedures();
-  ProcedureDto updateProcedure(Long id, Procedure updatedProcedure);
 
-  ProcedureDto getProcedureById(Long id);
+  void update(ProcedureDto procedure);
 
-  Set<ProcedureDto> getProceduresById(Set<Long> procedureIds);
+  ProcedureDto deleteById(Long id);
 
-  Procedure findById(Long procedureId);
+  ProcedureDto findByName(String name);
 
+  List<ProcedureDto> findAll();
+
+
+
+  ProcedureDto findById(Long id);
 }

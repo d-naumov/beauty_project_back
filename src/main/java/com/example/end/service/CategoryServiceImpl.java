@@ -7,13 +7,10 @@ import com.example.end.models.Category;
 import com.example.end.repository.CategoryRepository;
 import com.example.end.service.interfaces.CategoryService;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
@@ -21,8 +18,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
-
-
     @Override
     public List<CategoryDto> getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
@@ -33,47 +28,23 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(categoryMapper::toDto)
                 .collect(Collectors.toList());
     }
-
     @Override
-    public Optional<CategoryDto> getCategoryById(Long id) {
-        Optional<Category> categoryOptional = categoryRepository.findById(id);
-        if (categoryOptional.isPresent()) {
-            return Optional.of(categoryMapper.toDto(categoryOptional.get()));
-        } else {
-            throw new CategoryNotFoundException("Die Kategorie wurde nicht gefunden: " + id);
-        }
+    public CategoryDto getCategoryById(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() ->
+       new CategoryNotFoundException("Die Kategorie wurde nicht gefunden: " + id));
+        return categoryMapper.toDto(category);
     }
 
     @Override
     public CategoryDto createCategory(CategoryDto categoryDto) {
-        if (categoryDto == null) {
-            throw new IllegalArgumentException("Die Kategorie darf nicht leer sein");
-        }
-
-        if (categoryDto.getId() != null && categoryDto.getId() != 0) {
-            throw new IllegalArgumentException("Die Kategorie-ID darf nicht leer oder null sein");
-        }
-
-        if (categoryDto.getName() == null || categoryDto.getName().isEmpty()) {
-            throw new IllegalArgumentException("Der Name der Kategorie darf nicht leer sein");
-        }
-
         Category category = categoryMapper.toEntity(categoryDto);
-
         Category savedCategory = categoryRepository.save(category);
         return categoryMapper.toDto(savedCategory);
     }
 
     @Override
     public CategoryDto updateCategory(Long id, CategoryDto updatedCategoryDto) {
-        if (updatedCategoryDto == null) {
-            throw new IllegalArgumentException("Die zu aktualisierende Kategorie darf nicht leer sein");
-        }
-
-        if (updatedCategoryDto.getId() == null || updatedCategoryDto.getId() == 0) {
-            throw new IllegalArgumentException("Die Kategorie-ID darf nicht leer oder null sein");
-        }
-
         Category existingCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Die Kategorie wurde nicht gefunden mit ID: " + id));
 
@@ -85,13 +56,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(Long id) {
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if (optionalCategory.isPresent()) {
+    public CategoryDto deleteCategory(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException("Die Kategorie mit der ID " + id + " wurde nicht gefunden"));
             categoryRepository.deleteById(id);
-        } else {
-            throw new CategoryNotFoundException("Die Kategorie mit der ID " + id + " wurde nicht gefunden");
-        }
-
+            return categoryMapper.toDto(category);
     }
 }
