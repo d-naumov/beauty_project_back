@@ -28,11 +28,8 @@ public class Procedure {
     @Pattern(regexp = "[A-Z][a-z]{3,}")
     private String name;
 
-    @Max(90000)
-    @Min(10)
     private double price;
 
-    private boolean isActive;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

@@ -1,80 +1,53 @@
 package com.example.end.controller;
 
-
+import com.example.end.controller.api.BookingApi;
 import com.example.end.dto.BookingDto;
 import com.example.end.dto.UserDto;
-
 import com.example.end.service.interfaces.BookingService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
-
-//change
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/bookings")
-public class BookingController {
+public class BookingController implements BookingApi {
 
     private final BookingService bookingService;
 
-    @Autowired
-    public BookingController(BookingService bookingService) {
-        this.bookingService = bookingService;
+
+    @Override
+    public BookingDto createBooking(BookingDto bookingDto) {
+        return bookingService.createBooking(bookingDto);
     }
 
-
-    @PostMapping("/create_booking")
-    public ResponseEntity<BookingDto> createBooking(@RequestBody UserDto userDto, @RequestParam Long procedureId) {
-        try {
-            BookingDto createdBooking = bookingService.createBooking(userDto.getId(), procedureId);
-            return ResponseEntity.ok(createdBooking);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    @Override
+    public void updateBookingStatus(BookingDto bookingDto) {
+        bookingService.updateBookingStatus(bookingDto);
     }
 
-    @GetMapping("/master/{masterId}")
-    public ResponseEntity<List<BookingDto>> getMasterBookings(@PathVariable Long masterId) {
-        try {
-            List<BookingDto> masterBookings = bookingService.getMasterBookings(masterId);
-            return ResponseEntity.ok(masterBookings);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
-        }
-    }
-
-
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<BookingDto>> getUserBookings(@PathVariable Long userId) {
-        List<BookingDto> userBookings = bookingService.getUserBookings(userId);
-        return ResponseEntity.ok(userBookings);
-    }
-
-    @PutMapping("/cancel/{bookingId}")
-    public ResponseEntity<String> cancelBooking(@PathVariable Long bookingId) {
-        // Вызов метода сервиса для отмены бронирования
+    @Override
+    public void cancelBooking(Long bookingId) {
         bookingService.cancelBooking(bookingId);
-        return ResponseEntity.ok("Booking canceled successfully");
-    }
-    @GetMapping("/active/{userId}")
-    public ResponseEntity<List<BookingDto>> getActiveBookingsByUserId(@PathVariable Long userId) {
-        List<BookingDto> activeBookings = bookingService.findActiveBookingsByUserId(userId);
-        return ResponseEntity.ok(activeBookings);
     }
 
-    @GetMapping("/completed/{userId}")
-    public ResponseEntity<List<BookingDto>> getCompletedBookingsByUserId(@PathVariable Long userId) {
-        List<BookingDto> completedBookings = bookingService.findCompletedBookingsByUserId(userId);
-        return ResponseEntity.ok(completedBookings);
+    @Override
+    public List<BookingDto> getUserBookings(Long userId) {
+        return bookingService.getUserBookings(userId);
     }
 
+    @Override
+    public List<BookingDto> getMasterBookings(Long masterId) {
+        return bookingService.getMasterBookings(masterId);
+    }
+
+
+    @Override
+    public List<BookingDto> findActiveBookingsByUserId(Long userId) {
+        return bookingService.findActiveBookingsByUserId(userId);
+    }
+
+    @Override
+    public List<BookingDto> findCompletedBookingsByUserId(Long userId) {
+        return bookingService.findCompletedBookingsByUserId(userId);
+    }
 }

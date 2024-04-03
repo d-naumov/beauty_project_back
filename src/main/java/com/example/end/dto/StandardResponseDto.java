@@ -6,13 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "Message", description = "Какое-либо сообщение с сервера")
+@Schema(name = "Message", description = "General message from the server")
 public class StandardResponseDto {
-    @Schema(description = "Возможно: сообщение об ошибке, об изменении состояния и т.д.", example = "Не найдена категория")
+    @Schema(description = "General message from the server", example = "Resource not found")
     private String message;
 }
