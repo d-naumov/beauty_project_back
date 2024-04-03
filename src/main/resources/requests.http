@@ -17,18 +17,6 @@ GET localhost:8080/categories
 
 ### Оставить отзыв
 
-POST localhost:8080/api/reviews/8
+POST localhost:8080/api/users/login
 
-{
-  "id": 1,
-  "user": {
-    "id": 1,
-    "firstName": "John",
-    "lastName": "Doe",
-    "email": "john.doe@example.com",
-    "role": "ADMIN"
-  },
-  "content": "blabla",
-  "rating": 5,
-  "createdAt": "2024-03-25T10:27:50.028Z"
-}
+

@@ -16,9 +16,11 @@ import lombok.*;
 public class NewUserDto {
 
     @NotNull
+    @Schema(description = "Users firstname", example = "Joe")
     private String firstName;
 
     @NotNull
+    @Schema(description = "Users lastname", example = "Doe")
     private String lastName;
 
     @Email
@@ -28,11 +30,11 @@ public class NewUserDto {
 
     @NotNull
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$")
-    @Schema(description = "Пароль пользователя", example = "Qwerty007!")
+    @Schema(description = "Users password", example = "Qwerty007!")
     private String hashPassword;
 
     @NotNull
-    @Schema(description = "Роль пользавателя", example = "Master")
+    @Schema(description = "Users role", example = "Master")
     private User.Role role;
 
 }

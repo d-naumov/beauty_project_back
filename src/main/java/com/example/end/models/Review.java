@@ -26,17 +26,13 @@ public class Review {
     @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore
     private User user;
 
-    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "rating")
-    @JsonIgnore
     private int rating;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Override

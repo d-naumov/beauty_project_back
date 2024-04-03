@@ -1,17 +1,18 @@
 package com.example.end.service;
 
 import com.example.end.dto.BookingDto;
+import com.example.end.dto.ProcedureDto;
 import com.example.end.dto.UserDto;
 import com.example.end.mapping.BookingMapper;
+import com.example.end.mapping.ProcedureMapper;
 import com.example.end.mapping.UserMapper;
 import com.example.end.models.Booking;
 import com.example.end.models.BookingStatus;
 import com.example.end.models.Procedure;
 import com.example.end.models.User;
 import com.example.end.repository.BookingRepository;
-
+import com.example.end.repository.ProcedureRepository;
 import com.example.end.service.interfaces.BookingService;
-import com.example.end.service.interfaces.ProcedureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,27 +27,36 @@ public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
     private final UserServiceImpl userService;
-    private final ProcedureService procedureService;
     private final BookingMapper bookingMapper;
     private final UserMapper userMapper;
+    private final ProcedureServiceImpl procedureService;
+    private final ProcedureMapper procedureMapper;
+
+
+
 
     @Override
-    public BookingDto createBooking(Long userId, Long procedureId) {
-        UserDto userDto = userService.getById(userId);
-        Procedure procedure = procedureService.findById(procedureId);
+    public BookingDto createBooking(BookingDto bookingDto) {
+        UserDto userDto = userService.getById(bookingDto.getUser().getId());
+        User entity = userMapper.toEntity(userDto);
 
-        if (userDto != null && procedure != null) {
-            User entity = userMapper.toEntity(userDto);
+        ProcedureDto procedureDto = procedureService.findById(bookingDto.getProcedure().getId());
+        Procedure procedure = procedureMapper.toEntity(procedureDto);
+
+        if (entity != null) {
             Booking booking = new Booking();
-            booking.setDateTime(LocalDateTime.now());
+            booking.setDateTime(bookingDto.getDateTime());
             booking.setUser(entity);
             booking.setProcedure(procedure);
+
             booking = bookingRepository.save(booking);
+
             return bookingMapper.toDto(booking);
         } else {
             throw new RuntimeException("User or Procedure not found");
         }
     }
+
 
     @Override
     public void updateBookingStatus(BookingDto bookingDto) {
@@ -101,7 +111,8 @@ public class BookingServiceImpl implements BookingService {
             throw new IllegalArgumentException("User is not a master");
         }
     }
-    private boolean isMaster(UserDto userDto) {
+
+    public boolean isMaster(UserDto userDto) {
         User entity = userMapper.toEntity(userDto);
         return entity.getRole() == User.Role.MASTER;
     }

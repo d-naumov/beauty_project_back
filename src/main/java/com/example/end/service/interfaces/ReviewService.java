@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface ReviewService {
 
 
-    ReviewDto addReview(Long userId, ReviewDto reviewDto);
+    ReviewDto addReview(ReviewDto reviewDto);
 
     double getMasterRating(Long masterId);
 

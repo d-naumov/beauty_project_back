@@ -2,6 +2,7 @@ package com.example.end.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class CategoryDto {
     private Long id;
 
     @NotBlank(message = "Category name cannot be blank")
-    @Schema(description = "Name of the category", example = "Manicure")
+    @Size(min = 3, message = "Category name must contain at least 3 characters")
+    @Schema(description = "Name of the category", example = "Hairstylist")
     private String name;
-
 }
