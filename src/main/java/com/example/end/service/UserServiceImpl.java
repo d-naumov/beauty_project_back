@@ -124,6 +124,7 @@ public class UserServiceImpl implements UserService {
         masterUser.setActive(true);
         userRepository.save(masterUser);
     }
+
     @Override
     public List<UserDto> getAllMasters() {
         List<User> masters = userRepository.findAllByRole(User.Role.MASTER);
@@ -138,6 +139,17 @@ public class UserServiceImpl implements UserService {
                 .map(userMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public Optional<User> loadUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
     @Override
     @Transactional
     public void deleteById(Long id) {

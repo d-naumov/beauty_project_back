@@ -20,6 +20,11 @@ spring:
           starttls:
             enable: true
 
+jwt:
+  access:
+    key: "X30INcpL2Yzf80ArITEdwLegdAFT2dkeq1hxlR7waOk="
+  refresh:
+    key: "u1vxX56P6a-4tWS2RLt0qIG9yF8DbW6d1pv4JUQI-dk="
 
 logging:
   level:
