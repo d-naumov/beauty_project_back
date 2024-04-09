@@ -58,8 +58,12 @@ public interface UserApi {
                                       @RequestParam String password);
 
     @Operation(summary = "Get all users", description = "Available to ADMIN")
-    @GetMapping("/all")
+    @GetMapping()
     List<UserDto> getAllUsers();
+
+    @Operation(summary = "Get all usersMasters", description = "Available to ADMIN")
+    @GetMapping("/masters")
+    List<UserDto> getAllMasters();
 
     @Operation(summary = "Delete user by ID", description = "Available to ADMIN")
     @DeleteMapping("/{id}")
