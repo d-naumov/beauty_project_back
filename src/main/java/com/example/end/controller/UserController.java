@@ -5,6 +5,8 @@ import com.example.end.dto.NewUserDto;
 import com.example.end.dto.UserDto;
 import com.example.end.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +35,11 @@ public class UserController implements UserApi {
     @Override
     public UserDto loginUser(String email, String password) {
         return userService.authenticate(email, password);
+    }
+    @GetMapping("/masters")
+    public ResponseEntity<List<UserDto>> getAllMasters() {
+        List<UserDto> masters = userService.getAllMasters();
+        return new ResponseEntity<>(masters, HttpStatus.OK);
     }
 
     @Override

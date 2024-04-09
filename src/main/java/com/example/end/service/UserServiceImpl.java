@@ -124,6 +124,13 @@ public class UserServiceImpl implements UserService {
         masterUser.setActive(true);
         userRepository.save(masterUser);
     }
+    @Override
+    public List<UserDto> getAllMasters() {
+        List<User> masters = userRepository.findAllByRole(User.Role.MASTER);
+        return masters.stream()
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public List<UserDto> getAllUsers() {

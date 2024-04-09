@@ -26,6 +26,7 @@ public interface UserService  {
     void confirmMasterByEmail(String email);
     List<UserDto> getAllUsers();
     void deleteById(Long id);
+    List<UserDto> getAllMasters();
 
 
 }
