@@ -30,7 +30,8 @@ public class AuthenticationController {
         response.addCookie(cookie);
         return ResponseEntity.ok(tokenDto);
     }
-
+    // Операция для получения нового доступного токена
+    @Operation(summary = "Get new access token", description = "Get a new access token using a refresh token.")
     @PostMapping("/access")
     public ResponseEntity<TokenResponseDto> getNewAccessToken(@RequestBody RefreshRequestDto request) {
         TokenResponseDto accessToken = authenticationService.getAccessToken(request.getRefreshToken());
@@ -39,6 +40,8 @@ public class AuthenticationController {
 
     // При логауте куке с токеном доступа выставляется время жизни, равное 0,
     // благодаря чему данная кука сразу же перестаёт действовать.
+    // Операция для выхода пользователя из системы (логаута)
+    @Operation(summary = "Logout", description = "Logout a user by invalidating the access token cookie.")
     @GetMapping("/logout")
     public void logout(HttpServletResponse response) {
         Cookie cookie = new Cookie("Access-Token", null);

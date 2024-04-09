@@ -32,10 +32,10 @@ public class UserController implements UserApi {
       userService.confirmMasterByEmail(email);
     }
 
-    @Override
-    public UserDto loginUser(String email, String password) {
-        return userService.authenticate(email, password);
-    }
+//    @Override
+//    public UserDto loginUser(String email, String password) {
+//        return userService.authenticate(email, password);
+//    }
     @Override
     public List<UserDto> getAllMasters() {
         return userService.getAllMasters() ;

@@ -52,10 +52,10 @@ public interface UserApi {
     @PostMapping("/confirm")
     void confirmMasterByEmail(@RequestParam String email);
 
-    @Operation(summary = "Authenticate user", description = "Authenticate a user with the provided email and password.")
-    @PostMapping("/login")
-    UserDto loginUser(@RequestParam String email,
-                                      @RequestParam String password);
+//    @Operation(summary = "Authenticate user", description = "Authenticate a user with the provided email and password.")
+//    @PostMapping("/login")
+//    UserDto loginUser(@RequestParam String email,
+//                                      @RequestParam String password);
 
     @Operation(summary = "Get all users", description = "Available to ADMIN")
     @GetMapping()
