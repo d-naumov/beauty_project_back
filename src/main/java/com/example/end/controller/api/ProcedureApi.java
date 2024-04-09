@@ -66,7 +66,7 @@ public interface ProcedureApi {
     ProcedureDto findByName(@PathVariable String name);
 
     @Operation(summary = "Get a list of all procedures", description = "Retrieve all procedures")
-    @GetMapping("/all")
+    @GetMapping()
     List<ProcedureDto> findAll();
 
     @Operation(summary = "Find a procedure by ID", description = "Retrieve a procedure by its ID")
