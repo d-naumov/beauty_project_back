@@ -36,10 +36,9 @@ public class UserController implements UserApi {
     public UserDto loginUser(String email, String password) {
         return userService.authenticate(email, password);
     }
-    @GetMapping("/masters")
-    public ResponseEntity<List<UserDto>> getAllMasters() {
-        List<UserDto> masters = userService.getAllMasters();
-        return new ResponseEntity<>(masters, HttpStatus.OK);
+    @Override
+    public List<UserDto> getAllMasters() {
+        return userService.getAllMasters() ;
     }
 
     @Override
