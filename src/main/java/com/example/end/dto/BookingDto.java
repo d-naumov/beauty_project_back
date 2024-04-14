@@ -22,7 +22,7 @@ import java.util.List;
 @Schema(description = "DTO representing a booking")
 public class BookingDto {
 
-    @Schema(description = "Unique identifier of the booking", example = "1")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY ,description = "Unique identifier of the booking", example = "1")
     private Long id;
 
     @NotNull(message = "User ID cannot be null")

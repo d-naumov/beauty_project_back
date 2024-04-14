@@ -40,12 +40,7 @@ public class ProcedureServiceImpl implements ProcedureService {
         procedureRepository.deleteById(id);
         return procedureMapper.toDto(procedure);
     }
-    @Override
-    public ProcedureDto findByName(String name) {
-        Procedure procedure = procedureRepository.findByName(name)
-                .orElseThrow(() -> new ProcedureNotFoundException("Dienstleistung mit dem Namen " + name + " wurde nicht gefunden"));
-        return procedureMapper.toDto(procedure);
-    }
+
 
     @Override
     public List<ProcedureDto> findAll() {

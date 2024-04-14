@@ -28,10 +28,7 @@ public class ProcedureController implements ProcedureApi {
   public ProcedureDto deleteById(Long id) {
     return procedureService.deleteById(id);
   }
-  @Override
-  public ProcedureDto findByName(String name) {
-    return procedureService.findByName(name);
-  }
+
   @Override
   public List<ProcedureDto> findAll() {
   return procedureService.findAll();

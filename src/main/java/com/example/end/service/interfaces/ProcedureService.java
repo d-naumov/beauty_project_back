@@ -17,7 +17,6 @@ public interface ProcedureService {
 
   ProcedureDto deleteById(Long id);
 
-  ProcedureDto findByName(String name);
 
   List<ProcedureDto> findAll();
 

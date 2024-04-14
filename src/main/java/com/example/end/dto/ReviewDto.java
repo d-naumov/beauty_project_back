@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class ReviewDto {
 
 
-    @Schema(description = "Unique identifier of the review", example = "1")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY,description = "Unique identifier of the review", example = "1")
     private Long id;
 
     @NotNull(message = "User cannot be null")

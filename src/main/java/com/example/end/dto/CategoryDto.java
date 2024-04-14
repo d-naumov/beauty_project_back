@@ -17,7 +17,7 @@ import java.util.Set;
 public class CategoryDto {
 
 
-    @Schema(description = "Unique identifier of the category", example = "1")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY,description = "Unique identifier of the category", example = "1")
     private Long id;
 
     @NotBlank(message = "Category name cannot be blank")
