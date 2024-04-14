@@ -61,9 +61,7 @@ public interface ProcedureApi {
     ProcedureDto deleteById(@Parameter(description = "procedure id", example = "1")
                             @PathVariable("id") Long id);
 
-    @Operation(summary = "Find a procedure by name", description = "Retrieve a procedure by its name")
-    @GetMapping("/name/{name}")
-    ProcedureDto findByName(@PathVariable String name);
+
 
     @Operation(summary = "Get a list of all procedures", description = "Retrieve all procedures")
     @GetMapping()

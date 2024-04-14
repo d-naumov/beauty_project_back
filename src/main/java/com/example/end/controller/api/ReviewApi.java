@@ -34,7 +34,7 @@ import java.util.List;
 public interface ReviewApi {
 
     @Operation(summary = "Get all reviews", description = "Available to ADMIN")
-    @GetMapping("/all")
+    @GetMapping
     List<ReviewDto> getAllReviews();
 
     @Operation(summary = "Get reviews by master", description = "Available to all users")
