@@ -5,6 +5,10 @@ import com.example.end.security.sec_dto.RefreshRequestDto;
 import com.example.end.security.sec_dto.TokenResponseDto;
 import com.example.end.service.interfaces.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.security.auth.message.AuthException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,8 +23,12 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
-
     @Operation(summary = "Authenticate user", description = "Authenticate a user with the provided email and password.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Authentication successful",
+                    content = @Content(schema = @Schema(implementation = TokenResponseDto.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized")
+    })
     @PostMapping("/login")
     public ResponseEntity<Object> loginUser(@RequestBody @Valid LoginRequestDto loginRequest, HttpServletResponse response) throws AuthException {
         TokenResponseDto tokenDto = authenticationService.login(loginRequest);
