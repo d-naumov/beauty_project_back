@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Schema(description = "DTO representing a user")
 public class UserDto {
 
-    @Schema(description = "Unique identifier of the user", example = "1")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY,description = "Unique identifier of the user", example = "1")
     private Long id;
 
     @Pattern(regexp = "[A-Z][a-z]{3,}")

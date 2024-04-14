@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Builder
 public class ProcedureDto {
 
-    @Schema(description = "Unique identifier of the procedure", example = "1")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY,description = "Unique identifier of the procedure", example = "1")
     private Long id;
 
     @NotBlank(message = "Procedure name cannot be blank")
