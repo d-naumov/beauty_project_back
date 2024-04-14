@@ -46,7 +46,7 @@ public class TokenService {
                 .subject(user.getEmail())
                 .expiration(expirationDate)
                 .signWith(accessKey)
-                .claim("firstName", user.getFirstName())
+                .claim("user_id", user.getId())
                 .claim("roles", user.getRole())
                 .compact();
     }
