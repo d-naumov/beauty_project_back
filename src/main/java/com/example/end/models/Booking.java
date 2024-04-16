@@ -59,8 +59,6 @@ public class Booking {
     @ToString.Exclude
     private List<Procedure> procedures;
 
-    private double totalPrice;
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime dateTime;
 
