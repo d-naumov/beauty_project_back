@@ -1,8 +1,6 @@
 package com.example.end.service;
 
-import com.example.end.dto.BookingDto;
-import com.example.end.dto.ProcedureDto;
-import com.example.end.dto.UserDto;
+import com.example.end.dto.*;
 import com.example.end.mapping.BookingMapper;
 import com.example.end.mapping.ProcedureMapper;
 import com.example.end.mapping.UserMapper;
@@ -11,7 +9,7 @@ import com.example.end.models.BookingStatus;
 import com.example.end.models.Procedure;
 import com.example.end.models.User;
 import com.example.end.repository.BookingRepository;
-import com.example.end.repository.ProcedureRepository;
+import com.example.end.repository.UserRepository;
 import com.example.end.service.interfaces.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,11 +17,12 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class BookingServiceImpl implements BookingService {
+public class BookingServiceImpl  implements BookingService {
 
     private final BookingRepository bookingRepository;
     private final UserServiceImpl userService;
@@ -33,37 +32,39 @@ public class BookingServiceImpl implements BookingService {
     private final ProcedureMapper procedureMapper;
 
 
-
-
     @Override
-    public BookingDto createBooking(BookingDto bookingDto) {
-        UserDto userDto = userService.getById(bookingDto.getUser().getId());
-        User entity = userMapper.toEntity(userDto);
+    public BookingDto createBooking(NewBookingDto bookingDto) {
+        UserDto clientDto = userService.getClientById(bookingDto.getClientId());
+        User clientEntity = userMapper.toEntity(clientDto);
 
-        ProcedureDto procedureDto = procedureService.findById(bookingDto.getProcedure().getId());
+        UserDto masterDto = userService.getMasterById(bookingDto.getMasterId());
+        User masterEntity = userMapper.toEntity(masterDto);
+
+        ProcedureDto procedureDto = procedureService.findById(bookingDto.getProcedureId());
         Procedure procedure = procedureMapper.toEntity(procedureDto);
 
-        if (entity != null) {
+        if (clientEntity != null && masterEntity != null && procedure != null) {
             Booking booking = new Booking();
-            booking.setDateTime(bookingDto.getDateTime());
-            booking.setUser(entity);
+            booking.setDateTime(LocalDateTime.parse(bookingDto.getDateTime()));
+            booking.setClient(clientEntity);
+            booking.setMaster(masterEntity);
             booking.setProcedure(procedure);
+            booking.setStatus(BookingStatus.CONFIRMED);
 
             booking = bookingRepository.save(booking);
 
             return bookingMapper.toDto(booking);
         } else {
-            throw new RuntimeException("User or Procedure not found");
+            throw new RuntimeException("Client, Master, or Procedure not found");
         }
     }
 
-
     @Override
     public void updateBookingStatus(BookingDto bookingDto) {
-        Booking booking = bookingMapper.toEntity(bookingDto);
-        Booking existingBooking = bookingRepository.findById(booking.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Booking with ID " + booking.getId() + " not found"));
-        existingBooking.setStatus(booking.getStatus());
+        Booking existingBooking = bookingRepository.findById(bookingDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Booking with ID " + bookingDto.getId() + " not found"));
+
+        existingBooking.setStatus(bookingDto.getStatus());
         bookingRepository.save(existingBooking);
     }
 
@@ -76,56 +77,49 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getUserBookings(Long userId) {
+    public List<BookingUserDto> getUserBookings(Long userId) {
         UserDto userDto = userService.getById(userId);
         if (userDto != null) {
             User entity = userMapper.toEntity(userDto);
             List<Booking> bookings = bookingRepository.findByUser(entity);
             return bookings.stream()
-                    .map(bookingMapper::toDto)
+                    .map(bookingMapper::bookingUserToDto)
                     .collect(Collectors.toList());
         } else {
             return Collections.emptyList();
         }
     }
 
+
     @Override
-    public List<BookingDto> getMasterBookings(Long masterId) {
+    public List<BookingUserDto> getMasterBookings(Long masterId) {
         UserDto masterDto = userService.getById(masterId);
         if (masterDto != null && isMaster(masterDto)) {
             User entity = userMapper.toEntity(masterDto);
             List<Booking> bookings = bookingRepository.findByUser(entity);
             return bookings.stream()
-                    .map(booking -> {
-                        double totalProcedurePrice = booking.getProcedures().stream()
-                                .filter(procedure -> procedure.getUserMaster().contains(entity))
-                                .mapToDouble(Procedure::getPrice)
-                                .sum();
-
-                        BookingDto bookingDto = bookingMapper.toDto(booking);
-                        bookingDto.setTotalPrice(totalProcedurePrice);
-                        return bookingDto;
-                    })
+                    .map(bookingMapper::bookingUserToDto)
                     .collect(Collectors.toList());
         } else {
             throw new IllegalArgumentException("User is not a master");
         }
     }
 
+    @Override
     public boolean isMaster(UserDto userDto) {
         User entity = userMapper.toEntity(userDto);
         return entity.getRole() == User.Role.MASTER;
     }
 
     @Override
-    public List<BookingDto> findActiveBookingsByUserId(Long userId) {
+    public List<BookingUserDto> findActiveBookingsByUserId(Long userId) {
         List<Booking> activeBookings = bookingRepository.findActiveBookingsByUserId(userId);
-        return activeBookings.stream().map(bookingMapper::toDto).collect(Collectors.toList());
+        return activeBookings.stream().filter(Objects::nonNull).map(bookingMapper::bookingUserToDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<BookingDto> findCompletedBookingsByUserId(Long userId) {
+    public List<BookingUserDto> findCompletedBookingsByUserId(Long userId) {
         List<Booking> completedBookings = bookingRepository.findCompletedBookingsByUserId(userId);
-        return completedBookings.stream().map(bookingMapper::toDto).collect(Collectors.toList());
+        return completedBookings.stream().map(bookingMapper::bookingUserToDto).collect(Collectors.toList());
     }
 }

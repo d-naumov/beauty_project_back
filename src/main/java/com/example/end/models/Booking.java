@@ -1,7 +1,6 @@
 package com.example.end.models;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -25,6 +24,7 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne
@@ -34,8 +34,19 @@ public class Booking {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne
+    @JoinColumn(name = "client_id")
+    private User client;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne
+    @JoinColumn(name = "master_id")
+    private User master;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne
     @JoinColumn(name = "procedure_id")
-    @JsonIgnore
     private Procedure procedure;
 
     @ManyToMany
@@ -48,8 +59,7 @@ public class Booking {
     @ToString.Exclude
     private List<Procedure> procedures;
 
-    private double totalPrice;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime dateTime;
 
     @Enumerated(EnumType.STRING)

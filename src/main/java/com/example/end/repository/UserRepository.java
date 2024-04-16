@@ -9,13 +9,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User,Long> {
 
-  User findByFirstName(String firstname);
   Optional<User> findByEmail(String email);
   boolean existsByEmail(String email);
-
-
-  Optional<Object> findByIdAndRole(Long masterId, User.Role role);
-
+  Optional<User> findByIdAndRole(Long id, User.Role role);
     List<User> findAllByRole(User.Role role);
 }
 

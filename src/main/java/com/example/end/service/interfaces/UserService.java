@@ -22,6 +22,16 @@ public interface UserService {
 
     UserDto getById(Long id);
 
+    void sendConfirmationEmails(User masterUser);
+
+    void validateEmail(String email);
+
+    User createUser(NewUserDto newUserDto);
+
+    UserDto getMasterById(Long id);
+
+    UserDto getClientById(Long id);
+
     @jakarta.transaction.Transactional
     void confirmMasterByEmail(String email);
 
@@ -32,6 +42,10 @@ public interface UserService {
     List<UserDto> getAllUsers();
 
     void deleteById(Long id);
+
+    User findMasterUserByEmail(String email);
+
+    void activateMasterUser(User masterUser);
 
     List<UserDto> getAllMasters();
 

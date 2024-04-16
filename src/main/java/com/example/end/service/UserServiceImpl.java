@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -62,7 +61,15 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(user);
     }
 
-    private void sendConfirmationEmails(User masterUser) {
+    @Override
+    public UserDto getById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found for id: " + id));
+        return userMapper.toDto(user);
+    }
+
+    @Override
+    public void sendConfirmationEmails(User masterUser) {
         String subject = "Ожидание подтверждения регистрации мастера";
         String messageToMaster = "Ваша регистрация в качестве мастера зарегистрирована и ожидает подтверждения администратора. " +
                 "Мы свяжемся с вами, как только ваш аккаунт будет подтвержден. Спасибо за регистрацию!";
@@ -70,14 +77,14 @@ public class UserServiceImpl implements UserService {
         String messageToAdmin = masterUser.getFirstName() + " " + masterUser.getLastName();
         mailSender.sendMasterConfirmationRequest(adminEmail, messageToAdmin);
     }
-
-    private void validateEmail(String email) {
+      @Override
+      public void validateEmail(String email) {
         if (userRepository.existsByEmail(email)) {
             throw new RestException(HttpStatus.CONFLICT, "User with email <" + email + "> already exists");
         }
     }
-
-    private User createUser(NewUserDto newUserDto) {
+  @Override
+  public User createUser(NewUserDto newUserDto) {
         return User.builder()
                 .firstName(newUserDto.getFirstName())
                 .lastName(newUserDto.getLastName())
@@ -97,10 +104,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getById(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found for id: " + id));
-        return userMapper.toDto(user);
+    public UserDto getMasterById(Long id) {
+        User master =  userRepository.findByIdAndRole(id, User.Role.MASTER)
+                .orElseThrow(() -> new UserNotFoundException("Master not found for id: " + id));
+        return userMapper.toDto(master);
+    }
+    @Override
+    public UserDto getClientById(Long id) {
+        User client = userRepository.findByIdAndRole(id, User.Role.CLIENT)
+                .orElseThrow(() -> new UserNotFoundException("Client not found for id: " + id));
+        return userMapper.toDto(client);
     }
 
     @Override
@@ -110,8 +123,8 @@ public class UserServiceImpl implements UserService {
         activateMasterUser(masterUser);
         sendRegistrationEmail(masterUser);
     }
-
-    private User findMasterUserByEmail(String email) {
+    @Override
+    public User findMasterUserByEmail(String email) {
         Optional<User> optionalUser = userRepository.findByEmail(email);
         User masterUser = optionalUser.orElseThrow(() -> new UserNotFoundException("Master user not found or already confirmed for email: " + email));
         if (masterUser.getRole() != User.Role.MASTER || masterUser.isActive()) {
@@ -119,8 +132,8 @@ public class UserServiceImpl implements UserService {
         }
         return masterUser;
     }
-
-    private void activateMasterUser(User masterUser) {
+    @Override
+    public void activateMasterUser(User masterUser) {
         masterUser.setActive(true);
         userRepository.save(masterUser);
     }
