@@ -16,12 +16,6 @@ public class UserMapper {
                 .build();
     }
 
-    public UserDto toNameDto(User user) {
-        return UserDto.builder()
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .build();
-    }
 
     public User toEntity(UserDto user) {
         return User.builder()

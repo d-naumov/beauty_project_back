@@ -27,6 +27,15 @@ public interface UserApi {
     @GetMapping("/{id}")
     UserDto getById(@Parameter(description = "ID of the user to be obtained. Cannot be empty.", required = true)
                     @PathVariable Long id);
+    @Operation(summary = "Get master by ID", description = "Retrieve a master by their ID.")
+    @GetMapping("/masters/{master-id}")
+    UserDto getMasterById(@Parameter(description = "ID of the master to be obtained. Cannot be empty.", required = true)
+                          @PathVariable("master-id") Long id);
+
+    @Operation(summary = "Get client by ID", description = "Retrieve a client by their ID.")
+    @GetMapping("/clients/{client-id}")
+    UserDto getClientById(@Parameter(description = "ID of the client to be obtained. Cannot be empty.", required = true)
+                          @PathVariable ("client-id")  Long id);
 
     @Operation(summary = "Register a new user", description = "Available to everyone. By default, the role is CLIENT.")
     @ApiResponses(value = {

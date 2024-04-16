@@ -5,8 +5,6 @@ import com.example.end.dto.NewUserDto;
 import com.example.end.dto.UserDto;
 import com.example.end.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +18,14 @@ public class UserController implements UserApi {
     @Override
     public UserDto getById(Long id) {
         return userService.getById(id);
+    }
+    @Override
+    public UserDto getMasterById(Long id) {
+        return userService.getMasterById(id);
+    }
+    @Override
+    public UserDto getClientById(Long id) {
+        return userService.getClientById(id);
     }
 
     @Override
