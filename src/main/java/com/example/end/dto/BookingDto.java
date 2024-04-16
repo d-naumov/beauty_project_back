@@ -51,7 +51,4 @@ public class BookingDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private String dateTime;
 
-    @Min(value = 0, message = "Total price cannot be less than 0")
-    @Schema(description = "Total price of the booking")
-    private double totalPrice;
 }

@@ -21,18 +21,16 @@ public class BookingMapper {
                 .procedureId(booking.getProcedure().getId())
                 .dateTime(String.valueOf(booking.getDateTime()))
                 .status(booking.getStatus())
-                .totalPrice(booking.getTotalPrice())
                 .build();
 
     }
-    public BookingUserDto bookingUsertoDto(Booking booking) {
+    public BookingUserDto bookingUserToDto(Booking booking) {
         return BookingUserDto.builder()
                 .id(booking.getId())
                 .userId(booking.getUser().getId())
                 .procedureId(booking.getProcedure().getId())
                 .dateTime(String.valueOf(booking.getDateTime()))
                 .status(booking.getStatus())
-                .totalPrice(booking.getTotalPrice())
                 .build();
 
     }

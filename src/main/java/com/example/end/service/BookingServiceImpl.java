@@ -83,7 +83,7 @@ public class BookingServiceImpl  implements BookingService {
             User entity = userMapper.toEntity(userDto);
             List<Booking> bookings = bookingRepository.findByUser(entity);
             return bookings.stream()
-                    .map(bookingMapper::bookingUsertoDto)
+                    .map(bookingMapper::bookingUserToDto)
                     .collect(Collectors.toList());
         } else {
             return Collections.emptyList();
@@ -98,21 +98,13 @@ public class BookingServiceImpl  implements BookingService {
             User entity = userMapper.toEntity(masterDto);
             List<Booking> bookings = bookingRepository.findByUser(entity);
             return bookings.stream()
-                    .map(booking -> {
-                        double totalProcedurePrice = booking.getProcedures().stream()
-                                .filter(procedure -> procedure.getUserMaster().contains(entity))
-                                .mapToDouble(Procedure::getPrice)
-                                .sum();
-
-                        BookingUserDto bookingDto = bookingMapper.bookingUsertoDto(booking);
-                        bookingDto.setTotalPrice(totalProcedurePrice);
-                        return bookingDto;
-                    })
+                    .map(bookingMapper::bookingUserToDto)
                     .collect(Collectors.toList());
         } else {
             throw new IllegalArgumentException("User is not a master");
         }
     }
+
     @Override
     public boolean isMaster(UserDto userDto) {
         User entity = userMapper.toEntity(userDto);
@@ -122,12 +114,12 @@ public class BookingServiceImpl  implements BookingService {
     @Override
     public List<BookingUserDto> findActiveBookingsByUserId(Long userId) {
         List<Booking> activeBookings = bookingRepository.findActiveBookingsByUserId(userId);
-        return activeBookings.stream().filter(Objects::nonNull).map(bookingMapper::bookingUsertoDto).collect(Collectors.toList());
+        return activeBookings.stream().filter(Objects::nonNull).map(bookingMapper::bookingUserToDto).collect(Collectors.toList());
     }
 
     @Override
     public List<BookingUserDto> findCompletedBookingsByUserId(Long userId) {
         List<Booking> completedBookings = bookingRepository.findCompletedBookingsByUserId(userId);
-        return completedBookings.stream().map(bookingMapper::bookingUsertoDto).collect(Collectors.toList());
+        return completedBookings.stream().map(bookingMapper::bookingUserToDto).collect(Collectors.toList());
     }
 }
