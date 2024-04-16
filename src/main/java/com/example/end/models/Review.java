@@ -28,6 +28,18 @@ public class Review {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne
+    @JoinColumn(name = "master_id")
+    private User master;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private User client;
+
     private String content;
 
     private int rating;

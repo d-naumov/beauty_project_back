@@ -1,6 +1,7 @@
 package com.example.end.service.interfaces;
 
 import com.example.end.dto.ReviewDto;
+import com.example.end.dto.ReviewUserDto;
 import com.example.end.models.Review;
 import com.example.end.models.User;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,5 @@ public interface ReviewService {
 
     void deleteReview(Long reviewId);
 
-    List<ReviewDto> getAllReviews();
-
-    List<ReviewDto> getReviewsByMaster(Long masterId);
+    List<ReviewUserDto> getReviewsByMaster(Long masterId);
 }
