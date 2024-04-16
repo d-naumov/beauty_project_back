@@ -1,8 +1,6 @@
 package com.example.end.controller.api;
 
-import com.example.end.dto.BookingDto;
-import com.example.end.dto.StandardResponseDto;
-import com.example.end.dto.UserDto;
+import com.example.end.dto.*;
 import com.example.end.validation.dto.ValidationErrorsDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -47,7 +45,7 @@ public interface BookingApi {
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    BookingDto createBooking(@RequestBody @Valid BookingDto bookingDto);
+    BookingDto createBooking(@RequestBody @Valid NewBookingDto bookingDto);
 
     @Operation(summary = "Update booking status", description = "Available to all users")
     @PutMapping("/status")
@@ -60,22 +58,20 @@ public interface BookingApi {
 
     @Operation(summary = "Get user bookings", description = "Available to all users")
     @GetMapping("/user/{user-id}")
-    List<BookingDto> getUserBookings(@Parameter(description = "user identifier", example = "1")
+    List<BookingUserDto> getUserBookings(@Parameter(description = "user identifier", example = "1")
                                      @PathVariable("user-id") Long userId);
 
     @Operation(summary = "Get master bookings", description = "Available to all MASTERS")
     @GetMapping("/master/{master-id}")
-    List<BookingDto> getMasterBookings(@Parameter(description = "master identifier", example = "1")
+    List<BookingUserDto> getMasterBookings(@Parameter(description = "master identifier", example = "1")
                                        @PathVariable("master-id") Long masterId);
-
-
     @Operation(summary = "Find active bookings by user ID", description = "Available to all users")
     @GetMapping("/active/{user-id}")
-    List<BookingDto> findActiveBookingsByUserId(@Parameter(description = "user identifier", example = "1")
-                                                @PathVariable("user-id") Long userId);
+    List<BookingUserDto> findActiveBookingsByUserId(@Parameter(description = "user identifier", example = "1")
+                                                 @PathVariable("user-id")Long clientId);
 
     @Operation(summary = "Find completed bookings by user ID", description = "Available to all users")
     @GetMapping("/completed/{user-id}")
-    List<BookingDto> findCompletedBookingsByUserId(@Parameter(description = "user identifier", example = "1")
-                                                   @PathVariable("user-id") Long userId);
+    List<BookingUserDto> findCompletedBookingsByUserId(@Parameter(description = "user identifier", example = "1")
+                                                    @PathVariable("user-id")Long masterId);
 }

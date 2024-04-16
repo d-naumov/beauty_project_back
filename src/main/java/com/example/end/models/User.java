@@ -31,9 +31,13 @@ public class User {
     private String firstName;
 
     private String lastName;
+    
+    private String address;
 
     @Column(unique = true)
     private String email;
+
+    private String phoneNumber;
 
     private boolean isActive = true;
 
@@ -41,6 +45,21 @@ public class User {
     private String hashPassword;
 
     private String description;
+
+
+    @Lob
+    private byte[] profilePhoto;  // Фотография профиля
+    private String profilePhotoType;  // Тип файла фотографии профиля
+
+    @ElementCollection
+    @CollectionTable(name = "portfolio_images", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "image_data")
+    private List<byte[]> portfolioImages;  // Массив фотографий портфолио
+
+    @ElementCollection
+    @CollectionTable(name = "portfolio_image_types", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "image_type")
+    private List<String> portfolioImageTypes;  // Массив типов файлов фотографий портфолио
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
