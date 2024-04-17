@@ -12,6 +12,7 @@ public class ProcedureMapper {
    public ProcedureDto toDto(Procedure procedure){
         return ProcedureDto.builder()
                 .id(procedure.getId())
+                .price(procedure.getPrice())
                 .name(procedure.getName())
                 .build();
     }
@@ -19,6 +20,7 @@ public class ProcedureMapper {
     public Procedure toEntity(ProcedureDto procedureDto){
         return Procedure.builder()
                 .id(procedureDto.getId())
+                .price(procedureDto.getPrice())
                 .name(procedureDto.getName())
                 .build();
 
