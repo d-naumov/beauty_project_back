@@ -15,7 +15,6 @@ public class BookingMapper {
     public BookingDto toDto(Booking booking) {
         return BookingDto.builder()
                 .id(booking.getId())
-                .userId(booking.getUser().getId())
                 .clientId(booking.getClient().getId())
                 .masterId(booking.getMaster().getId())
                 .procedureId(booking.getProcedure().getId())
