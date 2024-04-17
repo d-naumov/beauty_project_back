@@ -1,6 +1,8 @@
 package com.example.end.service;
 
 import com.example.end.dto.NewUserDto;
+import com.example.end.dto.NewUserDetailsDto;
+import com.example.end.dto.UserDetailsDto;
 import com.example.end.dto.UserDto;
 import com.example.end.exceptions.RestException;
 import com.example.end.exceptions.UserNotFoundException;
@@ -94,6 +96,28 @@ public class UserServiceImpl implements UserService {
                 .isActive(newUserDto.getRole() != User.Role.MASTER)
                 .build();
     }
+    @Override
+    @Transactional
+    public UserDetailsDto updateUserDetails(Long userId, NewUserDetailsDto userDetailsDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found for id: " + userId));
+
+        if (userDetailsDto.getDescription() != null) {
+            user.setDescription(userDetailsDto.getDescription());
+        }
+
+        if (userDetailsDto.getPhoneNumber() != null) {
+            user.setPhoneNumber(userDetailsDto.getPhoneNumber());
+        }
+
+        if (userDetailsDto.getAddress() != null) {
+            user.setAddress(userDetailsDto.getAddress());
+        }
+
+        User updatedUser = userRepository.save(user);
+        return userMapper.userDetailsToDto(updatedUser);
+    }
+
 
 
     private void sendRegistrationEmail(User user) {
