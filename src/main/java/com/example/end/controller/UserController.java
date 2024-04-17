@@ -2,6 +2,8 @@ package com.example.end.controller;
 
 import com.example.end.controller.api.UserApi;
 import com.example.end.dto.NewUserDto;
+import com.example.end.dto.NewUserDetailsDto;
+import com.example.end.dto.UserDetailsDto;
 import com.example.end.dto.UserDto;
 import com.example.end.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,12 @@ public class UserController implements UserApi {
     }
 
     @Override
+    public UserDetailsDto updateUserDetails(Long userId, NewUserDetailsDto userDetailsDto) {
+        return userService.updateUserDetails(userId, userDetailsDto);
+    }
+
+
+        @Override
     public void confirmMasterByEmail(String email) {
       userService.confirmMasterByEmail(email);
     }

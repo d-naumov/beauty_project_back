@@ -1,5 +1,6 @@
 package com.example.end.mapping;
 
+import com.example.end.dto.UserDetailsDto;
 import com.example.end.dto.UserDto;
 import com.example.end.models.User;
 import org.springframework.stereotype.Service;
@@ -26,27 +27,16 @@ public class UserMapper {
                 .role(user.getRole())
                 .build();
     }
+    public UserDetailsDto userDetailsToDto(User user) {
+        return UserDetailsDto.builder()
+                .id(user.getId())
+                .phoneNumber(user.getPhoneNumber())
+                .address(user.getAddress())
+                .description(user.getDescription())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .build();
+    }
 }
 
-
-//    public UserDto toDto(User user) {
-//        return UserDto.builder()
-//                .id(user.getId())
-//                .firstName(user.getFirstName())
-//                .lastName(user.getLastName())
-//                .email(user.getEmail())
-//                .role(User.Role.valueOf(user.getRole().toString()))
-//                .build();
-//    }
-//
-//
-//    public User toEntity(UserDto userDto) {
-//        return User.builder()
-//                .id(userDto.getId())
-//                .firstName(userDto.getFirstName())
-//                .lastName(userDto.getLastName())
-//                .email(userDto.getEmail())
-//                .role(User.Role.valueOf(userDto.getRole().toString()))
-//                .build();
-//    }
-//}
