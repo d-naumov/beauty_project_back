@@ -1,8 +1,6 @@
 package com.example.end.controller.api;
 
-import com.example.end.dto.NewUserDto;
-import com.example.end.dto.StandardResponseDto;
-import com.example.end.dto.UserDto;
+import com.example.end.dto.*;
 import com.example.end.validation.dto.ValidationErrorsDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,15 +53,36 @@ public interface UserApi {
     @PostMapping("/register")
     UserDto register(@RequestBody @Valid NewUserDto newUserDto);
 
+    @Operation(
+            summary = "Update or add user details",
+            description = "Updates or adds user details such as description, phone number, and address. If the user with the provided ID doesn't exist, a 'UserNotFoundException' will be thrown. All provided fields are optional, and only the provided fields will be updated.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = NewUserDetailsDto.class)
+                    )
+            ),
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "User details updated successfully",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = NewUserDetailsDto.class))),
+                    @ApiResponse(responseCode = "404",
+                            description = "User not found",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = StandardResponseDto.class)))
+            })
+    @PutMapping("/{userId}/details")
+    UserDetailsDto updateUserDetails(
+            @Parameter(description = "ID of the user to be updated. Cannot be empty.",
+                    required = true) @PathVariable Long userId,
+            @Parameter(description = "User details to be updated or added.",
+                    required = true) @RequestBody @Valid NewUserDetailsDto userDetailsDto);
 
     @Operation(summary = "Confirm master by email", description = "Available to ADMIN")
     @PostMapping("/confirm")
     void confirmMasterByEmail(@RequestParam String email);
 
-//    @Operation(summary = "Authenticate user", description = "Authenticate a user with the provided email and password.")
-//    @PostMapping("/login")
-//    UserDto loginUser(@RequestParam String email,
-//                                      @RequestParam String password);
 
     @Operation(summary = "Get all users", description = "Available to ADMIN")
     @GetMapping()

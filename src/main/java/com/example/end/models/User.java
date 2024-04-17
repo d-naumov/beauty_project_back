@@ -47,20 +47,6 @@ public class User {
     private String description;
 
 
-    @Lob
-    private byte[] profilePhoto;  // Фотография профиля
-    private String profilePhotoType;  // Тип файла фотографии профиля
-
-    @ElementCollection
-    @CollectionTable(name = "portfolio_images", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "image_data")
-    private List<byte[]> portfolioImages;  // Массив фотографий портфолио
-
-    @ElementCollection
-    @CollectionTable(name = "portfolio_image_types", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "image_type")
-    private List<String> portfolioImageTypes;  // Массив типов файлов фотографий портфолио
-
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Role role;

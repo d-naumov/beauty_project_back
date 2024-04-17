@@ -38,8 +38,6 @@ public class UserDto {
     @Schema(description = "Email address of the user", example = "john.doe@example.com")
     private String email;
 
-    @Size(max = 500)
-    private String description;
 
     @Schema(description = "Set of roles assigned to the user")
     @NotNull(message = "Role cannot be null")
