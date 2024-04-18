@@ -67,6 +67,7 @@ public class User {
 
     private Set<Category> categories;
 
+
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToMany
@@ -75,8 +76,10 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "procedure_id")
     )
-
     private Set<Procedure> procedures;
+
+    @OneToOne
+    private UserMetadata userMetadata;
 
     @Override
     public final boolean equals(Object o) {

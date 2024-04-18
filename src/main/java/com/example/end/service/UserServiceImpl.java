@@ -1,14 +1,16 @@
 package com.example.end.service;
 
-import com.example.end.dto.NewUserDto;
-import com.example.end.dto.NewUserDetailsDto;
-import com.example.end.dto.UserDetailsDto;
-import com.example.end.dto.UserDto;
+import com.example.end.dto.*;
+import com.example.end.exceptions.CategoryNotFoundException;
 import com.example.end.exceptions.RestException;
 import com.example.end.exceptions.UserNotFoundException;
 import com.example.end.mail.ProjectMailSender;
+import com.example.end.mapping.CategoryMapper;
 import com.example.end.mapping.UserMapper;
+import com.example.end.models.Category;
+import com.example.end.models.Procedure;
 import com.example.end.models.User;
+import com.example.end.repository.CategoryRepository;
 import com.example.end.repository.UserRepository;
 import com.example.end.service.interfaces.UserService;
 import jakarta.transaction.Transactional;
@@ -19,8 +21,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -28,8 +32,10 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final CategoryMapper categoryMapper;
     private final ProjectMailSender mailSender;
     @Value("${spring.mail.username}")
     private String adminEmail;
@@ -96,28 +102,34 @@ public class UserServiceImpl implements UserService {
                 .isActive(newUserDto.getRole() != User.Role.MASTER)
                 .build();
     }
+
+
     @Override
     @Transactional
     public UserDetailsDto updateUserDetails(Long userId, NewUserDetailsDto userDetailsDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found for id: " + userId));
 
-        if (userDetailsDto.getDescription() != null) {
-            user.setDescription(userDetailsDto.getDescription());
-        }
+        user.setDescription(userDetailsDto.getDescription());
+        user.setPhoneNumber(userDetailsDto.getPhoneNumber());
+        user.setAddress(userDetailsDto.getAddress());
 
-        if (userDetailsDto.getPhoneNumber() != null) {
-            user.setPhoneNumber(userDetailsDto.getPhoneNumber());
-        }
+        Set<Category> categories = new HashSet<>(categoryRepository.findAllById(userDetailsDto.getCategoryIds()));
+        user.setCategories(categories);
 
-        if (userDetailsDto.getAddress() != null) {
-            user.setAddress(userDetailsDto.getAddress());
-        }
+        Set<Procedure> procedures = categories.stream()
+                .flatMap(category -> category.getProcedures().stream())
+                .collect(Collectors.toSet());
+        user.setProcedures(procedures);
 
         User updatedUser = userRepository.save(user);
-        return userMapper.userDetailsToDto(updatedUser);
-    }
 
+        UserDetailsDto responseDto = userMapper.userDetailsToDto(updatedUser);
+        responseDto.setCategoryIds(updatedUser.getCategories().stream().map(Category::getId).collect(Collectors.toList()));
+        responseDto.setProcedureIds(updatedUser.getProcedures().stream().map(Procedure::getId).collect(Collectors.toList()));
+
+        return responseDto;
+    }
 
 
     private void sendRegistrationEmail(User user) {

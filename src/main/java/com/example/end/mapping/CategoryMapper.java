@@ -4,6 +4,10 @@ import com.example.end.dto.CategoryDto;
 import com.example.end.models.Category;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CategoryMapper {
 
@@ -19,6 +23,11 @@ public class CategoryMapper {
                 .id(categoryDto.getId())
                 .name(categoryDto.getName())
                 .build();
+    }
+    public List<CategoryDto> toDto(Collection<Category> categories) {
+        return categories.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 }
 
