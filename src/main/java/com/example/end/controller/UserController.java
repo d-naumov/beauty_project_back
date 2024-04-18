@@ -18,14 +18,7 @@ public class UserController implements UserApi {
     public UserDto getById(Long id) {
         return userService.getById(id);
     }
-    @Override
-    public UserDto getMasterById(Long id) {
-        return userService.getMasterById(id);
-    }
-    @Override
-    public UserDto getClientById(Long id) {
-        return userService.getClientById(id);
-    }
+
 
     @Override
     public UserDto register(NewUserDto newUserDto) {
@@ -44,12 +37,12 @@ public class UserController implements UserApi {
 
 
     @Override
-    public List<UserDto> getAllMasters() {
+    public List<UserDetailsDto> getAllMasters() {
         return userService.getAllMasters() ;
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
+    public List<UserDetailsDto> getAllUsers() {
         return userService.getAllUsers();
     }
 
