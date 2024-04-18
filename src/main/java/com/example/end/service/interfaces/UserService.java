@@ -41,7 +41,7 @@ public interface UserService {
 
     Optional<User> loadUserByEmail(String email);
 
-    List<UserDto> getAllUsers();
+    List<UserDetailsDto> getAllUsers();
 
     void deleteById(Long id);
 
@@ -49,7 +49,7 @@ public interface UserService {
 
     void activateMasterUser(User masterUser);
 
-    List<UserDto> getAllMasters();
+    List<UserDetailsDto> getAllMasters();
 
 
 }

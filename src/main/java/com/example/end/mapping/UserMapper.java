@@ -3,7 +3,11 @@ package com.example.end.mapping;
 import com.example.end.dto.UserDetailsDto;
 import com.example.end.dto.UserDto;
 import com.example.end.models.User;
+import com.example.end.models.Category;
+import com.example.end.models.Procedure;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 @Service
 public class UserMapper {
@@ -36,6 +40,8 @@ public class UserMapper {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
+                .categoryIds(user.getCategories().stream().map(Category::getId).collect(Collectors.toList()))
+                .procedureIds(user.getProcedures().stream().map(Procedure::getId).collect(Collectors.toList()))
                 .build();
     }
 }

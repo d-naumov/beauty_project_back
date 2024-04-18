@@ -175,17 +175,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllMasters() {
+    public List<UserDetailsDto> getAllMasters() {
         List<User> masters = userRepository.findAllByRole(User.Role.MASTER);
         return masters.stream()
-                .map(userMapper::toDto)
+                .map(userMapper::userDetailsToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
+    public List<UserDetailsDto> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(userMapper::toDto)
+                .map(userMapper::userDetailsToDto)
                 .collect(Collectors.toList());
     }
 
