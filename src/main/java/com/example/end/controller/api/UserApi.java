@@ -55,7 +55,7 @@ public interface UserApi {
 
     @Operation(
             summary = "Update or add user details",
-            description = "Updates or adds user details such as description, phone number, and address. If the user with the provided ID doesn't exist, a 'UserNotFoundException' will be thrown. All provided fields are optional, and only the provided fields will be updated.",
+            description = "Updates or adds user details such as description, phone number, address, categories and relevant procedures. If the user with the provided ID doesn't exist, a 'UserNotFoundException' will be thrown. ",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     content = @Content(
                             mediaType = "application/json",
@@ -66,7 +66,7 @@ public interface UserApi {
                     @ApiResponse(responseCode = "200",
                             description = "User details updated successfully",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = NewUserDetailsDto.class))),
+                                    schema = @Schema(implementation = UserDetailsDto.class))),
                     @ApiResponse(responseCode = "404",
                             description = "User not found",
                             content = @Content(mediaType = "application/json",
@@ -78,6 +78,8 @@ public interface UserApi {
                     required = true) @PathVariable Long userId,
             @Parameter(description = "User details to be updated or added.",
                     required = true) @RequestBody @Valid NewUserDetailsDto userDetailsDto);
+
+
 
     @Operation(summary = "Confirm master by email", description = "Available to ADMIN")
     @PostMapping("/confirm")

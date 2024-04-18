@@ -1,6 +1,8 @@
 package com.example.end.service;
 
 import com.example.end.dto.*;
+import com.example.end.exceptions.ProcedureNotFoundException;
+import com.example.end.exceptions.UserNotFoundException;
 import com.example.end.mapping.BookingMapper;
 import com.example.end.mapping.ProcedureMapper;
 import com.example.end.mapping.UserMapper;
@@ -9,6 +11,7 @@ import com.example.end.models.BookingStatus;
 import com.example.end.models.Procedure;
 import com.example.end.models.User;
 import com.example.end.repository.BookingRepository;
+import com.example.end.repository.ProcedureRepository;
 import com.example.end.repository.UserRepository;
 import com.example.end.service.interfaces.BookingService;
 import lombok.RequiredArgsConstructor;
@@ -28,35 +31,32 @@ public class BookingServiceImpl  implements BookingService {
     private final UserServiceImpl userService;
     private final BookingMapper bookingMapper;
     private final UserMapper userMapper;
-    private final ProcedureServiceImpl procedureService;
-    private final ProcedureMapper procedureMapper;
+    private final ProcedureRepository procedureRepository;
+    private final UserRepository userRepository;
+
 
 
     @Override
     public BookingDto createBooking(NewBookingDto bookingDto) {
-        UserDto clientDto = userService.getClientById(bookingDto.getClientId());
-        User clientEntity = userMapper.toEntity(clientDto);
+        User client = userRepository.findById(bookingDto.getClientId())
+                .orElseThrow(() -> new UserNotFoundException("Client not found"));
 
-        UserDto masterDto = userService.getMasterById(bookingDto.getMasterId());
-        User masterEntity = userMapper.toEntity(masterDto);
+        User master = userRepository.findById(bookingDto.getMasterId())
+                .orElseThrow(() -> new UserNotFoundException("Master not found"));
 
-        ProcedureDto procedureDto = procedureService.findById(bookingDto.getProcedureId());
-        Procedure procedure = procedureMapper.toEntity(procedureDto);
+        Procedure procedure = procedureRepository.findById(bookingDto.getProcedureId())
+                .orElseThrow(() -> new ProcedureNotFoundException("Procedure not found"));
 
-        if (clientEntity != null && masterEntity != null && procedure != null) {
-            Booking booking = new Booking();
-            booking.setDateTime(LocalDateTime.parse(bookingDto.getDateTime()));
-            booking.setClient(clientEntity);
-            booking.setMaster(masterEntity);
-            booking.setProcedure(procedure);
-            booking.setStatus(BookingStatus.CONFIRMED);
+        Booking booking = new Booking();
+        booking.setDateTime(LocalDateTime.parse(bookingDto.getDateTime()));
+        booking.setClient(client);
+        booking.setMaster(master);
+        booking.setProcedure(procedure);
+        booking.setStatus(BookingStatus.CONFIRMED);
 
-            booking = bookingRepository.save(booking);
+        booking = bookingRepository.save(booking);
 
-            return bookingMapper.toDto(booking);
-        } else {
-            throw new RuntimeException("Client, Master, or Procedure not found");
-        }
+        return bookingMapper.toDto(booking);
     }
 
     @Override
