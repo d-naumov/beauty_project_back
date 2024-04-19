@@ -22,7 +22,7 @@ import java.util.List;
 public interface UserApi {
     @Operation(summary = "Get user by ID", description = "Retrieve a user by their ID.")
     @GetMapping("/{id}")
-    UserDto getById(@Parameter(description = "ID of the user to be obtained. Cannot be empty.", required = true)
+    UserDetailsDto getById(@Parameter(description = "ID of the user to be obtained. Cannot be empty.", required = true)
                     @PathVariable Long id);
 
     @Operation(summary = "Register a new user", description = "Available to everyone. By default, the role is CLIENT.")

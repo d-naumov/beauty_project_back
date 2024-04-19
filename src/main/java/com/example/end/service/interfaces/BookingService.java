@@ -20,8 +20,6 @@ public interface BookingService {
 
     List<BookingUserDto> getMasterBookings(Long masterId);
 
-    boolean isMaster(UserDto userDto);
-
     List<BookingUserDto> findActiveBookingsByUserId(Long userId);
 
     List<BookingUserDto> findCompletedBookingsByUserId(Long userId);

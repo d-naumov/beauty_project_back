@@ -1,5 +1,6 @@
 package com.example.end.dto;
 
+import com.example.end.models.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -47,6 +48,10 @@ public class UserDetailsDto {
     @Schema(description = "Address of the user", example = "Berlin, Salvador straße 88, 13446")
     @Size(max = 255, message = "Address cannot be longer than 255 characters")
     private String address;
+
+    @Schema(description = "Set of roles assigned to the user")
+    @NotNull(message = "Role cannot be null")
+    private User.Role role;
 
     @NotEmpty(message = "List of categories cannot be blank")
     @Schema(description = "List of category IDs to be added to the user")

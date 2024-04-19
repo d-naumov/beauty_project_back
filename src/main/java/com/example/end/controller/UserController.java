@@ -15,7 +15,7 @@ public class UserController implements UserApi {
     private final UserService userService;
 
     @Override
-    public UserDto getById(Long id) {
+    public UserDetailsDto getById(Long id) {
         return userService.getById(id);
     }
 
