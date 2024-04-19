@@ -35,7 +35,6 @@ public class UserServiceImpl implements UserService {
     private final CategoryRepository categoryRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final CategoryMapper categoryMapper;
     private final ProjectMailSender mailSender;
     @Value("${spring.mail.username}")
     private String adminEmail;
