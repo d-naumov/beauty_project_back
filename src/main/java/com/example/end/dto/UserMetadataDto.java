@@ -4,9 +4,12 @@ import com.example.end.models.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,9 +24,10 @@ public class UserMetadataDto {
     @Size(max = 255, message = "Profile image URL cannot be longer than 255 characters")
     private String profileImageUrl;
 
-    @NotBlank(message = "Portfolio image URLs cannot be blank")
-    @Size(max = 1000, message = "Portfolio image URLs cannot be longer than 1000 characters")
-    private String portfolioImageUrls;
+    @NotNull
+    @Size(min = 1)
+    private List<String> portfolioImageUrls;
+
 
     @NotNull(message = "User ID cannot be null")
     @Schema(description = "User ID associated with the booking", example = "1")
