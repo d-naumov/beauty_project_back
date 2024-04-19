@@ -22,6 +22,7 @@ public class BookingUserDto {
     @NotNull(message = "User ID cannot be null")
     @Schema(description = "User ID associated with the booking", example = "1")
     private Long userId;
+
     @NotNull(message = "Procedure ID cannot be null")
     @Schema(description = "Procedure ID associated with the booking", example = "Haircut")
     private Long procedureId;

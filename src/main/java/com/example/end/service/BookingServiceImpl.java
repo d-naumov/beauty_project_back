@@ -78,9 +78,9 @@ public class BookingServiceImpl  implements BookingService {
 
     @Override
     public List<BookingUserDto> getUserBookings(Long userId) {
-        UserDto userDto = userService.getById(userId);
+        UserDetailsDto userDto = userService.getById(userId);
         if (userDto != null) {
-            User entity = userMapper.toEntity(userDto);
+            User entity = userMapper.userDetailsToEntity(userDto);
             List<Booking> bookings = bookingRepository.findByUser(entity);
             return bookings.stream()
                     .map(bookingMapper::bookingUserToDto)
@@ -93,9 +93,9 @@ public class BookingServiceImpl  implements BookingService {
 
     @Override
     public List<BookingUserDto> getMasterBookings(Long masterId) {
-        UserDto masterDto = userService.getById(masterId);
+        UserDetailsDto masterDto = userService.getById(masterId);
         if (masterDto != null && isMaster(masterDto)) {
-            User entity = userMapper.toEntity(masterDto);
+            User entity = userMapper.userDetailsToEntity(masterDto);
             List<Booking> bookings = bookingRepository.findByUser(entity);
             return bookings.stream()
                     .map(bookingMapper::bookingUserToDto)
@@ -105,9 +105,9 @@ public class BookingServiceImpl  implements BookingService {
         }
     }
 
-    @Override
-    public boolean isMaster(UserDto userDto) {
-        User entity = userMapper.toEntity(userDto);
+
+    public boolean isMaster(UserDetailsDto userDto) {
+        User entity = userMapper.userDetailsToEntity(userDto);
         return entity.getRole() == User.Role.MASTER;
     }
 
