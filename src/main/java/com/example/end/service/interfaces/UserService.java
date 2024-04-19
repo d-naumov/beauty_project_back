@@ -18,7 +18,7 @@ public interface UserService {
 
     UserDto authenticate(String email, String password);
 
-    UserDto getById(Long id);
+    UserDetailsDto getById(Long id);
 
     void sendConfirmationEmails(User masterUser);
 
