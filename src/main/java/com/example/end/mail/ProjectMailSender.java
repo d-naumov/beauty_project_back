@@ -22,29 +22,30 @@ public class ProjectMailSender {
     @Async
     public void sendEmail(String email, String subject, String text) {
 
-        MimeMessage message = javaMailSender.createMimeMessage(); // создаем сообщение
-        MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8"); // делаем Spring-обертку, чтобы было удобнее
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
 
         try {
-            // задаем данные для письма
-            helper.setFrom(senderEmail); // Устанавливаем отправителя
+
+            helper.setFrom(senderEmail);
             helper.setTo(email);
             helper.setSubject(subject);
             helper.setText(text, true);
         } catch (MessagingException e) {
             throw new IllegalStateException(e);
         }
-        // отправляем это сообщение на почту
+
         javaMailSender.send(message);
     }
 
     @Async
     public void sendMasterConfirmationRequest(String adminEmail, String masterName) {
-        String subject = "Запрос на подтверждение нового мастера";
-        String text = String.format("Уважаемый администратор,\n\n" +
-                "Пользователь %s зарегистрировался как мастер и ожидает вашего подтверждения.\n" +
-                "Пожалуйста, выполните подтверждение в системе.\n\n" +
-                "С уважением,\nВаша система управления.", masterName);
-        sendEmail(adminEmail, subject, text); // Используем метод sendEmail для отправки сообщения
+        String subject = "Anfrage zur Bestätigung eines neuen Meisters";
+        String text = String.format("Sehr geehrter Administrator,\n\n" +
+                "Der Benutzer %s hat sich als Meister registriert und wartet auf Ihre Bestätigung.\n" +
+                "Bitte bestätigen Sie dies im System.\n\n" +
+                "Mit freundlichen Grüßen,\nIhr Verwaltungssystem.", masterName);
+        sendEmail(adminEmail, subject, text); // Using the sendEmail method to send the message
     }
+
 }

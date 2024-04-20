@@ -88,19 +88,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void sendConfirmationEmails(User masterUser) {
-        String subject = "Ожидание подтверждения регистрации мастера";
-        String messageToMaster = "Ваша регистрация в качестве мастера зарегистрирована и ожидает подтверждения администратора. " +
-                "Мы свяжемся с вами, как только ваш аккаунт будет подтвержден. Спасибо за регистрацию!";
+        String subject = "Bestätigung der Registrierung des Meisters ausstehend";
+        String messageToMaster = "Ihre Registrierung als Meister wurde erfasst und wartet auf die Bestätigung durch den Administrator. " +
+                "Wir werden uns mit Ihnen in Verbindung setzen, sobald Ihr Konto bestätigt wurde. Vielen Dank für Ihre Registrierung!";
         mailSender.sendEmail(masterUser.getEmail(), subject, messageToMaster);
         String messageToAdmin = masterUser.getFirstName() + " " + masterUser.getLastName();
         mailSender.sendMasterConfirmationRequest(adminEmail, messageToAdmin);
     }
+
+
       @Override
       public void validateEmail(String email) {
         if (userRepository.existsByEmail(email)) {
             throw new RestException(HttpStatus.CONFLICT, "User with email <" + email + "> already exists");
         }
     }
+
   @Override
   public User createUser(NewUserDto newUserDto) {
         return User.builder()
@@ -143,10 +146,9 @@ public class UserServiceImpl implements UserService {
 
 
     private void sendRegistrationEmail(User user) {
-        String subject = "Регистрация на сайте";
-        String message = "Поздравляем с успешной регистрацией на нашем сайте!";
+        String subject = "Registrierung auf der Website";
+        String message = "Herzlichen Glückwunsch zur erfolgreichen Registrierung auf unserer Website!";
         mailSender.sendEmail(user.getEmail(), subject, message);
-
     }
 
     @Override
