@@ -12,6 +12,7 @@ import com.example.end.models.Procedure;
 import com.example.end.models.User;
 import com.example.end.repository.CategoryRepository;
 import com.example.end.repository.UserRepository;
+import com.example.end.security.sec_servivce.TokenService;
 import com.example.end.service.interfaces.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final ProjectMailSender mailSender;
+    private final TokenService tokenService;
     @Value("${spring.mail.username}")
     private String adminEmail;
 
@@ -53,7 +55,16 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.save(user);
 
-        return userMapper.toDto(user);
+
+        String accessToken = tokenService.generateAccessToken(user);
+        String refreshToken = tokenService.generateRefreshToken(user);
+
+
+        UserDto userDto = userMapper.toDto(user);
+        userDto.setAccessToken(accessToken);
+        userDto.setRefreshToken(refreshToken);
+
+        return userDto;
     }
 
     @Override

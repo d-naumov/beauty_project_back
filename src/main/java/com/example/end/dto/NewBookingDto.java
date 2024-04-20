@@ -16,8 +16,6 @@ import java.time.LocalDateTime;
 @Schema(description = "DTO representing a booking")
 public class NewBookingDto {
 
-
-
     @NotNull(message = "Client ID cannot be null")
     @Schema(description = "Client ID associated with the booking", example = "1")
     private Long clientId;
