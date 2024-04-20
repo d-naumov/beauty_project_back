@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Schema(description = "DTO representing a user")
 public class UserDto {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY,description = "Unique identifier of the user", example = "1")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "Unique identifier of the user", example = "1")
     private Long id;
 
     @Pattern(regexp = "[A-Z][a-z]{3,}")
@@ -42,6 +42,12 @@ public class UserDto {
     @Schema(description = "Set of roles assigned to the user")
     @NotNull(message = "Role cannot be null")
     private User.Role role;
+
+    @Schema(description = "Access token of the user")
+    private String accessToken;
+
+    @Schema(description = "Refresh token of the user")
+    private String refreshToken;
 
 //    @Schema(description = "List of reviews given by the user")
 //    private List<ReviewDto> reviews;
