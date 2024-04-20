@@ -11,14 +11,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "ValidationError", description = "Описание ошибки валидации")
+@Schema(name = "ValidationError", description = "Description of validation error")
 public class ValidationErrorDto {
 
-    @Schema(description = "название поля, в котором возникла ошибка", example = "price")
+    @Schema(description = "Field name where the error occurred", example = "email")
     private String field;
-    @Schema(description = "значение, которое ввел пользовать и которое было отвергнуто сервером", example = "1000.0")
+
+    @Schema(description = "Value entered by the user that was rejected by the server", example = "john.doe@example")
     private String rejectedValue;
-    @Schema(description = "сообщение, которое мы должны показать пользователю", example = "must be less than or equal to 200")
+
+    @Schema(description = "Message to be shown to the user", example = "Invalid email format")
     private String message;
 }
 

@@ -13,9 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "ValidationErrors", description = "информация об ошибках валидации")
+@Schema(name = "ValidationErrors", description = "Information about validation errors")
 public class ValidationErrorsDto {
 
-    @Schema(description = "список ошибок валидации")
+    @Schema(description = "List of validation errors")
     private List<ValidationErrorDto> errors;
 }
