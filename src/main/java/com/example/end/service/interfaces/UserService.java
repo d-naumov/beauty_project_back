@@ -48,8 +48,10 @@ public interface UserService {
     User findMasterUserByEmail(String email);
 
     void activateMasterUser(User masterUser);
+    UserDto updateUser(Long userId, NewUserDto updateUser);
 
     List<UserDetailsDto> getAllMasters();
+
 
 
 }

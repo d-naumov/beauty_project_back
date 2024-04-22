@@ -1,9 +1,8 @@
 package com.example.end.controller;
 
 import com.example.end.controller.api.BookingApi;
-import com.example.end.dto.BookingDto;
-import com.example.end.dto.BookingUserDto;
-import com.example.end.dto.NewBookingDto;
+import com.example.end.dto.*;
+import com.example.end.models.BookingStatus;
 import com.example.end.service.interfaces.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -32,24 +31,8 @@ public class BookingController implements BookingApi {
     }
 
     @Override
-    public List<BookingUserDto> getUserBookings(Long userId) {
-        return bookingService.getUserBookings(userId);
-    }
-
-    @Override
-    public List<BookingUserDto> getMasterBookings(Long masterId) {
-        return bookingService.getMasterBookings(masterId);
-    }
-
-
-    @Override
-    public List<BookingUserDto> findActiveBookingsByUserId(Long userId) {
-        return bookingService.findActiveBookingsByUserId(userId);
-    }
-
-    @Override
-    public List<BookingUserDto> findCompletedBookingsByUserId(Long userId) {
-        return bookingService.findCompletedBookingsByUserId(userId);
+    public List<BookingDto> findBookingsByUser(Long userId, BookingStatus status) {
+       return bookingService.findBookingsByUser(userId, status);
     }
 
 }
