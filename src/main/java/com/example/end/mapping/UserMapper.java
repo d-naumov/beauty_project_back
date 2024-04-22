@@ -9,6 +9,10 @@ import com.example.end.models.Procedure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +43,7 @@ public class UserMapper {
     }
 
     public UserDetailsDto userDetailsToDto(User user) {
+
         return UserDetailsDto.builder()
                 .id(user.getId())
                 .phoneNumber(user.getPhoneNumber())
@@ -48,9 +53,13 @@ public class UserMapper {
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .role(user.getRole())
+                .profileImageUrl(user.getProfileImageUrl())
+                .portfolioImageUrls(new ArrayList<>(user.getPortfolioImageUrls()))
                 .categoryIds(user.getCategories().stream().map(Category::getId).collect(Collectors.toList()))
                 .procedureIds(user.getProcedures().stream().map(Procedure::getId).collect(Collectors.toList()))
                 .build();
+
+
     }
     public UserCategoryDto userToCategoryDto(User user) {
         return UserCategoryDto.builder()
@@ -58,7 +67,7 @@ public class UserMapper {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .address(user.getAddress())
-                .categories(categoryMapper.toDto(user.getCategories())) // Преобразование списка Category в список CategoryDto
+                .categories(categoryMapper.toDto(user.getCategories()))
                 .build();
     }
 

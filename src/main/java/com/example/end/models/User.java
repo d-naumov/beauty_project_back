@@ -66,7 +66,6 @@ public class User {
     )
     private Set<Category> categories;
 
-
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToMany
@@ -77,8 +76,14 @@ public class User {
     )
     private Set<Procedure> procedures;
 
-    @OneToOne
-    private UserMetadata userMetadata;
+    private  String profileImageUrl;
+
+    @ElementCollection
+    @CollectionTable(name = "user_portfolio_images", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "image_url")
+    private Set<String> portfolioImageUrls;
+
+
 
     @Override
     public final boolean equals(Object o) {

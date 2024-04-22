@@ -1,8 +1,9 @@
 package com.example.end.controller.api;
 
 import com.example.end.dto.BookingDto;
-import com.example.end.dto.NewUserDetailsDto;
-import com.example.end.dto.UserMetadataDto;
+import com.example.end.dto.PortfolioImageDto;
+import com.example.end.dto.ProfileImageDto;
+import com.example.end.dto.UserDetailsDto;
 import com.example.end.validation.dto.ValidationErrorsDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,15 +33,15 @@ public interface UserMetadataApi {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ValidationErrorsDto.class)))
     })
-    @PostMapping("/profileImage")
+    @PostMapping("/profileImages")
     @ResponseStatus(HttpStatus.CREATED)
-    UserMetadataDto createProfileImage(
+    UserDetailsDto addProfileImages(
     @Parameter(description = "ID of the user to be updated. Cannot be empty.",
             required = true) @PathVariable
     Long userId,
     @Parameter(description = "User profile image to be added.",
             required = true) @RequestBody
-    @Valid UserMetadataDto userMetadataDto);
+    @Valid ProfileImageDto profileImageDto);
 
     @Operation(summary = "Create a portfolio images", description = "Available to all users")
     @ApiResponses(value = {
@@ -55,11 +56,11 @@ public interface UserMetadataApi {
     })
     @PostMapping("/portfolioImages")
     @ResponseStatus(HttpStatus.CREATED)
-    UserMetadataDto createPortfolioImages(
+    UserDetailsDto addPortfolioImages(
             @Parameter(description = "ID of the user to be updated. Cannot be empty.",
                     required = true) @PathVariable
             Long userId,
             @Parameter(description = "User profile image to be added.",
                     required = true) @RequestBody
-            @Valid UserMetadataDto userMetadataDto);
+            @Valid PortfolioImageDto portfolioImageDto);
 }
