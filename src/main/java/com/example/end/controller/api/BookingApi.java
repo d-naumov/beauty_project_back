@@ -60,7 +60,7 @@ public interface BookingApi {
 
 
     @Operation(summary = "Find user bookings by it's status and user ID", description = "Available to all users")
-    @GetMapping("/active/{user-id}")
+    @GetMapping("/{user-id}")
     List<BookingDto> findBookingsByUser(@Parameter(description = "User ID", example = "1")
                                         @PathVariable("user-id") Long userId,
                                          @Parameter(description = "Status of the booking (CONFIRMED or COMPLETED)", example = "CONFIRMED")
