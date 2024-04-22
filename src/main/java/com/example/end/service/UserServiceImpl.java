@@ -18,10 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -51,10 +48,8 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.save(user);
 
-
         String accessToken = tokenService.generateAccessToken(user);
         String refreshToken = tokenService.generateRefreshToken(user);
-
 
         UserDto userDto = userMapper.toDto(user);
         userDto.setAccessToken(accessToken);
@@ -82,27 +77,6 @@ public class UserServiceImpl implements UserService {
         return userMapper.userDetailsToDto(user);
     }
 
-//    @Override
-//    public UserDto updateClientInfo(Long id, NewUserDto newUserDto) {
-//    userRepository.findById(id)
-//            .orElseThrow(() -> new UserNotFoundException("User with this ID does not exist."));
-//        updatedUser.setFirstName(userDto.getFirstName());
-//        updatedUser.setLastName(userDto.getLastName());
-//        updatedUser.setEmail(userDto.getEmail());
-//        updatedUser.setRole(userDto.getRole());
-//       User savedUser = userRepository.save(updatedUser);
-//       return userMapper.toDto(savedUser);
-//}
-//    Booking booking = new Booking();
-//        booking.setDateTime(LocalDateTime.parse(bookingDto.getDateTime()));
-//        booking.setClient(client);
-//        booking.setMaster(master);
-//        booking.setProcedure(procedure);
-//        booking.setStatus(BookingStatus.CONFIRMED);
-//
-//    booking = bookingRepository.save(booking);
-//
-//        return bookingMapper.toDto(booking);
 
     @Override
     public void sendConfirmationEmails(User masterUser) {
@@ -136,7 +110,6 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @Transactional
     public UserDetailsDto updateUserDetails(Long userId, NewUserDetailsDto userDetailsDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found for id: " + userId));
@@ -182,31 +155,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException("Client not found for id: " + id));
         return userMapper.toDto(client);
     }
-    @Override
-    public UserDto updateUser(Long userId, NewUserDto updateUser) {
-        User user = userRepository.findByIdAndRole(userId, User.Role.CLIENT)
-                .orElseThrow(() -> new UserNotFoundException("Client not found for id: " + userId));
-        if (updateUser.getEmail() != null && !updateUser.getEmail().isEmpty()) {
-            if (userRepository.existsByEmail(updateUser.getEmail()) && !user.getEmail().equals(updateUser.getEmail())) {
-                throw new RestException(HttpStatus.CONFLICT,
-                        "User with email <" + updateUser.getEmail() + "> already exists");
-            }
-            user.setEmail(updateUser.getEmail());
-        }
 
-        if (updateUser.getHashPassword() != null && !updateUser.getHashPassword().isEmpty()) {
-            user.setHashPassword(passwordEncoder.encode(updateUser.getHashPassword()
-            ));
-        }
-
-        if (updateUser.getRole() != null) {
-            user.setRole(updateUser.getRole());
-        }
-
-        userRepository.save(user);
-
-        return userMapper.toDto(user);
-    }
 
     @Override
     @Transactional
@@ -224,6 +173,29 @@ public class UserServiceImpl implements UserService {
         }
         return masterUser;
     }
+    @Override
+    @Transactional
+    public UserDetailsDto addProfileImage(Long userId, ProfileImageDto profileImageDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found for id: " + userId));
+        user.setProfileImageUrl(profileImageDto.getProfileImageUrl());
+        User updatedUser = userRepository.save(user);
+        return userMapper.userDetailsToDto(updatedUser);
+    }
+
+    @Override
+    @Transactional
+    public UserDetailsDto addPortfolioImages(Long userId, PortfolioImageDto portfolioImageDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found for id: " + userId));
+
+        Set<String> portfolioImageUrls = new HashSet<>(portfolioImageDto.getPortfolioImageUrls());
+        user.setPortfolioImageUrls(portfolioImageUrls);
+
+        User updatedUser = userRepository.save(user);
+        return userMapper.userDetailsToDto(updatedUser);
+    }
+
     @Override
     public void activateMasterUser(User masterUser) {
         masterUser.setActive(true);

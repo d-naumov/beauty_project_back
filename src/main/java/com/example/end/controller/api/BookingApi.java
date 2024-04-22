@@ -56,13 +56,12 @@ public interface BookingApi {
     @Operation(summary = "Cancel booking", description = "Available to all users")
     @DeleteMapping("/{booking-id}")
     void cancelBooking(@Parameter(description = "booking identifier", example = "1")
-                                       @PathVariable("booking-id") Long bookingId);
-
+                       @PathVariable("booking-id") Long bookingId);
 
     @Operation(summary = "Find user bookings by it's status and user ID", description = "Available to all users")
     @GetMapping("/{user-id}")
     List<BookingDto> findBookingsByUser(@Parameter(description = "User ID", example = "1")
                                         @PathVariable("user-id") Long userId,
-                                         @Parameter(description = "Status of the booking (CONFIRMED or COMPLETED)", example = "CONFIRMED")
-                                         @RequestParam(name = "status", required = false) BookingStatus status);
+                                        @Parameter(description = "Status of the booking (CONFIRMED or COMPLETED)", example = "CONFIRMED")
+                                        @RequestParam(name = "status", required = false) BookingStatus status);
 }

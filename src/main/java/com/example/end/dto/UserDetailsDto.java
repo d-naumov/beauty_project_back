@@ -62,5 +62,11 @@ public class UserDetailsDto {
     @Schema(description = "List of Category procedures IDs to be added to the user")
     private List<Long> procedureIds;
 
+    @Schema(description = "Profile image URL of the user", example = "https://example.com/profile-image.jpg")
+    private String profileImageUrl;
+
+    @Schema(description = "Portfolio image URLs of the user", example = "https://example.com/portfolio-image1.jpg,https://example.com/portfolio-image2.jpg")
+    private List<String> portfolioImageUrls;
+
 
 }

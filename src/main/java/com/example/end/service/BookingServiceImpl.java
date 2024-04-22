@@ -73,9 +73,9 @@ public class BookingServiceImpl  implements BookingService {
 
     @Override
     public List<BookingDto> findBookingsByUser(Long userId, BookingStatus status) {
-    List<Booking> bookings = bookingRepository.findBookingsByUserIdAndStatus(userId, status);
-    return bookings.stream()
-            .map(bookingMapper::toDto)
-            .collect(Collectors.toList());
+        List<Booking> bookings = bookingRepository.findBookingsByUserIdAndStatus(userId, status);
+        return bookings.stream()
+                .map(bookingMapper::toDto)
+                .collect(Collectors.toList());
 }
 }

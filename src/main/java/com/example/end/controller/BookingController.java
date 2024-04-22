@@ -35,4 +35,5 @@ public class BookingController implements BookingApi {
        return bookingService.findBookingsByUser(userId, status);
     }
 
+
 }

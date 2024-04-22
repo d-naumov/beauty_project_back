@@ -49,8 +49,11 @@ public interface UserService {
 
     User findMasterUserByEmail(String email);
 
+    UserDetailsDto addProfileImage(Long userId, ProfileImageDto profileImageDto);
+
+    UserDetailsDto addPortfolioImages(Long userId, PortfolioImageDto portfolioImageDto);
+
     void activateMasterUser(User masterUser);
-    UserDto updateUser(Long userId, NewUserDto updateUser);
 
     List<UserDetailsDto> getAllMasters();
 

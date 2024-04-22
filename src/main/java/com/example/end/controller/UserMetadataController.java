@@ -1,23 +1,25 @@
 package com.example.end.controller;
 
 import com.example.end.controller.api.UserMetadataApi;
-import com.example.end.dto.UserMetadataDto;
-import com.example.end.service.interfaces.UserMetadataService;
+import com.example.end.dto.PortfolioImageDto;
+import com.example.end.dto.ProfileImageDto;
+import com.example.end.dto.UserDetailsDto;
+import com.example.end.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
 public class UserMetadataController implements UserMetadataApi {
-    public final UserMetadataService userMetadataService;
+    public final UserService userService;
 
-   @Override
-   public UserMetadataDto createProfileImage(Long userId, UserMetadataDto userMetadataDto){
-       return userMetadataService.createProfileImage(userId, userMetadataDto);
-   }
-
-   @Override
-    public UserMetadataDto createPortfolioImages(Long userId, UserMetadataDto userMetadataDto){
-       return userMetadataService.createPortfolioImages(userId,userMetadataDto);
+    @Override
+    public UserDetailsDto addProfileImages(Long userId, ProfileImageDto profileImageDto) {
+        return userService.addProfileImage(userId, profileImageDto);
     }
+
+    @Override
+   public UserDetailsDto addPortfolioImages(Long userId, PortfolioImageDto portfolioImageDto){
+       return userService.addPortfolioImages(userId, portfolioImageDto);
+   }
 }
