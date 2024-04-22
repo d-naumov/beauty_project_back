@@ -1,16 +1,20 @@
 package com.example.end.mapping;
 
+import com.example.end.dto.UserCategoryDto;
 import com.example.end.dto.UserDetailsDto;
 import com.example.end.dto.UserDto;
 import com.example.end.models.User;
 import com.example.end.models.Category;
 import com.example.end.models.Procedure;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 
 @Service
 public class UserMapper {
+    @Autowired
+    private CategoryMapper categoryMapper;
     public UserDto toDto(User user) {
         return UserDto.builder()
                 .id(user.getId())
@@ -48,7 +52,15 @@ public class UserMapper {
                 .procedureIds(user.getProcedures().stream().map(Procedure::getId).collect(Collectors.toList()))
                 .build();
     }
-
+    public UserCategoryDto userToCategoryDto(User user) {
+        return UserCategoryDto.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .address(user.getAddress())
+                .categories(categoryMapper.toDto(user.getCategories())) // Преобразование списка Category в список CategoryDto
+                .build();
+    }
 
 }
 

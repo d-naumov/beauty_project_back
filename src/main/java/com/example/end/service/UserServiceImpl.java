@@ -1,11 +1,9 @@
 package com.example.end.service;
 
 import com.example.end.dto.*;
-import com.example.end.exceptions.CategoryNotFoundException;
 import com.example.end.exceptions.RestException;
 import com.example.end.exceptions.UserNotFoundException;
 import com.example.end.mail.ProjectMailSender;
-import com.example.end.mapping.CategoryMapper;
 import com.example.end.mapping.UserMapper;
 import com.example.end.models.*;
 import com.example.end.repository.CategoryRepository;
@@ -20,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -248,6 +245,16 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<UserCategoryDto> findUsersByCategoryId(Long categoryId) {
+        List<User> users = userRepository.findUsersByCategoryId(categoryId);
+        if (users.isEmpty()) {
+            throw new UserNotFoundException("User for category with ID " + categoryId + " not found");
+        }
+        return users.stream()
+                .map(userMapper::userToCategoryDto)
+                .collect(Collectors.toList());
+    }
     @Override
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);

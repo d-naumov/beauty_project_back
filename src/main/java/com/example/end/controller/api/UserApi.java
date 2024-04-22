@@ -94,6 +94,11 @@ public interface UserApi {
                              @Parameter(description = "User details to be updated or added.",
             required = true) @RequestBody @Valid NewUserDto updateUser) ;
 
+    @Operation(summary = "Find users by category ID", description = "Retrieve users associated with a specific category.")
+    @GetMapping("/by-category/{categoryId}")
+    List<UserCategoryDto> findUsersByCategoryId(@Parameter(description = "ID of the category to filter users by.", required = true)
+                                                @PathVariable Long categoryId);
+
     @Operation(summary = "Confirm master by email", description = "Available to ADMIN")
     @PostMapping("/confirm")
     void confirmMasterByEmail(@RequestParam String email);

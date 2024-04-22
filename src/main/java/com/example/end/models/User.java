@@ -64,7 +64,6 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-
     private Set<Category> categories;
 
 

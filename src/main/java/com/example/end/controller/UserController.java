@@ -34,6 +34,10 @@ public class UserController implements UserApi {
     }
 
     @Override
+    public List<UserCategoryDto> findUsersByCategoryId(Long categoryId) {
+        return userService.findUsersByCategoryId(categoryId);
+    }
+    @Override
     public void confirmMasterByEmail(String email) {
       userService.confirmMasterByEmail(email);
     }
