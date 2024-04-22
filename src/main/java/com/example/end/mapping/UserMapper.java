@@ -16,6 +16,7 @@ public class UserMapper {
                 .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .hashPassword(user.getHashPassword())
                 .email(user.getEmail())
                 .role(user.getRole())
                 .build();
@@ -27,19 +28,12 @@ public class UserMapper {
                 .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .hashPassword(user.getHashPassword())
                 .email(user.getEmail())
                 .role(user.getRole())
                 .build();
     }
-    public User userDetailsToEntity(UserDetailsDto user) {
-        return User.builder()
-                .id(user.getId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
-                .role(user.getRole())
-                .build();
-    }
+
     public UserDetailsDto userDetailsToDto(User user) {
         return UserDetailsDto.builder()
                 .id(user.getId())
@@ -54,5 +48,7 @@ public class UserMapper {
                 .procedureIds(user.getProcedures().stream().map(Procedure::getId).collect(Collectors.toList()))
                 .build();
     }
+
+
 }
 

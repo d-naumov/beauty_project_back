@@ -31,6 +31,7 @@ public class UserDto {
     @Schema(description = "Last name of the user", example = "Doe")
     private String lastName;
 
+    private String hashPassword;
 
     @NotBlank(message = "Email cannot be blank")
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")

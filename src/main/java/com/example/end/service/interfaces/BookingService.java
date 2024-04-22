@@ -1,9 +1,8 @@
 package com.example.end.service.interfaces;
 
-import com.example.end.dto.BookingDto;
-import com.example.end.dto.BookingUserDto;
-import com.example.end.dto.NewBookingDto;
-import com.example.end.dto.UserDto;
+import com.example.end.dto.*;
+import com.example.end.models.BookingStatus;
+import com.example.end.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,11 +15,6 @@ public interface BookingService {
 
     void cancelBooking(Long bookingId);
 
-    List<BookingUserDto> getUserBookings(Long userId);
+    List<BookingDto> findBookingsByUser(Long userId, BookingStatus status);
 
-    List<BookingUserDto> getMasterBookings(Long masterId);
-
-    List<BookingUserDto> findActiveBookingsByUserId(Long userId);
-
-    List<BookingUserDto> findCompletedBookingsByUserId(Long userId);
 }

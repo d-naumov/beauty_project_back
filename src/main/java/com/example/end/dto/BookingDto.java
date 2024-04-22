@@ -26,10 +26,6 @@ public class BookingDto {
     @Schema(accessMode = Schema.AccessMode.READ_ONLY ,description = "Unique identifier of the booking", example = "1")
     private Long id;
 
-    @NotNull(message = "User ID cannot be null")
-    @Schema(description = "User ID associated with the booking", example = "1")
-    private Long userId;
-
     @NotNull(message = "Client ID cannot be null")
     @Schema(description = "Client ID associated with the booking", example = "1")
     private Long clientId;

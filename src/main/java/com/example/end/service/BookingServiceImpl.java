@@ -4,8 +4,6 @@ import com.example.end.dto.*;
 import com.example.end.exceptions.ProcedureNotFoundException;
 import com.example.end.exceptions.UserNotFoundException;
 import com.example.end.mapping.BookingMapper;
-import com.example.end.mapping.ProcedureMapper;
-import com.example.end.mapping.UserMapper;
 import com.example.end.models.Booking;
 import com.example.end.models.BookingStatus;
 import com.example.end.models.Procedure;
@@ -18,9 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -28,9 +24,7 @@ import java.util.stream.Collectors;
 public class BookingServiceImpl  implements BookingService {
 
     private final BookingRepository bookingRepository;
-    private final UserServiceImpl userService;
     private final BookingMapper bookingMapper;
-    private final UserMapper userMapper;
     private final ProcedureRepository procedureRepository;
     private final UserRepository userRepository;
 
@@ -68,6 +62,7 @@ public class BookingServiceImpl  implements BookingService {
         bookingRepository.save(existingBooking);
     }
 
+
     @Override
     public void cancelBooking(Long bookingId) {
         BookingDto bookingDto = new BookingDto();
@@ -77,49 +72,10 @@ public class BookingServiceImpl  implements BookingService {
     }
 
     @Override
-    public List<BookingUserDto> getUserBookings(Long userId) {
-        UserDetailsDto userDto = userService.getById(userId);
-        if (userDto != null) {
-            User entity = userMapper.userDetailsToEntity(userDto);
-            List<Booking> bookings = bookingRepository.findByUser(entity);
-            return bookings.stream()
-                    .map(bookingMapper::bookingUserToDto)
-                    .collect(Collectors.toList());
-        } else {
-            return Collections.emptyList();
-        }
-    }
-
-
-    @Override
-    public List<BookingUserDto> getMasterBookings(Long masterId) {
-        UserDetailsDto masterDto = userService.getById(masterId);
-        if (masterDto != null && isMaster(masterDto)) {
-            User entity = userMapper.userDetailsToEntity(masterDto);
-            List<Booking> bookings = bookingRepository.findByUser(entity);
-            return bookings.stream()
-                    .map(bookingMapper::bookingUserToDto)
-                    .collect(Collectors.toList());
-        } else {
-            throw new IllegalArgumentException("User is not a master");
-        }
-    }
-
-
-    public boolean isMaster(UserDetailsDto userDto) {
-        User entity = userMapper.userDetailsToEntity(userDto);
-        return entity.getRole() == User.Role.MASTER;
-    }
-
-    @Override
-    public List<BookingUserDto> findActiveBookingsByUserId(Long userId) {
-        List<Booking> activeBookings = bookingRepository.findActiveBookingsByUserId(userId);
-        return activeBookings.stream().filter(Objects::nonNull).map(bookingMapper::bookingUserToDto).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<BookingUserDto> findCompletedBookingsByUserId(Long userId) {
-        List<Booking> completedBookings = bookingRepository.findCompletedBookingsByUserId(userId);
-        return completedBookings.stream().map(bookingMapper::bookingUserToDto).collect(Collectors.toList());
-    }
+    public List<BookingDto> findBookingsByUser(Long userId, BookingStatus status) {
+    List<Booking> bookings = bookingRepository.findBookingsByUserIdAndStatus(userId, status);
+    return bookings.stream()
+            .map(bookingMapper::toDto)
+            .collect(Collectors.toList());
+}
 }
