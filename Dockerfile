@@ -1,5 +1,5 @@
 FROM docker.io/maven:3.8.3-openjdk-17 AS build
-COPY --chown=gradle:gradle . /home/src
+COPY . /home/src
 WORKDIR /home/src
 RUN mvn clean package -DskipTests
 
