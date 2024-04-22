@@ -29,7 +29,7 @@ public class Category {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "categories" ,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category" ,cascade = CascadeType.ALL)
     private Set<Procedure> procedures ;
 
     @ToString.Exclude
