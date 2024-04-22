@@ -1,4 +1,6 @@
 spring:
+  datasource:
+    url: ${JDBC_DATABASE_URL}
   jpa:
     hibernate:
       ddl-auto: update
@@ -8,10 +10,10 @@ spring:
         format_sql: true
 
   mail:
-    username: a.cxeidze@gmail.com
-    password: Iplari22!
-    host: smtp.gmail.com
-    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
     properties:
       mail:
         debug: true
@@ -22,9 +24,9 @@ spring:
 
 jwt:
   access:
-    key: "X30INcpL2Yzf80ArITEdwLegdAFT2dkeq1hxlR7waOk="
+    key: ${ACCESS_KEY}
   refresh:
-    key: "u1vxX56P6a-4tWS2RLt0qIG9yF8DbW6d1pv4JUQI-dk="
+    key: ${REFRESH_KEY}
 
 logging:
   level:
