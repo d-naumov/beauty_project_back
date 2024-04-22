@@ -1,15 +1,11 @@
 package com.example.end.service;
 
 import com.example.end.dto.*;
-import com.example.end.exceptions.CategoryNotFoundException;
 import com.example.end.exceptions.RestException;
 import com.example.end.exceptions.UserNotFoundException;
 import com.example.end.mail.ProjectMailSender;
-import com.example.end.mapping.CategoryMapper;
 import com.example.end.mapping.UserMapper;
-import com.example.end.models.Category;
-import com.example.end.models.Procedure;
-import com.example.end.models.User;
+import com.example.end.models.*;
 import com.example.end.repository.CategoryRepository;
 import com.example.end.repository.UserRepository;
 import com.example.end.security.sec_servivce.TokenService;
@@ -86,6 +82,28 @@ public class UserServiceImpl implements UserService {
         return userMapper.userDetailsToDto(user);
     }
 
+//    @Override
+//    public UserDto updateClientInfo(Long id, NewUserDto newUserDto) {
+//    userRepository.findById(id)
+//            .orElseThrow(() -> new UserNotFoundException("User with this ID does not exist."));
+//        updatedUser.setFirstName(userDto.getFirstName());
+//        updatedUser.setLastName(userDto.getLastName());
+//        updatedUser.setEmail(userDto.getEmail());
+//        updatedUser.setRole(userDto.getRole());
+//       User savedUser = userRepository.save(updatedUser);
+//       return userMapper.toDto(savedUser);
+//}
+//    Booking booking = new Booking();
+//        booking.setDateTime(LocalDateTime.parse(bookingDto.getDateTime()));
+//        booking.setClient(client);
+//        booking.setMaster(master);
+//        booking.setProcedure(procedure);
+//        booking.setStatus(BookingStatus.CONFIRMED);
+//
+//    booking = bookingRepository.save(booking);
+//
+//        return bookingMapper.toDto(booking);
+
     @Override
     public void sendConfirmationEmails(User masterUser) {
         String subject = "Bestätigung der Registrierung des Meisters ausstehend";
@@ -151,6 +169,7 @@ public class UserServiceImpl implements UserService {
         mailSender.sendEmail(user.getEmail(), subject, message);
     }
 
+
     @Override
     public UserDto getMasterById(Long id) {
         User master =  userRepository.findByIdAndRole(id, User.Role.MASTER)
@@ -162,6 +181,31 @@ public class UserServiceImpl implements UserService {
         User client = userRepository.findByIdAndRole(id, User.Role.CLIENT)
                 .orElseThrow(() -> new UserNotFoundException("Client not found for id: " + id));
         return userMapper.toDto(client);
+    }
+    @Override
+    public UserDto updateUser(Long userId, NewUserDto updateUser) {
+        User user = userRepository.findByIdAndRole(userId, User.Role.CLIENT)
+                .orElseThrow(() -> new UserNotFoundException("Client not found for id: " + userId));
+        if (updateUser.getEmail() != null && !updateUser.getEmail().isEmpty()) {
+            if (userRepository.existsByEmail(updateUser.getEmail()) && !user.getEmail().equals(updateUser.getEmail())) {
+                throw new RestException(HttpStatus.CONFLICT,
+                        "User with email <" + updateUser.getEmail() + "> already exists");
+            }
+            user.setEmail(updateUser.getEmail());
+        }
+
+        if (updateUser.getHashPassword() != null && !updateUser.getHashPassword().isEmpty()) {
+            user.setHashPassword(passwordEncoder.encode(updateUser.getHashPassword()
+            ));
+        }
+
+        if (updateUser.getRole() != null) {
+            user.setRole(updateUser.getRole());
+        }
+
+        userRepository.save(user);
+
+        return userMapper.toDto(user);
     }
 
     @Override
@@ -201,6 +245,16 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<UserCategoryDto> findUsersByCategoryId(Long categoryId) {
+        List<User> users = userRepository.findUsersByCategoryId(categoryId);
+        if (users.isEmpty()) {
+            throw new UserNotFoundException("User for category with ID " + categoryId + " not found");
+        }
+        return users.stream()
+                .map(userMapper::userToCategoryDto)
+                .collect(Collectors.toList());
+    }
     @Override
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);

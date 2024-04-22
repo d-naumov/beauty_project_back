@@ -1,5 +1,6 @@
 package com.example.end.controller.api;
 
+import com.example.end.dto.ProcedureByCategoryDto;
 import com.example.end.dto.ProcedureDto;
 import com.example.end.dto.StandardResponseDto;
 import com.example.end.validation.dto.ValidationErrorsDto;
@@ -71,4 +72,10 @@ public interface ProcedureApi {
     @GetMapping("/{id}")
     ProcedureDto findById(@Parameter(description = "procedure id", example = "1")
             @PathVariable("id") Long id);
+
+    @Operation(summary = "Find procedures by category ID", description = "Retrieve procedures by category ID")
+    @GetMapping("/by-category/{categoryId}")
+    List<ProcedureByCategoryDto> findProceduresByCategoryId(
+            @Parameter(description = "Category ID", example = "1")
+            @PathVariable("categoryId") Long categoryId);
 }

@@ -1,5 +1,6 @@
 package com.example.end.mapping;
 
+import com.example.end.dto.ProcedureByCategoryDto;
 import com.example.end.dto.ProcedureDto;
 import com.example.end.models.Procedure;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,14 @@ public class ProcedureMapper {
         return ProcedureDto.builder()
                 .id(procedure.getId())
                 .price(procedure.getPrice())
+                .name(procedure.getName())
+                .build();
+    }
+    public ProcedureByCategoryDto procedureByCategoryToDto(Procedure procedure){
+        return ProcedureByCategoryDto.builder()
+                .id(procedure.getId())
+                .price(procedure.getPrice())
+                .categoryId(procedure.getCategory().getId())
                 .name(procedure.getName())
                 .build();
     }

@@ -1,5 +1,6 @@
 package com.example.end.service.interfaces;
 
+import com.example.end.dto.ProcedureByCategoryDto;
 import com.example.end.dto.ProcedureDto;
 import com.example.end.models.Procedure;
 import org.springframework.stereotype.Service;
@@ -23,4 +24,6 @@ public interface ProcedureService {
 
 
   ProcedureDto findById(Long id);
+
+    List<ProcedureByCategoryDto> findProceduresByCategoryId(Long categoryId);
 }

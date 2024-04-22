@@ -37,6 +37,8 @@ public interface UserService {
     @jakarta.transaction.Transactional
     void confirmMasterByEmail(String email);
 
+    List<UserCategoryDto> findUsersByCategoryId(Long categoryId);
+
     Optional<User> findByEmail(String email);
 
     Optional<User> loadUserByEmail(String email);
@@ -48,8 +50,10 @@ public interface UserService {
     User findMasterUserByEmail(String email);
 
     void activateMasterUser(User masterUser);
+    UserDto updateUser(Long userId, NewUserDto updateUser);
 
     List<UserDetailsDto> getAllMasters();
+
 
 
 }

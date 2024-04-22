@@ -69,8 +69,35 @@ public interface UserApi {
                     required = true) @PathVariable Long userId,
             @Parameter(description = "User details to be updated or added.",
                     required = true) @RequestBody @Valid NewUserDetailsDto userDetailsDto);
+    @Operation(
+            summary = "Update user info",
+            description = "Updates user info. If the user with the provided ID doesn't exist, a 'UserNotFoundException' will be thrown. ",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = NewUserDto.class)
+                    )
+            ),
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "User details updated successfully",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = UserDto.class))),
+                    @ApiResponse(responseCode = "404",
+                            description = "User not found",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = StandardResponseDto.class)))
+            })
+    @PutMapping("{userId}/info")
+    UserDto updateUser(@Parameter(description = "ID of the user to be updated. Cannot be empty.",
+            required = true) @PathVariable Long userId,
+                             @Parameter(description = "User details to be updated or added.",
+            required = true) @RequestBody @Valid NewUserDto updateUser) ;
 
-
+    @Operation(summary = "Find users by category ID", description = "Retrieve users associated with a specific category.")
+    @GetMapping("/by-category/{categoryId}")
+    List<UserCategoryDto> findUsersByCategoryId(@Parameter(description = "ID of the category to filter users by.", required = true)
+                                                @PathVariable Long categoryId);
 
     @Operation(summary = "Confirm master by email", description = "Available to ADMIN")
     @PostMapping("/confirm")

@@ -44,6 +44,7 @@ public class UserDetailsDto {
             message = "Invalid phone number format")
     private String phoneNumber;
 
+
     @NotBlank(message = "Address cannot be blank")
     @Schema(description = "Address of the user", example = "Berlin, Salvador straße 88, 13446")
     @Size(max = 255, message = "Address cannot be longer than 255 characters")

@@ -2,6 +2,7 @@ package com.example.end.controller;
 
 
 import com.example.end.controller.api.ProcedureApi;
+import com.example.end.dto.ProcedureByCategoryDto;
 import com.example.end.dto.ProcedureDto;
 import com.example.end.service.interfaces.ProcedureService;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,12 @@ public class ProcedureController implements ProcedureApi {
   public ProcedureDto findById(Long id) {
     return procedureService.findById(id);
   }
+
+  @Override
+  public List<ProcedureByCategoryDto> findProceduresByCategoryId(Long categoryId) {
+    return procedureService.findProceduresByCategoryId(categoryId);
+  }
 }
+
 
 

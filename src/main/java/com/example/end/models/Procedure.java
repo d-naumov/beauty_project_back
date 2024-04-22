@@ -35,7 +35,7 @@ public class Procedure {
     @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private Category categories;
+    private Category category;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

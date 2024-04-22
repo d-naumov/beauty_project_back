@@ -1,6 +1,8 @@
 package com.example.end.controller.api;
 
 import com.example.end.dto.*;
+import com.example.end.models.BookingStatus;
+import com.example.end.models.User;
 import com.example.end.validation.dto.ValidationErrorsDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -56,22 +58,11 @@ public interface BookingApi {
     void cancelBooking(@Parameter(description = "booking identifier", example = "1")
                                        @PathVariable("booking-id") Long bookingId);
 
-    @Operation(summary = "Get user bookings", description = "Available to all users")
-    @GetMapping("/user/{user-id}")
-    List<BookingUserDto> getUserBookings(@Parameter(description = "user identifier", example = "1")
-                                     @PathVariable("user-id") Long userId);
 
-    @Operation(summary = "Get master bookings", description = "Available to all MASTERS")
-    @GetMapping("/master/{master-id}")
-    List<BookingUserDto> getMasterBookings(@Parameter(description = "master identifier", example = "1")
-                                       @PathVariable("master-id") Long masterId);
-    @Operation(summary = "Find active bookings by user ID", description = "Available to all users")
-    @GetMapping("/active/{user-id}")
-    List<BookingUserDto> findActiveBookingsByUserId(@Parameter(description = "user identifier", example = "1")
-                                                 @PathVariable("user-id")Long clientId);
-
-    @Operation(summary = "Find completed bookings by user ID", description = "Available to all users")
-    @GetMapping("/completed/{user-id}")
-    List<BookingUserDto> findCompletedBookingsByUserId(@Parameter(description = "user identifier", example = "1")
-                                                    @PathVariable("user-id")Long masterId);
+    @Operation(summary = "Find user bookings by it's status and user ID", description = "Available to all users")
+    @GetMapping("/{user-id}")
+    List<BookingDto> findBookingsByUser(@Parameter(description = "User ID", example = "1")
+                                        @PathVariable("user-id") Long userId,
+                                         @Parameter(description = "Status of the booking (CONFIRMED or COMPLETED)", example = "CONFIRMED")
+                                         @RequestParam(name = "status", required = false) BookingStatus status);
 }

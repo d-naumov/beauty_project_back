@@ -2,6 +2,7 @@ package com.example.end.controller;
 
 import com.example.end.controller.api.CategoryApi;
 import com.example.end.dto.CategoryDto;
+import com.example.end.dto.ProcedureDto;
 import com.example.end.exceptions.CategoryNotFoundException;
 import com.example.end.models.Category;
 import com.example.end.service.interfaces.CategoryService;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class CategoryController implements CategoryApi {
 
     private final CategoryService categoryService;
+
     @Override
     public List<CategoryDto> getAllCategories() {
         return categoryService.getAllCategories();
@@ -33,17 +35,16 @@ public class CategoryController implements CategoryApi {
 
     @Override
     public CategoryDto createCategory(CategoryDto categoryDto) {
-       return categoryService.createCategory(categoryDto);
+        return categoryService.createCategory(categoryDto);
     }
 
     @Override
     public CategoryDto updateCategory(Long id, CategoryDto updatedCategoryDto) {
-       return categoryService.updateCategory(id,updatedCategoryDto);
+        return categoryService.updateCategory(id,updatedCategoryDto);
     }
-
-    @Override
-    public CategoryDto deleteCategory(Long id) {
-        return categoryService.deleteCategory(id);
-    }
+   @Override
+   public CategoryDto deleteCategory(Long id) {
+    return categoryService.deleteCategory(id);
+}
 }
 

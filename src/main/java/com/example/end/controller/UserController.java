@@ -24,12 +24,19 @@ public class UserController implements UserApi {
     public UserDto register(NewUserDto newUserDto) {
         return userService.register(newUserDto);
     }
-
+    @Override
+    public UserDto updateUser(Long userId, NewUserDto updateUser){
+        return updateUser(userId,updateUser);
+    }
     @Override
     public UserDetailsDto updateUserDetails(Long userId, NewUserDetailsDto userDetailsDto) {
         return userService.updateUserDetails(userId, userDetailsDto);
     }
 
+    @Override
+    public List<UserCategoryDto> findUsersByCategoryId(Long categoryId) {
+        return userService.findUsersByCategoryId(categoryId);
+    }
     @Override
     public void confirmMasterByEmail(String email) {
       userService.confirmMasterByEmail(email);

@@ -25,7 +25,6 @@ public class ReviewMapper {
                 .createdAt(String.valueOf(review.getCreatedAt()))
                 .build();
     }
-
 }
 
 
