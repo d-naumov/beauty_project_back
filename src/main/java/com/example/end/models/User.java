@@ -54,7 +54,7 @@ public class User {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Review> reviews;
+    private Set<Review> reviews;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

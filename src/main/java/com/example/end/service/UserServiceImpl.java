@@ -218,13 +218,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserCategoryDto> findUsersByCategoryId(Long categoryId) {
+    public List<UserDetailsDto> findUsersByCategoryId(Long categoryId) {
         List<User> users = userRepository.findUsersByCategoryId(categoryId);
         if (users.isEmpty()) {
             throw new UserNotFoundException("User for category with ID " + categoryId + " not found");
         }
         return users.stream()
-                .map(userMapper::userToCategoryDto)
+                .map(userMapper::userDetailsToDto)
                 .collect(Collectors.toList());
     }
     @Override
