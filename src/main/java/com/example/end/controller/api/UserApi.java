@@ -73,7 +73,7 @@ public interface UserApi {
 
     @Operation(summary = "Find users by category ID", description = "Retrieve users associated with a specific category.")
     @GetMapping("/by-category/{categoryId}")
-    List<UserCategoryDto> findUsersByCategoryId(@Parameter(description = "ID of the category to filter users by.", required = true)
+    List<UserDetailsDto> findUsersByCategoryId(@Parameter(description = "ID of the category to filter users by.", required = true)
                                                 @PathVariable Long categoryId);
 
     @Operation(summary = "Confirm master by email", description = "Available to ADMIN")
