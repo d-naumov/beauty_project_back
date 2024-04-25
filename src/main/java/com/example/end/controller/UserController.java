@@ -31,7 +31,7 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public List<UserCategoryDto> findUsersByCategoryId(Long categoryId) {
+    public List<UserDetailsDto> findUsersByCategoryId(Long categoryId) {
         return userService.findUsersByCategoryId(categoryId);
     }
     @Override

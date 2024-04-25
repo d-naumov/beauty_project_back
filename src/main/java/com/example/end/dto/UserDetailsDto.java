@@ -59,8 +59,12 @@ public class UserDetailsDto {
     private List<Long> categoryIds;
 
     @NotEmpty(message = "List of procedures cannot be blank")
-    @Schema(description = "List of Category procedures IDs to be added to the user")
+    @Schema(description = "List of procedure p IDs to be added to the user")
     private List<Long> procedureIds;
+
+    @NotEmpty(message = "List of reviews cannot be blank")
+    @Schema(description = "List of reviews IDs to be added to the user")
+    private List<Long> reviewIds;
 
     @Schema(description = "Profile image URL of the user", example = "https://example.com/profile-image.jpg")
     private String profileImageUrl;
