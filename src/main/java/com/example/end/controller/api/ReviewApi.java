@@ -1,6 +1,5 @@
 package com.example.end.controller.api;
 
-import com.example.end.dto.ReviewUserDto;
 import com.example.end.dto.StandardResponseDto;
 import com.example.end.validation.dto.ValidationErrorsDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,8 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tags;
 import com.example.end.dto.ReviewDto;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Parameter;
 
@@ -37,7 +34,7 @@ public interface ReviewApi {
 
     @Operation(summary = "Get reviews by master", description = "Available to all users")
     @GetMapping("/master/{masterId}")
-    List<ReviewUserDto> getReviewsByMaster(@Parameter(description = "ID of the master to filter reviews.")
+    List<ReviewDto> getReviewsByMaster(@Parameter(description = "ID of the master to filter reviews.")
                                                        @PathVariable Long masterId);
 
     @Operation(summary = "Add a review for a master", description = "Available to CLIENT")

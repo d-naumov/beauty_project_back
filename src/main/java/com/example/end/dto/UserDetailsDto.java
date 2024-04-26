@@ -33,9 +33,8 @@ public class UserDetailsDto {
     @Schema(description = "Email address of the user", example = "john.doe@example.com")
     private String email;
 
-    @NotBlank(message = "Description cannot be blank")
     @Schema(description = "Description of the user", example = "I am a manicure master with 10 years of experience")
-    @Size(max = 255, message = "Description cannot be longer than 255 characters")
+    @Size(max = 600, message = "Description cannot be longer than 255 characters")
     private String description;
 
     @NotBlank(message = "Phone number cannot be blank")
@@ -47,7 +46,7 @@ public class UserDetailsDto {
 
     @NotBlank(message = "Address cannot be blank")
     @Schema(description = "Address of the user", example = "Berlin, Salvador straße 88, 13446")
-    @Size(max = 255, message = "Address cannot be longer than 255 characters")
+    @Size(max = 100, message = "Address cannot be longer than 255 characters")
     private String address;
 
     @Schema(description = "Set of roles assigned to the user")

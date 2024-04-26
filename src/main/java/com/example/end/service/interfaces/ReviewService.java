@@ -1,13 +1,10 @@
 package com.example.end.service.interfaces;
 
 import com.example.end.dto.ReviewDto;
-import com.example.end.dto.ReviewUserDto;
-import com.example.end.models.Review;
-import com.example.end.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 @Service
 public interface ReviewService {
 
@@ -18,5 +15,5 @@ public interface ReviewService {
 
     void deleteReview(Long reviewId);
 
-    List<ReviewUserDto> getReviewsByMaster(Long masterId);
+    List<ReviewDto> getReviewsByMaster(Long masterId);
 }

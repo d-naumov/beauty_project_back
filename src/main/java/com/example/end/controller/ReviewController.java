@@ -2,13 +2,12 @@ package com.example.end.controller;
 
 import com.example.end.controller.api.ReviewApi;
 import com.example.end.dto.ReviewDto;
-import com.example.end.dto.ReviewUserDto;
 import com.example.end.service.interfaces.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 @RestController
 public class ReviewController implements ReviewApi {
@@ -16,7 +15,7 @@ public class ReviewController implements ReviewApi {
     private final ReviewService reviewService;
 
     @Override
-    public List<ReviewUserDto> getReviewsByMaster(Long masterId) {
+    public List<ReviewDto> getReviewsByMaster(Long masterId) {
         return reviewService.getReviewsByMaster(masterId);
     }
 

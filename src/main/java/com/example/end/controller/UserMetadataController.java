@@ -6,8 +6,9 @@ import com.example.end.dto.ProfileImageDto;
 import com.example.end.dto.UserDetailsDto;
 import com.example.end.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 @RestController
 public class UserMetadataController implements UserMetadataApi {
