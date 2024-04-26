@@ -37,7 +37,7 @@ public interface UserMetadataApi {
     @ResponseStatus(HttpStatus.CREATED)
     UserDetailsDto addProfileImages(
     @Parameter(description = "ID of the user to be updated. Cannot be empty.",
-            required = true) @PathVariable
+            required = true) @PathVariable ("userId")
     Long userId,
     @Parameter(description = "User profile image to be added.",
             required = true) @RequestBody
@@ -58,7 +58,7 @@ public interface UserMetadataApi {
     @ResponseStatus(HttpStatus.CREATED)
     UserDetailsDto addPortfolioImages(
             @Parameter(description = "ID of the user to be updated. Cannot be empty.",
-                    required = true) @PathVariable
+                    required = true) @PathVariable ("userId")
             Long userId,
             @Parameter(description = "User profile image to be added.",
                     required = true) @RequestBody

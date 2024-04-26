@@ -35,7 +35,7 @@ public interface ReviewApi {
     @Operation(summary = "Get reviews by master", description = "Available to all users")
     @GetMapping("/master/{masterId}")
     List<ReviewDto> getReviewsByMaster(@Parameter(description = "ID of the master to filter reviews.")
-                                                       @PathVariable Long masterId);
+                                                       @PathVariable ("masterId")  Long masterId);
 
     @Operation(summary = "Add a review for a master", description = "Available to CLIENT")
     @ApiResponses(value = {
