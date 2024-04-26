@@ -23,7 +23,7 @@ public interface UserApi {
     @Operation(summary = "Get user by ID", description = "Retrieve a user by their ID.")
     @GetMapping("/{id}")
     UserDetailsDto getById(@Parameter(description = "ID of the user to be obtained. Cannot be empty.", required = true)
-                    @PathVariable Long id);
+                    @PathVariable("id")  Long id);
 
     @Operation(summary = "Register a new user", description = "Available to everyone. By default, the role is CLIENT.")
     @ApiResponses(value = {
@@ -66,7 +66,7 @@ public interface UserApi {
     @PutMapping("/{userId}/details")
     UserDetailsDto updateUserDetails(
             @Parameter(description = "ID of the user to be updated. Cannot be empty.",
-                    required = true) @PathVariable Long userId,
+                    required = true) @PathVariable ("userId") Long userId,
             @Parameter(description = "User details to be updated or added.",
                     required = true) @RequestBody @Valid NewUserDetailsDto userDetailsDto);
 
@@ -74,7 +74,7 @@ public interface UserApi {
     @Operation(summary = "Find users by category ID", description = "Retrieve users associated with a specific category.")
     @GetMapping("/by-category/{categoryId}")
     List<UserDetailsDto> findUsersByCategoryId(@Parameter(description = "ID of the category to filter users by.", required = true)
-                                                @PathVariable Long categoryId);
+                                                @PathVariable ("categoryId")  Long categoryId);
 
     @Operation(summary = "Confirm master by email", description = "Available to ADMIN")
     @PostMapping("/confirm")
@@ -92,5 +92,5 @@ public interface UserApi {
     @Operation(summary = "Delete user by ID", description = "Available to ADMIN")
     @DeleteMapping("/{id}")
     void deleteById(@Parameter(description = "ID of the user to be deleted. Cannot be empty.", required = true)
-                                    @PathVariable Long id);
+                                    @PathVariable ("id")  Long id);
 }
