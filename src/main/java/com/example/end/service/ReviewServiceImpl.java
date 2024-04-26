@@ -27,7 +27,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 
     public List<ReviewDto> getReviewsByMaster(Long masterId) {
-        List<Review> reviews = reviewRepository.findByUserId(masterId);
+        List<Review> reviews = reviewRepository.findByMasterId(masterId);
         return reviews.stream()
                 .map(reviewMapper::toDto)
                 .collect(Collectors.toList());
