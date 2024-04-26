@@ -1,7 +1,6 @@
 package com.example.end.mapping;
 
 import com.example.end.dto.ReviewDto;
-import com.example.end.dto.ReviewUserDto;
 import com.example.end.models.Review;
 import org.springframework.stereotype.Service;
 
@@ -12,14 +11,6 @@ public class ReviewMapper {
                 .id(review.getId())
                 .clientId(review.getClient().getId())
                 .masterId(review.getMaster().getId())
-                .content(review.getContent())
-                .rating(review.getRating())
-                .createdAt(String.valueOf(review.getCreatedAt()))
-                .build();
-    }
-    public ReviewUserDto reviewUserToDto(Review review) {
-        return ReviewUserDto.builder()
-                .userId(review.getUser().getId())
                 .content(review.getContent())
                 .rating(review.getRating())
                 .createdAt(String.valueOf(review.getCreatedAt()))

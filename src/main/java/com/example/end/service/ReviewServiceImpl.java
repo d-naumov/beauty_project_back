@@ -1,7 +1,6 @@
 package com.example.end.service;
 
 import com.example.end.dto.ReviewDto;
-import com.example.end.dto.ReviewUserDto;
 import com.example.end.dto.UserDto;
 import com.example.end.exceptions.ReviewNotFoundException;
 import com.example.end.mapping.ReviewMapper;
@@ -9,7 +8,6 @@ import com.example.end.mapping.UserMapper;
 import com.example.end.models.Review;
 import com.example.end.models.User;
 import com.example.end.repository.ReviewRepository;
-import com.example.end.repository.UserRepository;
 import com.example.end.service.interfaces.ReviewService;
 import com.example.end.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +26,10 @@ public class ReviewServiceImpl implements ReviewService {
     private final UserMapper userMapper;
 
 
-    public List<ReviewUserDto> getReviewsByMaster(Long masterId) {
+    public List<ReviewDto> getReviewsByMaster(Long masterId) {
         List<Review> reviews = reviewRepository.findByUserId(masterId);
         return reviews.stream()
-                .map(reviewMapper::reviewUserToDto)
+                .map(reviewMapper::toDto)
                 .collect(Collectors.toList());
     }
     @Override
@@ -59,7 +57,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public double getMasterRating(Long masterId) {
-        List<Review> reviews = reviewRepository.findByUserId(masterId);
+        List<Review> reviews = reviewRepository.findByMasterId(masterId);
 
         return reviews.stream()
                 .mapToInt(Review::getRating)
