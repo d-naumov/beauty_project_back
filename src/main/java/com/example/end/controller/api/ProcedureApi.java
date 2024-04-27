@@ -74,8 +74,8 @@ public interface ProcedureApi {
             @PathVariable("id") Long id);
 
     @Operation(summary = "Find procedures by category ID", description = "Retrieve procedures by category ID")
-    @GetMapping("/by-category/{categoryId}")
+    @GetMapping("/by-category/{category-id}")
     List<ProcedureByCategoryDto> findProceduresByCategoryId(
             @Parameter(description = "Category ID", example = "1")
-            @PathVariable("categoryId") Long categoryId);
+            @PathVariable("category-id") Long categoryId);
 }
