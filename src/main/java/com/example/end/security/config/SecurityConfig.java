@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    private TokenFilter filter;
+    private final TokenFilter filter;
 
     public SecurityConfig(TokenFilter filter) {
         this.filter = filter;
@@ -30,29 +30,26 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(x -> x
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/users/register/**").permitAll()
-                        .anyRequest().authenticated())
-                .addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class)
-                .build();
-    }
-}
-
- //   }
-//        http
+ //       return http
+//                .httpBasic(AbstractHttpConfigurer::disable)
 //                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(
-//                        x -> x
-//                                .requestMatchers("/swagger-ui/**").permitAll())
-//
-//
-//
-//                .httpBasic(Customizer.withDefaults());
-//        return http.build();
+//                .sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .authorizeHttpRequests(x -> x
+//                        .requestMatchers("/swagger-ui/**").permitAll()
+//                        .requestMatchers(HttpMethod.POST, "/api/users/register/**").permitAll()
+//                        .anyRequest().authenticated())
+//                .addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class)
+//                .build();
 //    }
 //}
+
+ //   }
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
+                        x -> x
+                                .requestMatchers("/**").permitAll())
+                .httpBasic(Customizer.withDefaults());
+        return http.build();
+    }
+}
