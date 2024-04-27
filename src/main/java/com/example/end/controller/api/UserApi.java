@@ -63,7 +63,7 @@ public interface UserApi {
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = StandardResponseDto.class)))
             })
-    @PutMapping("/{userId}/details")
+    @PutMapping("/{user-id}/details")
     UserDetailsDto updateUserDetails(
             @Parameter(description = "ID of the user to be updated. Cannot be empty.",
                     required = true) @PathVariable ("userId") Long userId,
@@ -72,9 +72,9 @@ public interface UserApi {
 
 
     @Operation(summary = "Find users by category ID", description = "Retrieve users associated with a specific category.")
-    @GetMapping("/by-category/{categoryId}")
+    @GetMapping("/by-category/{category-id}")
     List<UserDetailsDto> findUsersByCategoryId(@Parameter(description = "ID of the category to filter users by.", required = true)
-                                                @PathVariable ("categoryId")  Long categoryId);
+                                                @PathVariable ("category-id")  Long categoryId);
 
     @Operation(summary = "Confirm master by email", description = "Available to ADMIN")
     @PostMapping("/confirm")
