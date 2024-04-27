@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @Tags(value = {
         @Tag(name = "UserMetadata", description = "Operations related to users metadata")
 })
-@RequestMapping("/api/metadata/{user-id}")
+@RequestMapping("/api/metadata/{userId}")
 public interface UserMetadataApi {
     @Operation(summary = "Create a profile image", description = "Available to all users")
     @ApiResponses(value = {
@@ -37,7 +37,7 @@ public interface UserMetadataApi {
     @ResponseStatus(HttpStatus.CREATED)
     UserDetailsDto addProfileImages(
     @Parameter(description = "ID of the user to be updated. Cannot be empty.",
-            required = true) @PathVariable ("user-id")
+            required = true) @PathVariable ("userId")
     Long userId,
     @Parameter(description = "User profile image to be added.",
             required = true) @RequestBody
@@ -58,7 +58,7 @@ public interface UserMetadataApi {
     @ResponseStatus(HttpStatus.CREATED)
     UserDetailsDto addPortfolioImages(
             @Parameter(description = "ID of the user to be updated. Cannot be empty.",
-                    required = true) @PathVariable ("user-id")
+                    required = true) @PathVariable ("userId")
             Long userId,
             @Parameter(description = "User profile image to be added.",
                     required = true) @RequestBody

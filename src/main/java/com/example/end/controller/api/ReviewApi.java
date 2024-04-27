@@ -33,9 +33,9 @@ public interface ReviewApi {
 
 
     @Operation(summary = "Get reviews by master", description = "Available to all users")
-    @GetMapping("/master/{master-id}")
+    @GetMapping("/master/{masterId}")
     List<ReviewDto> getReviewsByMaster(@Parameter(description = "ID of the master to filter reviews.")
-                                                       @PathVariable ("master-id")  Long masterId);
+                                                       @PathVariable ("masterId")  Long masterId);
 
     @Operation(summary = "Add a review for a master", description = "Available to CLIENT")
     @ApiResponses(value = {
@@ -53,13 +53,13 @@ public interface ReviewApi {
     ReviewDto addReview(@RequestBody @Valid ReviewDto reviewDto);
 
     @Operation(summary = "Delete a review", description = "Available to ADMIN")
-    @DeleteMapping("/{review-id}")
+    @DeleteMapping("/{reviewId}")
     void deleteReview(@Parameter(description = "ID of the review to be deleted.")
-                                      @PathVariable ("review-id") Long reviewId);
+                                      @PathVariable ("reviewId") Long reviewId);
 
     @Operation(summary = "Get rating of a master", description = "Available to all users")
     @GetMapping
-            ("/rating/{master-id}")
+            ("/rating/{masterId}")
     double getMasterRating(@Parameter(description = "ID of the master to get rating.")
-                                           @PathVariable ("master-id") Long masterId);
+                                           @PathVariable ("masterId") Long masterId);
 }
