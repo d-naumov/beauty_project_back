@@ -57,13 +57,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public double getMasterRating(Long masterId) {
-        List<Review> reviews = reviewRepository.findByMasterId(masterId);
-
-        return reviews.stream()
-                .mapToInt(Review::getRating)
-                .average()
-                .orElse(0);
+        Double averageRating = reviewRepository.findAverageRatingByMasterId(masterId);
+        if (averageRating != null) {
+            return averageRating;
+        } else {
+            return 0;
+        }
     }
+
     @Override
     public void deleteReview(Long reviewId) {
         Review review = reviewRepository.findById(reviewId)

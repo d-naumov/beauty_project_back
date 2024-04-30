@@ -15,6 +15,10 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findAllByUserId(Long userId);
 
     List<Review> findByUserId(Long masterId);
+
     @Query("SELECT r FROM Review r WHERE r.master.id = :masterId")
-    List<Review> findByMasterId(@Param("masterId")Long masterId);
+    List<Review> findByMasterId(@Param("masterId") Long masterId);
+
+    @Query("SELECT AVG(r.rating) AS average_rating FROM Review r WHERE r.master.id = :masterId")
+    Double findAverageRatingByMasterId(@Param("masterId") Long masterId);
 }
