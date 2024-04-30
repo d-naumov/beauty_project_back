@@ -51,10 +51,16 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Review> reviews;
+    @OneToMany(mappedBy = "master", cascade = CascadeType.ALL)
+    private Set<Review> reviewsAsMaster;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private Set<Review> reviewsAsClient;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

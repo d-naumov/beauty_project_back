@@ -35,7 +35,7 @@ public interface ReviewApi {
     @Operation(summary = "Get reviews by master", description = "Available to all users")
     @GetMapping("/master/{masterId}")
     List<ReviewDto> getReviewsByMaster(@Parameter(description = "ID of the master to filter reviews.")
-                                                       @PathVariable ("masterId")  Long masterId);
+                                                       @PathVariable ("masterId")  Long userId);
 
     @Operation(summary = "Add a review for a master", description = "Available to CLIENT")
     @ApiResponses(value = {
@@ -61,5 +61,5 @@ public interface ReviewApi {
     @GetMapping
             ("/rating/{masterId}")
     double getMasterRating(@Parameter(description = "ID of the master to get rating.")
-                                           @PathVariable ("masterId") Long masterId);
+                                           @PathVariable ("masterId") Long userId);
 }
