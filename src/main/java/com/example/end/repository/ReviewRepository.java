@@ -12,7 +12,5 @@ import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-
-    @Query("SELECT r FROM Review r WHERE r.master.id = :masterId")
     List<Review> findByMasterId(@Param("masterId") Long masterId);
 }
