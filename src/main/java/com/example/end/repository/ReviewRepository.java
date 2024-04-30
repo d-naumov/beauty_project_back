@@ -1,7 +1,6 @@
 package com.example.end.repository;
 
-import com.example.end.models.Review;
-import com.example.end.models.User;
+import com.example.end.models.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,9 +15,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> findByUserId(Long masterId);
 
-    @Query("SELECT r FROM Review r WHERE r.master.id = :masterId")
+    @Query("SELECT r FROM Review r WHERE r.user.id = :masterId")
     List<Review> findByMasterId(@Param("masterId") Long masterId);
-
-    @Query("SELECT AVG(r.rating) AS average_rating FROM Review r WHERE r.master.id = :masterId")
-    Double findAverageRatingByMasterId(@Param("masterId") Long masterId);
 }

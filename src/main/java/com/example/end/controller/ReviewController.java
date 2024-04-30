@@ -15,8 +15,8 @@ public class ReviewController implements ReviewApi {
     private final ReviewService reviewService;
 
     @Override
-    public List<ReviewDto> getReviewsByMaster(Long masterId) {
-        return reviewService.getReviewsByMaster(masterId);
+    public List<ReviewDto> getReviewsByMaster(Long userId) {
+        return reviewService.getReviewsByMaster(userId);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ReviewController implements ReviewApi {
     }
 
     @Override
-    public double getMasterRating(Long masterId) {
-        return reviewService.getMasterRating(masterId);
+    public double getMasterRating(Long userId) {
+        return reviewService.getMasterRating(userId);
     }
 }

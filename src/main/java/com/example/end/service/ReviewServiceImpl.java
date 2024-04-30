@@ -26,8 +26,8 @@ public class ReviewServiceImpl implements ReviewService {
     private final UserMapper userMapper;
 
 
-    public List<ReviewDto> getReviewsByMaster(Long masterId) {
-        List<Review> reviews = reviewRepository.findByMasterId(masterId);
+    public List<ReviewDto> getReviewsByMaster(Long userId) {
+        List<Review> reviews = reviewRepository.findByMasterId(userId);
         return reviews.stream()
                 .map(reviewMapper::toDto)
                 .collect(Collectors.toList());
@@ -56,14 +56,15 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
     @Override
-    public double getMasterRating(Long masterId) {
-        Double averageRating = reviewRepository.findAverageRatingByMasterId(masterId);
-        if (averageRating != null) {
-            return averageRating;
-        } else {
-            return 0;
-        }
+    public double getMasterRating(Long userId) {
+        List<Review> reviews = reviewRepository.findByMasterId(userId);
+
+        return reviews.stream()
+                .mapToInt(Review::getRating)
+                .average()
+                .orElse(0);
     }
+
 
     @Override
     public void deleteReview(Long reviewId) {
