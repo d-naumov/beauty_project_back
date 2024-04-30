@@ -53,7 +53,7 @@ public class UserMapper {
                 .portfolioImageUrls(new ArrayList<>(user.getPortfolioImageUrls()))
                 .categoryIds(user.getCategories().stream().map(Category::getId).collect(Collectors.toList()))
                 .procedureIds(user.getProcedures().stream().map(Procedure::getId).collect(Collectors.toList()))
-                .reviewIds(user.getReviews().stream().map(Review::getId).collect(Collectors.toList()))
+                .reviewIds(user.getReviewsAsMaster().stream().map(Review::getId).collect(Collectors.toList()))
                 .build();
     }
 }

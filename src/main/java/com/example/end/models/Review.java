@@ -21,11 +21,7 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

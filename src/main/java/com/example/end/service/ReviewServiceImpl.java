@@ -26,8 +26,8 @@ public class ReviewServiceImpl implements ReviewService {
     private final UserMapper userMapper;
 
 
-    public List<ReviewDto> getReviewsByMaster(Long userId) {
-        List<Review> reviews = reviewRepository.findByMasterId(userId);
+    public List<ReviewDto> getReviewsByMaster(Long masterId) {
+        List<Review> reviews = reviewRepository.findByMasterId(masterId);
         return reviews.stream()
                 .map(reviewMapper::toDto)
                 .collect(Collectors.toList());
@@ -56,8 +56,8 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
     @Override
-    public double getMasterRating(Long userId) {
-        List<Review> reviews = reviewRepository.findByMasterId(userId);
+    public double getMasterRating(Long masterId) {
+        List<Review> reviews = reviewRepository.findByMasterId(masterId);
 
         return reviews.stream()
                 .mapToInt(Review::getRating)
