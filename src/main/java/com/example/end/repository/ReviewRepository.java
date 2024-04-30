@@ -16,3 +16,4 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT r FROM Review r JOIN r.master m WHERE m.id = :masterId")
     List<Review> findByMasterId(@Param("masterId") Long masterId);
 }
+
