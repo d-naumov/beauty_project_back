@@ -75,7 +75,7 @@
 //                        .requestMatchers(HttpMethod.DELETE, "api/procedures").hasRole("ADMIN")//delete
 //                        .requestMatchers(HttpMethod.GET, "api/users/masters").permitAll()//allMasters
 //                        .requestMatchers(HttpMethod.GET, "api/users/by-category").permitAll()//MastersByCategory
-//                        .requestMatchers(HttpMethod.POST, "api/users").permitAll()//register
+//                        .requestMatchers(HttpMethod.POST, "api/users/register").permitAll()//register
 //                        .requestMatchers(HttpMethod.POST, "api/users/confirm").hasRole("ADMIN")//confirm master by email
 //                        .requestMatchers(HttpMethod.DELETE, "api/users").hasRole("ADMIN")//addProfileImage
 //                        .requestMatchers(HttpMethod.POST, "api/metadata").hasRole("MASTER")//addPortfolioImages
@@ -131,6 +131,7 @@ public class SecurityConfig {
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
