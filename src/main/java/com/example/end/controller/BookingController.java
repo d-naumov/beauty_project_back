@@ -21,7 +21,7 @@ public class BookingController implements BookingApi {
     }
 
     @Override
-    public void updateBookingStatus(BookingDto bookingDto) {
+    public void updateBookingStatus(NewUpdateBookingDto bookingDto) {
         bookingService.updateBookingStatus(bookingDto);
     }
 

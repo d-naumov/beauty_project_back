@@ -1,5 +1,6 @@
 package com.example.end.controller.api;
 
+import com.example.end.dto.NewProcedureDto;
 import com.example.end.dto.ProcedureByCategoryDto;
 import com.example.end.dto.ProcedureDto;
 import com.example.end.dto.StandardResponseDto;
@@ -35,8 +36,8 @@ import java.util.List;
 })
 public interface ProcedureApi {
 
-
-    @Operation(summary = "Create a procedure", description = "Available to ADMIN")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "Create a procedure.Available to ADMIN", description = "Available to ADMIN")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
                     description = "Procedure created successfully",
@@ -49,31 +50,31 @@ public interface ProcedureApi {
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    ProcedureDto createProcedure(@RequestBody @Valid ProcedureDto procedureDto);
+    ProcedureDto createProcedure(@RequestBody @Valid NewProcedureDto newProcedureDto);
 
-
-    @Operation(summary = "Update a procedure", description = "Available to ADMIN")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "Update a procedure.Available to ADMIN", description = "Available to ADMIN")
     @PutMapping
     void update(@RequestBody @Valid ProcedureDto procedureDto);
 
-
-    @Operation(summary = "Delete a procedure by ID", description = "Available to ADMIN")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "Delete a procedure by ID.Available to ADMIN", description = "Available to ADMIN")
     @DeleteMapping("/{id}")
     ProcedureDto deleteById(@Parameter(description = "procedure id", example = "1")
                             @PathVariable("id") Long id);
 
 
 
-    @Operation(summary = "Get a list of all procedures", description = "Retrieve all procedures")
+    @Operation(summary = "Get a list of all procedures.Available to all users", description = "Retrieve all procedures.Available to all users")
     @GetMapping()
     List<ProcedureDto> findAll();
 
-    @Operation(summary = "Find a procedure by ID", description = "Retrieve a procedure by its ID")
+    @Operation(summary = "Find a procedure by ID.Available to all users", description = "Retrieve a procedure by its ID.Available to all users")
     @GetMapping("/{id}")
     ProcedureDto findById(@Parameter(description = "procedure id", example = "1")
             @PathVariable("id") Long id);
 
-    @Operation(summary = "Find procedures by category ID", description = "Retrieve procedures by category ID")
+    @Operation(summary = "Find procedures by category ID.Available to all users", description = "Retrieve procedures by category ID.Available to all users")
     @GetMapping("/by-category/{categoryId}")
     List<ProcedureByCategoryDto> findProceduresByCategoryId(
             @Parameter(description = "Category ID", example = "1")

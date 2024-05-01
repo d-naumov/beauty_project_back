@@ -1,5 +1,6 @@
 package com.example.end.mapping;
 
+import com.example.end.dto.NewProcedureDto;
 import com.example.end.dto.ProcedureByCategoryDto;
 import com.example.end.dto.ProcedureDto;
 import com.example.end.models.Procedure;
@@ -26,6 +27,13 @@ public class ProcedureMapper {
                 .build();
     }
 
+    public Procedure toEntity(NewProcedureDto procedureDto){
+        return Procedure.builder()
+                .price(procedureDto.getPrice())
+                .name(procedureDto.getName())
+                .build();
+
+}
     public Procedure toEntity(ProcedureDto procedureDto){
         return Procedure.builder()
                 .id(procedureDto.getId())
@@ -33,6 +41,6 @@ public class ProcedureMapper {
                 .name(procedureDto.getName())
                 .build();
 
-}
+    }
 }
 

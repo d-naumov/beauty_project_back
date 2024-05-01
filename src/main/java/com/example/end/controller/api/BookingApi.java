@@ -34,7 +34,7 @@ import java.util.List;
                         schema = @Schema(implementation = StandardResponseDto.class)))
 })
 public interface BookingApi {
-    @Operation(summary = "Create a booking", description = "Available to all users")
+    @Operation(summary = "Create a booking.Available to all authorized users", description = "Available to all authorized users")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
                     description = "Booking was successfully created",
@@ -49,16 +49,16 @@ public interface BookingApi {
     @ResponseStatus(HttpStatus.CREATED)
     BookingDto createBooking(@RequestBody @Valid NewBookingDto bookingDto);
 
-    @Operation(summary = "Update booking status", description = "Available to all users")
+    @Operation(summary = "Update booking status.Available to ADMIN", description = "Available to ADMIN")
     @PutMapping("/status")
-    void updateBookingStatus(@RequestBody @Valid BookingDto bookingDto);
+    void updateBookingStatus(@RequestBody @Valid NewUpdateBookingDto bookingDto);
 
-    @Operation(summary = "Cancel booking", description = "Available to all users")
-    @DeleteMapping("/{bookingId}")
+    @Operation(summary = "Cancel booking.Available to all authorized users", description = "Available to all authorized users")
+    @PatchMapping("/{bookingId}")
     void cancelBooking(@Parameter(description = "booking identifier", example = "1")
                        @PathVariable("bookingId") Long bookingId);
 
-    @Operation(summary = "Find user bookings by it's status and user ID", description = "Available to all users")
+    @Operation(summary = "Find user bookings by it's status and user ID.Available to all authorized users", description = "Available to all authorized users")
     @GetMapping("/{userId}")
     List<BookingDto> findBookingsByUser(@Parameter(description = "User ID", example = "1")
                                         @PathVariable("userId") Long userId,

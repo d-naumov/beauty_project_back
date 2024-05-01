@@ -54,7 +54,7 @@ public class BookingServiceImpl  implements BookingService {
     }
 
     @Override
-    public void updateBookingStatus(BookingDto bookingDto) {
+    public void updateBookingStatus(NewUpdateBookingDto bookingDto) {
         Booking existingBooking = bookingRepository.findById(bookingDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Booking with ID " + bookingDto.getId() + " not found"));
 
@@ -65,7 +65,7 @@ public class BookingServiceImpl  implements BookingService {
 
     @Override
     public void cancelBooking(Long bookingId) {
-        BookingDto bookingDto = new BookingDto();
+        NewUpdateBookingDto bookingDto = new NewUpdateBookingDto();
         bookingDto.setId(bookingId);
         bookingDto.setStatus(BookingStatus.CANCELED);
         updateBookingStatus(bookingDto);

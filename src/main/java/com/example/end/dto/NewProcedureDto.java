@@ -1,22 +1,17 @@
 package com.example.end.dto;
 
-import com.example.end.models.Procedure;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProcedureDto {
-
-    @Schema(description = "Unique identifier of the procedure", example = "1")
-    private Long id;
+public class NewProcedureDto {
 
     @NotBlank(message = "Procedure name cannot be blank")
     @Pattern(regexp = "^[A-Z][a-zA-Z0-9\\s]*$", message = "Procedure name must start with an uppercase letter and contain only alphanumeric characters")
@@ -31,4 +26,3 @@ public class ProcedureDto {
     private double price;
 
 }
-

@@ -110,32 +110,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-//    @Override
-//    public UserDetailsDto updateUserDetails(Long userId, NewUserDetailsDto userDetailsDto) {
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new UserNotFoundException("User not found for id: " + userId));
-//
-//        user.setDescription(userDetailsDto.getDescription());
-//        user.setPhoneNumber(userDetailsDto.getPhoneNumber());
-//        user.setAddress(userDetailsDto.getAddress());
-//
-//        Set<Category> categories = new HashSet<>(categoryRepository.findAllById(userDetailsDto.getCategoryIds()));
-//        user.setCategories(categories);
-//
-//        Set<Procedure> procedures = categories.stream()
-//                .flatMap(category -> category.getProcedures().stream())
-//                .collect(Collectors.toSet());
-//        user.setProcedures(procedures);
-//
-//        User updatedUser = userRepository.save(user);
-//
-//        UserDetailsDto responseDto = userMapper.userDetailsToDto(updatedUser);
-//        responseDto.setCategoryIds(updatedUser.getCategories().stream().map(Category::getId).collect(Collectors.toList()));
-//        responseDto.setProcedureIds(updatedUser.getProcedures().stream().map(Procedure::getId).collect(Collectors.toList()));
-//
-//        return responseDto;
-//    }
-
     @Override
     public UserDetailsDto updateUserDetails(Long userId, NewUserDetailsDto userDetailsDto) {
         User user = userRepository.findById(userId)
@@ -145,16 +119,10 @@ public class UserServiceImpl implements UserService {
         user.setPhoneNumber(userDetailsDto.getPhoneNumber());
         user.setAddress(userDetailsDto.getAddress());
 
-        // Получить выбранные категории
         Set<Category> selectedCategories = new HashSet<>(categoryRepository.findAllById(userDetailsDto.getCategoryIds()));
-
-        // Установить выбранные категории для пользователя
         user.setCategories(selectedCategories);
-
-        // Создать пустой список для выбранных процедур
         Set<Procedure> selectedProcedures = new HashSet<>();
 
-        // Получить все процедуры для выбранных категорий
         for (Category category : selectedCategories) {
             for (Long procedureId : userDetailsDto.getProcedureIds()) {
                 Procedure procedure = category.getProcedures().stream()
@@ -165,15 +133,11 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        // Установить выбранные процедуры для пользователя
         user.setProcedures(selectedProcedures);
-
         User updatedUser = userRepository.save(user);
-
         UserDetailsDto responseDto = userMapper.userDetailsToDto(updatedUser);
         responseDto.setCategoryIds(updatedUser.getCategories().stream().map(Category::getId).collect(Collectors.toList()));
         responseDto.setProcedureIds(updatedUser.getProcedures().stream().map(Procedure::getId).collect(Collectors.toList()));
-
         return responseDto;
     }
 

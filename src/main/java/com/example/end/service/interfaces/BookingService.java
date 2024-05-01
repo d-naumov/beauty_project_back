@@ -11,7 +11,7 @@ import java.util.List;
 public interface BookingService {
     BookingDto createBooking(NewBookingDto bookingDto);
 
-    void updateBookingStatus(BookingDto bookingDto);
+    void updateBookingStatus(NewUpdateBookingDto bookingDto);
 
     void cancelBooking(Long bookingId);
 
