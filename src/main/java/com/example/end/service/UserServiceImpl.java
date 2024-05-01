@@ -216,6 +216,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto getUserById(Long currentUserId) {
+        return null;
+    }
+
+    @Override
     public List<UserDetailsDto> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(userMapper::userDetailsToDto)

@@ -58,7 +58,7 @@ public interface UserService {
     List<UserDetailsDto> getAllMasters();
 
 
-
+    UserDto getUserById(Long currentUserId);
 }
 
 

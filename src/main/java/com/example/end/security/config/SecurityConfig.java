@@ -67,9 +67,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(configurer -> configurer
-                        .defaultAuthenticationEntryPointFor(authenticationEntryPoint(), new AntPathRequestMatcher("/api/**"))
-                        .accessDeniedHandler(accessDeniedHandler()))
                 .build();
     }
 
