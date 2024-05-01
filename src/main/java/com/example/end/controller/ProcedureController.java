@@ -2,6 +2,7 @@ package com.example.end.controller;
 
 
 import com.example.end.controller.api.ProcedureApi;
+import com.example.end.dto.NewProcedureDto;
 import com.example.end.dto.ProcedureByCategoryDto;
 import com.example.end.dto.ProcedureDto;
 import com.example.end.service.interfaces.ProcedureService;
@@ -18,8 +19,8 @@ public class ProcedureController implements ProcedureApi {
 
   private final ProcedureService procedureService;
   @Override
-  public ProcedureDto createProcedure(ProcedureDto procedureDto) {
-    return procedureService.createProcedure(procedureDto);
+  public ProcedureDto createProcedure(NewProcedureDto newProcedureDto) {
+    return procedureService.createProcedure(newProcedureDto);
   }
   @Override
   public void update(ProcedureDto procedure) {

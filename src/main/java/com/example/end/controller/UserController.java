@@ -34,11 +34,10 @@ public class UserController implements UserApi {
     public List<UserDetailsDto> findUsersByCategoryId(Long categoryId) {
         return userService.findUsersByCategoryId(categoryId);
     }
-    @Override
+
     public void confirmMasterByEmail(String email) {
       userService.confirmMasterByEmail(email);
     }
-
 
     @Override
     public List<UserDetailsDto> getAllMasters() {

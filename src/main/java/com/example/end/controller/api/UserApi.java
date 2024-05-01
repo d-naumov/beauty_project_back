@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,12 +21,13 @@ import java.util.List;
 })
 @RequestMapping("/api/users")
 public interface UserApi {
-    @Operation(summary = "Get user by ID", description = "Retrieve a user by their ID.")
+
+    @Operation(summary = "Get user by ID. Available to all users", description = "Retrieve a user by their ID.Available to all users.")
     @GetMapping("/{id}")
     UserDetailsDto getById(@Parameter(description = "ID of the user to be obtained. Cannot be empty.", required = true)
                     @PathVariable("id")  Long id);
 
-    @Operation(summary = "Register a new user", description = "Available to everyone. By default, the role is CLIENT.")
+    @Operation(summary = "Register a new user.Available to all users.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
                     description = "User was registered successfully",
@@ -45,8 +47,8 @@ public interface UserApi {
     UserDto register(@RequestBody @Valid NewUserDto newUserDto);
 
     @Operation(
-            summary = "Update or add user details",
-            description = "Updates or adds user details such as description, phone number, address, categories and relevant procedures. If the user with the provided ID doesn't exist, a 'UserNotFoundException' will be thrown. ",
+            summary = "Update or add user details.Available to all authorized masters." ,
+            description = " Available to all authorized masters.Updates or adds master details.  ",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     content = @Content(
                             mediaType = "application/json",
@@ -63,6 +65,7 @@ public interface UserApi {
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = StandardResponseDto.class)))
             })
+    @PreAuthorize("hasAuthority('MASTER')")
     @PutMapping("/{userId}/details")
     UserDetailsDto updateUserDetails(
             @Parameter(description = "ID of the user to be updated. Cannot be empty.",
@@ -71,25 +74,24 @@ public interface UserApi {
                     required = true) @RequestBody @Valid NewUserDetailsDto userDetailsDto);
 
 
-    @Operation(summary = "Find users by category ID", description = "Retrieve users associated with a specific category.")
+    @Operation(summary = "Find users by category ID.Available to all users.", description = "Available to all users. Retrieve users associated with a specific category.")
     @GetMapping("/by-category/{categoryId}")
     List<UserDetailsDto> findUsersByCategoryId(@Parameter(description = "ID of the category to filter users by.", required = true)
                                                 @PathVariable ("categoryId")  Long categoryId);
 
-    @Operation(summary = "Confirm master by email", description = "Available to ADMIN")
-    @PostMapping("/confirm")
-    void confirmMasterByEmail(@RequestParam String email);
 
 
-    @Operation(summary = "Get all users", description = "Available to ADMIN")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "Get all users. Available to ADMIN", description = "Available to ADMIN")
     @GetMapping()
     List<UserDetailsDto> getAllUsers();
 
-    @Operation(summary = "Get all usersMasters", description = "Available to ADMIN")
+    @Operation(summary = "Get all usersMasters.Available to all users", description = "Available to all users")
     @GetMapping("/masters")
     List<UserDetailsDto> getAllMasters();
 
-    @Operation(summary = "Delete user by ID", description = "Available to ADMIN")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "Delete user by ID. Available to ADMIN", description = "Available to ADMIN")
     @DeleteMapping("/{id}")
     void deleteById(@Parameter(description = "ID of the user to be deleted. Cannot be empty.", required = true)
                                     @PathVariable ("id")  Long id);

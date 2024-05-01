@@ -1,5 +1,6 @@
 package com.example.end.service;
 
+import com.example.end.dto.NewProcedureDto;
 import com.example.end.dto.ProcedureByCategoryDto;
 import com.example.end.dto.ProcedureDto;
 import com.example.end.exceptions.CategoryNotFoundException;
@@ -20,8 +21,8 @@ public class ProcedureServiceImpl implements ProcedureService {
     private final ProcedureMapper procedureMapper;
 
     @Override
-    public ProcedureDto createProcedure(ProcedureDto procedureDto) {
-        Procedure procedure = procedureMapper.toEntity(procedureDto);
+    public ProcedureDto createProcedure(NewProcedureDto newProcedureDto) {
+        Procedure procedure = procedureMapper.toEntity(newProcedureDto);
         Procedure createdProcedure = procedureRepository.save(procedure);
         return procedureMapper.toDto(createdProcedure);
     }

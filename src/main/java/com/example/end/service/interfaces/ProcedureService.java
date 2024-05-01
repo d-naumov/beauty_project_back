@@ -1,5 +1,6 @@
 package com.example.end.service.interfaces;
 
+import com.example.end.dto.NewProcedureDto;
 import com.example.end.dto.ProcedureByCategoryDto;
 import com.example.end.dto.ProcedureDto;
 import com.example.end.models.Procedure;
@@ -12,7 +13,7 @@ import java.util.Set;
 public interface ProcedureService {
 
 
-  ProcedureDto createProcedure(ProcedureDto procedureDto);
+  ProcedureDto createProcedure(NewProcedureDto procedureDto);
 
   void update(ProcedureDto procedure);
 

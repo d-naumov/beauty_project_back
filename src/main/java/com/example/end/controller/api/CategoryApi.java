@@ -1,6 +1,5 @@
 package com.example.end.controller.api;
 
-import com.example.end.dto.BookingDto;
 import com.example.end.dto.CategoryDto;
 import com.example.end.dto.StandardResponseDto;
 import com.example.end.validation.dto.ValidationErrorsDto;
@@ -34,16 +33,16 @@ import java.util.List;
                         schema = @Schema(implementation = StandardResponseDto.class)))
 })
 public interface CategoryApi {
-    @Operation(summary = "Get all categories", description = "Available to all users")
+    @Operation(summary = "Get all categories.Available to all users", description = "Available to all users")
     @GetMapping
     List<CategoryDto> getAllCategories();
 
-    @Operation(summary = "Get category by ID", description = "Available to all users")
+    @Operation(summary = "Get category by ID.Available to all users", description = "Available to all users")
     @GetMapping("/{id}")
     CategoryDto getCategoryById(@Parameter(description = "category identifier", example = "1")
                                 @PathVariable("id") Long id);
-
-    @Operation(summary = "Create a category", description = "Available to ADMIN")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "Create a category.Available to ADMIN", description = "Available to ADMIN")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
                     description = "Category created successfully",
@@ -54,15 +53,16 @@ public interface CategoryApi {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ValidationErrorsDto.class)))
     })
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     CategoryDto createCategory(@RequestBody @Valid CategoryDto categoryDto);
-
-    @Operation(summary = "Update a category", description = "Available to ADMIN")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "Update a category.Available to ADMIN", description = "Available to ADMIN")
     @PutMapping("/{id}")
     CategoryDto updateCategory(@PathVariable ("id") Long id, @RequestBody @Valid CategoryDto categoryDto);
-
-    @Operation(summary = "Delete a category", description = "Available to ADMIN")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "Delete a category.Available to ADMIN", description = "Available to ADMIN")
     @DeleteMapping("/{id}")
     CategoryDto deleteCategory(@PathVariable ("id") Long id);
 }

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 })
 @RequestMapping("/api/metadata/{userId}")
 public interface UserMetadataApi {
-    @Operation(summary = "Create a profile image", description = "Available to all users")
+    @Operation(summary = "Create a profile image.Available to all authorized MASTER", description = "Available to all authorized MASTER")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
                     description = "Image was successfully created",
@@ -43,7 +43,7 @@ public interface UserMetadataApi {
             required = true) @RequestBody
     @Valid ProfileImageDto profileImageDto);
 
-    @Operation(summary = "Create a portfolio images", description = "Available to all users")
+    @Operation(summary = "Create a portfolio images.Available to all authorized MASTER", description = "Available to all users.Available to all authorized MASTER")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
                     description = "Image was successfully created",
