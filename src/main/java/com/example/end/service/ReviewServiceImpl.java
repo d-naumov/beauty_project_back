@@ -64,6 +64,8 @@ public class ReviewServiceImpl implements ReviewService {
                 .average()
                 .orElse(0);
     }
+
+
     @Override
     public void deleteReview(Long reviewId) {
         Review review = reviewRepository.findById(reviewId)
