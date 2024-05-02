@@ -3,6 +3,7 @@ package com.example.end.controller;
 import com.example.end.controller.api.UserApi;
 import com.example.end.dto.*;
 import com.example.end.service.interfaces.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,4 +54,22 @@ public class UserController implements UserApi {
     public void deleteById(Long id) {
        userService.deleteById(id);
     }
+    @Override
+    public void sendMessageToAdmin(AdminMessageRequest messageRequest) {
+        userService.sendMessageToAdmin(
+                messageRequest.getEmail(),
+                messageRequest.getPhone(),
+                messageRequest.getFirstName(),
+                messageRequest.getLastName(),
+                messageRequest.getMessage()
+        );
+    }
+//    @Override
+//    public void sendMessageToAdmin(AdminMessageRequest messageRequest) {
+//        String subject = "New message from user: " + messageRequest.getFirstName() + " " + messageRequest.getLastName();
+//        String message = "Email: " + messageRequest.getEmail() + "\n" +
+//                "Phone: " + messageRequest.getPhone() + "\n" +
+//                "Message: " + messageRequest.getMessage();
+//        userService.sendMessageToAdmin(subject, message);
+//    }
 }

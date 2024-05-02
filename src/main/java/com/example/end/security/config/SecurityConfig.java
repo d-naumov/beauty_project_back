@@ -28,7 +28,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private TokenFilter filter;
+    private final TokenFilter filter;
 
     public SecurityConfig(TokenFilter filter) {
         this.filter = filter;
