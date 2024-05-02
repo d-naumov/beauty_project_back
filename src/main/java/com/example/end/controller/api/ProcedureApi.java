@@ -36,7 +36,7 @@ import java.util.List;
 })
 public interface ProcedureApi {
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Create a procedure.Available to ADMIN", description = "Available to ADMIN")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
@@ -52,12 +52,12 @@ public interface ProcedureApi {
     @ResponseStatus(HttpStatus.CREATED)
     ProcedureDto createProcedure(@RequestBody @Valid NewProcedureDto newProcedureDto);
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Update a procedure.Available to ADMIN", description = "Available to ADMIN")
     @PutMapping
     void update(@RequestBody @Valid ProcedureDto procedureDto);
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Delete a procedure by ID.Available to ADMIN", description = "Available to ADMIN")
     @DeleteMapping("/{id}")
     ProcedureDto deleteById(@Parameter(description = "procedure id", example = "1")

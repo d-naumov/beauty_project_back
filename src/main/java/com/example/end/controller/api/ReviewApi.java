@@ -37,7 +37,7 @@ public interface ReviewApi {
     @GetMapping("/master/{masterId}")
     List<ReviewDto> getReviewsByMaster(@Parameter(description = "ID of the master to filter reviews.")
                                                        @PathVariable ("masterId")  Long masterId);
-//    @PreAuthorize("hasAuthority('CLIENT')")
+    @PreAuthorize("hasAuthority('CLIENT')")
     @Operation(summary = "Add a review. Available to all authorized clients", description = "Available to all authorized clients")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
@@ -53,7 +53,7 @@ public interface ReviewApi {
     @ResponseStatus(HttpStatus.CREATED)
     ReviewDto addReview(@RequestBody @Valid ReviewDto reviewDto);
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Delete a review.Available to ADMIN", description = "Available to ADMIN")
     @DeleteMapping("/{reviewId}")
     void deleteReview(@Parameter(description = "ID of the review to be deleted.")

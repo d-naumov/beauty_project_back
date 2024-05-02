@@ -65,7 +65,7 @@ public interface UserApi {
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = StandardResponseDto.class)))
             })
-//    @PreAuthorize("hasAuthority('MASTER')")
+    @PreAuthorize("hasAuthority('MASTER')")
     @PutMapping("/{userId}/details")
     UserDetailsDto updateUserDetails(
             @Parameter(description = "ID of the user to be updated. Cannot be empty.",
@@ -81,7 +81,7 @@ public interface UserApi {
 
 
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Get all users. Available to ADMIN", description = "Available to ADMIN")
     @GetMapping()
     List<UserDetailsDto> getAllUsers();
@@ -90,7 +90,7 @@ public interface UserApi {
     @GetMapping("/masters")
     List<UserDetailsDto> getAllMasters();
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Delete user by ID. Available to ADMIN", description = "Available to ADMIN")
     @DeleteMapping("/{id}")
     void deleteById(@Parameter(description = "ID of the user to be deleted. Cannot be empty.", required = true)
