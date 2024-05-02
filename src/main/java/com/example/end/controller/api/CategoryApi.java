@@ -41,7 +41,7 @@ public interface CategoryApi {
     @GetMapping("/{id}")
     CategoryDto getCategoryById(@Parameter(description = "category identifier", example = "1")
                                 @PathVariable("id") Long id);
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Create a category.Available to ADMIN", description = "Available to ADMIN")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
@@ -57,11 +57,11 @@ public interface CategoryApi {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     CategoryDto createCategory(@RequestBody @Valid CategoryDto categoryDto);
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Update a category.Available to ADMIN", description = "Available to ADMIN")
     @PutMapping("/{id}")
     CategoryDto updateCategory(@PathVariable ("id") Long id, @RequestBody @Valid CategoryDto categoryDto);
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Delete a category.Available to ADMIN", description = "Available to ADMIN")
     @DeleteMapping("/{id}")
     CategoryDto deleteCategory(@PathVariable ("id") Long id);
