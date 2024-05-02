@@ -59,8 +59,10 @@ public interface UserService {
 
     void sendMessageToAdmin(String email, String phone, String firstName, String lastName, String message);
 
-
     // void sendMessageToAdmin(String subject, String message);
+
+    UserDto getUserById(Long currentUserId);
+
 }
 
 
