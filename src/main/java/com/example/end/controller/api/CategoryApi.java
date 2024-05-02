@@ -57,7 +57,7 @@ public interface CategoryApi {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     CategoryDto createCategory(@RequestBody @Valid CategoryDto categoryDto);
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Update a category.Available to ADMIN", description = "Available to ADMIN")
     @PutMapping("/{id}")
     CategoryDto updateCategory(@PathVariable ("id") Long id, @RequestBody @Valid CategoryDto categoryDto);
