@@ -161,7 +161,6 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(client);
     }
 
-
     @Override
     @Transactional
     public void confirmMasterByEmail(String email) {
@@ -254,5 +253,18 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found for id: " + id));
         userRepository.delete(user);
     }
+    @Override
+    public void sendMessageToAdmin(String email, String phone, String firstName, String lastName, String message) {
+        String subject = "Neue Nachricht vom Benutzer: " + firstName + " " + lastName;
+        String messageBody = "Email: " + email + "\n" +
+                "Telefon: " + phone + "\n" +
+                "Nachricht: " + message;
+        mailSender.sendEmail(adminEmail, subject, messageBody);
+    }
+
+//    @Override
+//    public void sendMessageToAdmin(String subject, String message) {
+//        mailSender.sendEmail(adminEmail, subject, message);
+//    }
 }
 

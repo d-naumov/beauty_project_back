@@ -80,7 +80,6 @@ public interface UserApi {
                                                 @PathVariable ("categoryId")  Long categoryId);
 
 
-
     @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Get all users. Available to ADMIN", description = "Available to ADMIN")
     @GetMapping()
@@ -95,4 +94,8 @@ public interface UserApi {
     @DeleteMapping("/{id}")
     void deleteById(@Parameter(description = "ID of the user to be deleted. Cannot be empty.", required = true)
                                     @PathVariable ("id")  Long id);
+
+    @Operation(summary = "Send message to admin", description = "Send message to admin with user details.")
+    @PostMapping("/message-admin")
+    void sendMessageToAdmin(@RequestBody @Valid AdminMessageRequest messageRequest);
 }
